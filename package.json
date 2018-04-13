@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CapedWonders/eco-chamber#readme",
   "dependencies": {
+    "eventregistry": "^1.0.91",
     "express": "^4.16.2",
     "mysql2": "^1.5.2",
     "react": "^16.2.0",
