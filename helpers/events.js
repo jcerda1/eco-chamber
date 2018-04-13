@@ -1,5 +1,5 @@
 const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents, RequestEventsUriList } = require('eventregistry');
-const EVENT_REGISTRY_API_KEY = require('../config/config.js');
+const { EVENT_REGISTRY_API_KEY } = require('../config/config.js');
 const er = new EventRegistry({apiKey: 'EVENT_REGISTRY_API_KEY'});
 
 
