@@ -7,9 +7,9 @@ class App extends React.Component {
     return (
       <div>
         Eco-Chamber
-      </div>
+      </div> 
     )  
-  };
+  }; 
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
