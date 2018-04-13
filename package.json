@@ -4,7 +4,8 @@
   "description": "eco-chamber",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack --watch | nodemon server/index.js"
+    "start": "webpack --watch | nodemon server/index.js", 
+    "test": "jest"
   },
   "repository": {
     "type": "git",
