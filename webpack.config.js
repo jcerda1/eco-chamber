@@ -21,7 +21,7 @@ module.exports = {
         include: SRC_DIR,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'env'],
+          presets: ['react', 'es2015'],
           plugins: ['transform-class-properties', 'transform-object-rest-spread']
         }
       },
