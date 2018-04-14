@@ -16,25 +16,11 @@ const er = new EventRegistry({apiKey: EVENT_REGISTRY_API_KEY});
 const moment = require('moment');
 
 
-
+//helper functions to format dates for API
 const getDateToday = () => moment().format('YYYY-MM-DD');
 const getDateYesterday = () => moment().subtract(1, 'day').format('YYYY-MM-DD');
-const eventsObj = {
-  business: [],
-  arts: [],
-  computers: [],
-  games: [],
-  health: [],
-  home: [],
-  recreation: [],
-  reference: [],
-  science: [],
-  shopping: [],
-  society: [],
-  sports: []
-};
 
-
+//our top 10 categories.  Use these URIs to communicated with ER
 const categoriesURI = {
   business: 'dmoz/Business',
   arts: 'dmoz/Arts',
@@ -49,7 +35,7 @@ const categoriesURI = {
   society: 'dmoz/Society',
   sports: 'dmoz/Sports'
 };
-
+//in list format for certain API calls
 const categoriesAll = [
   'dmoz/Business',
   'dmoz/Arts',
@@ -65,6 +51,7 @@ const categoriesAll = [
   'dmoz/Sports'
 ];
 
+//our MVP seven news sources.  Use these URIs to communicate with ER
 const sourcesURI = {
   fox: 'foxnews.com',
   breitbart: 'breitbart.com',
@@ -74,73 +61,110 @@ const sourcesURI = {
   ap: 'hosted.ap.org',
   times: 'nytimes.com'
 };
-
+//in list format for certain API calls
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
-let eventsUri;
 
-getEventsBySource = (sourceUri) => {
-    // query for events reported by BBC News
-    const query = new QueryEvents({sourceUri});
-    // return details about 30 events that have been most recently reported by BBC
-    const requestEventsInfo = new RequestEventsInfo({count: 50, dateStart: getDateYesterday()});
-    query.setRequestedResult(requestEventsInfo);
-    er.execQuery(query)
-      .then(result => {
-        console.log(result).events.results[0];
-      });
+//once every 24 hours, get the top twenty events for all our 10 categories.
+
+const getAllTopTwenty = () => {
+  for (var category in categoriesURI) {
+    getTopTwentyEvents(category, getDateYesterday());
+  }
 }
 
-getArticlesByEventId = (eventId) => {
-  const iter = new QueryEventArticlesIter(er, eventId);
-  iter.execQuery((articles) => {
-    console.info(articles);
-  });
-}
+//helper funciton to retrieve top 20 events by category, format and save them to DB
 
-
-const getEventsUris = (categoryUri, date) => {
-  const q = new QueryEvents({
-    categoryUri: categoryUri,
-    dateStart: date,
-    sortBy: 'size'
-  });
-
-  const eventUriList = new RequestEventsUriList();
-  q.setRequestedResult(eventUriList);
-  er.execQuery(q) // execute the query and return the promise
-    .then(result => {
-      eventsUri = result;
-      console.log(eventsUri)
-    });
-};
-
-const getTopTenEvents = (category, date) => {
+const getTopTwentyEvents = (category, date) => {
   const q = new QueryEventsIter(er, {
     categoryUri: categoriesURI[category],
     dateStart: date,
     sortBy: 'socialScore',
-    maxItems: 10,
+    maxItems: 20,
     minArticlesInEvent: 50,
     lang: "eng",
-    requestedResult: new ReturnInfo({
-      storyInfo: new StoryInfoFlags(),
-      eventInfo: new EventInfoFlags()
-    })
   });
 
   q.execQuery((events) => {
     for(const event of events) {
-      eventsObj[category].push(event);     
+      let formatted = buildEvent(event);   
+      saveEvent(formatted); 
     }
-
-    console.log(eventsObj[category]);
   });
 }
 
-const getArticlesByCategory = (categoryUri) => {
-  
+//format events for DB
+const buildEvent = (event) => {
+  let formattedEvent;
+  //TODO:  function to transform an event returned to the format we need for DB
+  return formattedEvent;
+};
 
-}
+//save events to DB
+const saveEvent = (formattedEvent) => {
+  //TODO: save to DB
+};
+
+//after retrieving the events, for each eventId, retrieve the associated articles from ER, format and save to DB
+const getAllArticles = () => {
+
+};
+
+
+const getArticlesByEventId = (eventId) => {
+  const iter = new QueryEventArticlesIter(er, eventId);
+  iter.execQuery((articles) => {
+    for (const article in articles) {
+      let formatte4d = buildArticle(article);
+      saveArticle(formatted);
+    }
+  });
+};
+
+const buildArticle = (article) => {
+  let formattedArticle;
+  //TODO: function to transform an article returned to hte format we need for DB
+  return formattedArticle;
+};
+
+const saveArticle = (formattedArticle) => {
+  //TODO: save formatted article to DB
+};
+
+
+
+
+// getEventsBySource = (sourceUri) => {
+//     // query for events reported by BBC News
+//     const query = new QueryEvents({sourceUri});
+//     // return details about 30 events that have been most recently reported by BBC
+//     const requestEventsInfo = new RequestEventsInfo({count: 50, dateStart: getDateYesterday()});
+//     query.setRequestedResult(requestEventsInfo);
+//     er.execQuery(query)
+//       .then(result => {
+//         console.log(result).events.results[0];
+//       });
+// }
+
+
+// const getEventsUris = (categoryUri, date) => {
+//   const q = new QueryEvents({
+//     categoryUri: categoryUri,
+//     dateStart: date,
+//     sortBy: 'size'
+//   });
+
+//   const eventUriList = new RequestEventsUriList();
+//   q.setRequestedResult(eventUriList);
+//   er.execQuery(q) // execute the query and return the promise
+//     .then(result => {
+//       eventsUri = result;
+//       console.log(eventsUri)
+//     });
+// };
+
+
+
+
 
 //retrives the uri list for all events for our top 10 categories that occured yesterday
 //to get events for a single category, use an individual categoryUri
@@ -149,7 +173,7 @@ const getArticlesByCategory = (categoryUri) => {
 //getTopTenEvents('business', getDateYesterday());
 
 //getEventsBySource(sourcesAll);
-getArticlesByEventId('eng-2940883');
+//getArticlesByEventId('eng-2940883');
 
 
 
