@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { App } from '../client/src/index.jsx';
+import { expect } from 'chai';
+import  App  from '../client/src/App.jsx';
 
 
 describe('<App />', () => {
@@ -9,5 +9,4 @@ describe('<App />', () => {
     const wrapper = shallow(<App/>);
     expect(wrapper.find('div')).to.have.lengthOf(1)
   });
-
 });
