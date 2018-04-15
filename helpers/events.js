@@ -72,7 +72,7 @@ const getAllTopTwenty = () => {
   }
 }
 
-//helper funciton to retrieve top 20 events by category, format and save them to DB
+//helper function to retrieve top 20 events by category, format and save them to DB
 
 const getTopTwentyEvents = (category, date) => {
   const q = new QueryEventsIter(er, {
@@ -114,7 +114,7 @@ const getArticlesByEventId = (eventId) => {
   const iter = new QueryEventArticlesIter(er, eventId);
   iter.execQuery((articles) => {
     for (const article in articles) {
-      let formatte4d = buildArticle(article);
+      let formatted = buildArticle(article);
       saveArticle(formatted);
     }
   });
