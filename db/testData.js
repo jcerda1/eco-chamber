@@ -1,4 +1,66 @@
-const articles = [
+const sampleEvents = [
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample2',
+    category: 'Society',
+    title: "Pope Apologizes For 'Serious Mistakes' In Handling Of Chile's Sex Abuse Scandal",
+    summary: "Pope Francis arrives in St. Peter's Square at the Vatican for his weekly general audience on Wednesday.Pope Francis has acknowledged \"serious mistakes\" in his handling of Chile's sex abuse scandal and summoned the country's bishops to an emergency meeting in Rome to discuss the matter.Francis blamed a lack of \"truthful and balanced information\" for misjudging the situation concerning Bishop Juan Barros, who he appointed to the small diocese of Osorno in 2015 despite allegations that he had",
+    titleSource: "NPR",
+    date: "2018-04-11"
+  }  
+];
+
+const sampleSources = [
+  {
+    title: 'Breitbart',
+    uri: 'breitbart.com',
+    bias: -3
+  },
+  {
+    titleSource: 'Fox',
+    uri: 'foxnews.com',
+    bias: -2
+  },
+  {
+    titleSource: 'Hill',
+    uri: 'thehill.com',
+    bias: -1
+  },
+  {
+    titleSource: 'NYTimes',
+    uri: 'nytimes.com',
+    bias: 0
+  },
+  {
+    titleSource: 'Vox',
+    uri: 'vox.com',
+    bias: 1
+  },
+  {
+    titleSource: 'MSNBC',
+    uri: 'msnbc.com',
+    bias: 2
+  },
+  {
+    titleSource: 'Huffington',
+    uri: 'huffingtonpost.com',
+    bias: 3
+  } 
+];
+
+module.exports = {
+  sampleEvents,
+  sampleSources
+}
+
+const sampleArticles = [
   {
     id: 1,
     sourceId: 1,
@@ -141,66 +203,5 @@ const articles = [
   }
 ];
 
-const events = [
-  {
-    id: 1,
-    category: 'Society',
-    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
-    description: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
-    date: "2018-04-11"
-  },
-  {
-    id: 2,
-    category: 'Society',
-    title: "Pope Apologizes For 'Serious Mistakes' In Handling Of Chile's Sex Abuse Scandal",
-    description: "Pope Francis arrives in St. Peter's Square at the Vatican for his weekly general audience on Wednesday.Pope Francis has acknowledged \"serious mistakes\" in his handling of Chile's sex abuse scandal and summoned the country's bishops to an emergency meeting in Rome to discuss the matter.Francis blamed a lack of \"truthful and balanced information\" for misjudging the situation concerning Bishop Juan Barros, who he appointed to the small diocese of Osorno in 2015 despite allegations that he had",
-    titleSource: "NPR",
-    date: "2018-04-11"
-  }  
-];
 
-const sources = [
-  {
-    id: 1,
-    name: 'Breitbart',
-    url: 'breitbart.com',
-    bias: -3
-  },
-  {
-    id: 2,
-    name: 'Fox',
-    url: 'foxnews.com',
-    bias: -2
-  },
-  {
-    id: 3,
-    name: 'Hill',
-    url: 'thehill.com',
-    bias: -1
-  },
-  {
-    id: 4,
-    name: 'NYTimes',
-    url: 'nytimes.com',
-    bias: 0
-  },
-  {
-    id: 5,
-    name: 'Vox',
-    url: 'vox.com',
-    bias: 1
-  },
-   {
-    id: 6,
-    name: 'MSNBC',
-    url: 'msnbc.com',
-    bias: 2
-  },
-  {
-    id: 7,
-    name: 'Huffington',
-    url: 'huffingtonpost.com',
-    bias: 3
-  } 
-];
+
