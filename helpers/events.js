@@ -65,7 +65,6 @@ const sourcesURI = {
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
 
 //once every 24 hours, get the top twenty events for all our 10 categories.
-
 const getAllTopTwenty = () => {
   for (var category in categoriesURI) {
     getTopTwentyEvents(category, getDateYesterday());
@@ -73,7 +72,6 @@ const getAllTopTwenty = () => {
 }
 
 //helper function to retrieve top 20 events by category, format and save them to DB
-
 const getTopTwentyEvents = (category, date) => {
   const q = new QueryEventsIter(er, {
     categoryUri: categoriesURI[category],
@@ -130,6 +128,10 @@ const saveArticle = (formattedArticle) => {
   //TODO: save formatted article to DB
 };
 
+const getEventsAndArticles = function () {
+  
+};
+
 
 
 
@@ -170,7 +172,7 @@ const saveArticle = (formattedArticle) => {
 //to get events for a single category, use an individual categoryUri
 //getEventsUri(categoriesAll, getDateYesterday());
 
-//getTopTenEvents('business', getDateYesterday());
+
 
 //getEventsBySource(sourcesAll);
 //getArticlesByEventId('eng-2940883');
