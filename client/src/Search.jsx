@@ -7,11 +7,8 @@ class Search extends Component {
     return (
       <div class="search container">
         <form class="form">
-          <input
-            placeholder="Search for..."
-           />
-          <p></p>
-         </form>
+          <input placeholder="Search for..."/>
+        </form>
       </div>
     )
   }
