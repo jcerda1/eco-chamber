@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
+import styles from './styles.css';
+
 
 class Search extends Component {
-//   constructor() {
-//     super(); 
-//     this.state = {
-//   	  query: ""
-//   	}
-//     this.handleInputChange = this.handleInputChange.bind(this)
-//     }
-// }
-
-// handleInputChange = () => {
-//   this.setState({
-//     query: this.search.value
-//   });
-// }
   render(){
     return (
-        <form>
+      <div class="search container">
+        <form class="form">
           <input
             placeholder="Search for..."
-            //ref={input => this.search = input}
-            //onChange={this.handleInputChange}
            />
           <p></p>
          </form>
+      </div>
     )
   }
 }
