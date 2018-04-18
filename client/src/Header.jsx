@@ -7,7 +7,7 @@ import styles from './styles.css';
 const Header = () => {
 return (
   <div class="header"> 
-    <h3>Eco-Chamber</h3>
+    <h2>Eco-Chamber</h2>
     <form name="login">
       Username  <input type="text" name="userid"/>
       Password  <input type="password" name="pswrd"/>
