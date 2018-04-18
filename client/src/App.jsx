@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import styles from './styles.css';
+//import styles from './styles.css';
 import Search from './Search.jsx';
+import Catagories from './Catagories.jsx';
+import Header from './Header.jsx';
 
 class App extends Component {
 //   constructor() {
@@ -18,10 +20,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        Eco-Chamber
-      <div>
+        <Header/>
         <Search/>
-      </div>
+        <Catagories/>
       </div> 
     )  
   }; 
