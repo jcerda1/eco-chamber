@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-//import styles from './styles.css';
-import Search from './Search.jsx';
-import Catagories from './Catagories.jsx';
 import Header from './Header.jsx';
+import Main from './Main.jsx'
+
 
 class App extends Component {
 //   constructor() {
@@ -21,8 +20,7 @@ class App extends Component {
     return (
       <div>
         <Header/>
-        <Search/>
-        <Catagories/>
+        <Main/>
       </div> 
     )  
   }; 

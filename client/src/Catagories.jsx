@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom'
 import styles from './styles.css';
 
-let Catagories = () => {
+const Catagories = () => {
   return (
   <div class="wrapper">
-    <div class="box a"><a href="#home">World</a></div>
-    <div><a href="#news">US</a></div>
-    <div><a href="#contact">Politics</a></div>
-    <div><a href="#Business">Business</a></div>
-    <div><a href="#Tech">Tech</a></div>
-    <div><a href="#Art">Art</a></div>
-    <div><a href="#Science">Science</a></div>
-    <div><a href="#Sport">Sport</a></div>
-    <div><a href="#Food">Food</a></div>
+    <div class="box a"><Link to='/events'>World</Link></div>
+    <div class="box a"><Link to='/events'>US</Link></div>
+    <div class="box a"><Link to='/events'>Politics</Link></div>
+    <div class="box a"><Link to='/events'>Business</Link></div>
+    <div class="box a"><Link to='/events'>Tech</Link></div>
+    <div class="box a"><Link to='/events'>Art</Link></div>
+    <div class="box a"><Link to='/events'>Science</Link></div>
+    <div class="box a"><Link to='/events'>Sport</Link></div>
+    <div class="box a"><Link to='/events'>Food</Link></div>
   </div>
   )
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Search from './Search.jsx'
 import styles from './styles.css';
 
 
@@ -13,6 +14,7 @@ return (
       Password  <input type="password" name="pswrd"/>
       <input type="button" value="Login"/> <input type="reset" value="Cancel"/>
     </form>
+     <Search/>
   </div>
 )};
 
