@@ -30,16 +30,54 @@ li a:hover {
   grid-row-gap: 1em;
 }
 
-/*.form {
-  
-}*/
 
 .header {
   display: grid;
-  grid-template-columns: repeat(2,2fr);
-  grid-gap: 10px;
-  align-items: last baseline;
-  grid-row-gap: 1em;
+  grid-template-columns: 20% auto 50%;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: 
+    "title title login"
+    ".     search  . ";
+  justify-content: stretch;
+
 }
+
+.form{
+    width:500px;
+    margin:0 auto;
+}
+.search { 
+    padding:6px 15px 6px 30px;
+    margin:3px; 
+    outline:none;
+
+}
+
+.rounded { 
+    border-radius:15px; 
+    -moz-border-radius:15px; 
+    -webkit-border-radius:15px; 
+    outline:none;
+}
+
+.title {
+  grid-area: title;
+}
+
+.login {
+  grid-area: login;
+  
+}
+
+.search {
+  grid-area: search;
+}
+
+
+
+
+
+
+
 
 
