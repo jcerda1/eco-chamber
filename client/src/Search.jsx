@@ -6,8 +6,8 @@ class Search extends Component {
   render(){
     return (
       <div class="search container">
-        <form class="form">
-          <input placeholder="Search for..."/>
+        <form className='search form'>
+          <span><input type="text" className="search rounded" placeholder="Search..."/></span>
         </form>
       </div>
     )
