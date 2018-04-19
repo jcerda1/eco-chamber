@@ -1,3 +1,4 @@
+//event registry API
 const { 
   EventRegistry, 
   QueryEventsIter, 
@@ -11,6 +12,15 @@ const {
   EventInfoFlags,
   QueryEventArticlesIter
 } = require('eventregistry');
+//db models
+const {
+  Event,
+  Article,
+  Concept,
+  Source,
+  Category
+} = require('../db/index.js');
+
 const { EVENT_REGISTRY_API_KEY } = require('../config/config.js');
 const er = new EventRegistry({apiKey: EVENT_REGISTRY_API_KEY});
 const moment = require('moment');
@@ -65,38 +75,92 @@ const sourcesURI = {
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
 
 //once every 24 hours, get the top twenty events for all our 10 categories.
-const getAllTopTwenty = () => {
-  for (var category in categoriesURI) {
-    getTopTwentyEvents(category, getDateYesterday());
-  }
-}
+// const getAllTopTen = () => {
+//   for (var category in categoriesURI) {
+//     getTopTwentyEvents(category, getDateYesterday());
+//   }
+// }
 
-//helper function to retrieve top 20 events by category, format and save them to DB
-const getTopTwentyEvents = (category, date) => {
+//helper function to retrieve top 10 events by category, format and save them to DB
+const getTopTenEvents = (category, date) => {
+  console.log(category, categoriesURI.category);
   const q = new QueryEventsIter(er, {
-    categoryUri: categoriesURI[category],
+    categoryUri: categoriesURI.category,
     dateStart: date,
-    sortBy: 'socialScore',
-    maxItems: 20,
+    sortBy: 'size',
+    maxItems: 10,
     minArticlesInEvent: 50,
     lang: "eng",
   });
 
-  q.execQuery((events) => {
-    for(const event of events) {
-      let formatted = buildEvent(event);   
-      saveEvent(formatted); 
+  q.execQuery(async (events) => {
+    console.log(events.length);
+    for (const event of events) {
+      //console.log(event);
+      await buildSaveEvent(event);   
     }
-  });
+  }, () => console.log('Events saved'));
 }
 
 //format events for DB
-const buildEvent = (event) => {
-  let formattedEvent;
-  //TODO:  function to transform an event returned to the format we need for DB
-  return formattedEvent;
+const buildSaveEvent = async (event) => {
+  console.log(event.categories);
+  //let concepts = await buildSaveConepts(concepts);
+  //let categories = await event.categories.map(concept => buildSaveConcept(concept));
+ 
+  let formattedEvent = Event.build({
+    uri: event.uri,
+    date: event.eventDate,
+    title: event.title.eng || event.title || "",
+    summary: event.summary.eng || event.summary || ""
+  });
+
+  Event.find({where: {uri: event.uri}}).then(result => {
+    if (result === null) {
+      formattedEvent.save().then(savedEvent => {
+        //send this saved event info in a message through AWS queue to articles service
+        console.log('event saved, sending to queue')
+
+      }).catch(err => console.log(err));
+    } else {
+      console.log('This event already exists');
+    }
+  }).catch(err => console.log(err));
 };
 
+const buildSaveConcepts = async (concepts) => {
+  let formattedConcepts = concepts.map(concept => Concept.build({
+    description: concept.description,
+    uri: concept.uri,
+    type: uri.type
+  })); 
+
+  console.log(formattedConcepts.length);
+
+  for (const concept of concepts) {
+    
+    await Concept.find({where: {uri: concept.uri}}).then(result => {
+      if (result === null) {
+        built.save().then(savedConcept => console.log(savedConcept.dataValues));
+      } else {
+        console.log('this concept already exists:', result);
+      }
+    })
+  }
+}
+
+const buildSaveCategories = (categories) => {
+  let formattedCategories = categories.map(category => Category.build({
+    parentUri: catgory.parentUri,
+    uri: category.uri,
+    baseUri: category.uri.split('/')[1]
+  })); 
+
+  for (var i = 0; i < categories.length; i++) {
+    let built = categories[i];
+    Category.findOrCreate({where: {uri: built.uri}, defaults: {parentUri: built.parentUri, baseUri: built.baseUri}});
+  }
+}
 //save events to DB
 const saveEvent = (formattedEvent) => {
   //TODO: save to DB
@@ -132,6 +196,8 @@ const getEventsAndArticles = function () {
   
 };
 
+getTopTenEvents('science', getDateYesterday());
+//console.log(buildSaveEvent({uri:'test5', date: 'test', title: 'hello', summary: 'lkjlkjlkj'}));
 
 
 
