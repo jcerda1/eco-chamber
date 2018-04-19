@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx'
+import sources from '../../db/testData.js'
 
 
 class App extends Component {
-//   constructor() {
-//     super(); 
-//     this.state = {
-//   	  query: ""
-//   	}
-//     this.handleInputChange = this.handleInputChange.bind(this)
-//     }
-// }
+  constructor(props) {
+  super(props);
+  this.state = {
+    articles: sources.articles,
+    events: sources.events,
+    sources: sources.sources
+  }
+    console.log(props)
+  }
 
-// handleInputChange = () => {
-//   this.setState({query: this.search.value});
-// }
   render() {
     return (
       <div>

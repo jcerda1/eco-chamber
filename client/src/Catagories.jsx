@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
 import styles from './styles.css';
 
-const Catagories = () => (
+const Catagories = (props) => (
 
-  <div class="wrapper">
+  <div className="wrapper">
     <div><Link to='/events'>World</Link></div>
     <div><Link to='/events'>US</Link></div>
     <div><Link to='/events'>Politics</Link></div>
@@ -17,7 +17,7 @@ const Catagories = () => (
   </div>
 )
 
-
+ 
 
 
 

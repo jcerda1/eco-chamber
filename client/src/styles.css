@@ -73,6 +73,17 @@ li a:hover {
   grid-area: search;
 }
 
+.events-container {
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: repeat(4, 25%);
+  grid-template-areas: 
+    "event event event event"
+    "event event event event"
+    "event event event event"
+    "event event event event";
+}
+
 
 
 
