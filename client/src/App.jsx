@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx'
-import sampleSources from '../../db/testData.js'
+import sampleSources from '../../db/testData.js';
+import styles from './styles.css';
 
 
 class App extends Component {
