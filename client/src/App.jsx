@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx'
-import sources from '../../db/testData.js'
+import sampleSources from '../../db/testData.js'
 
 
 class App extends Component {
   constructor(props) {
   super(props);
   this.state = {
-    articles: sources.articles,
-    events: sources.events,
-    sources: sources.sources
+    articles: sampleSources.sampleArticles,
+    events: sampleSources.sampleEvents,
+    sources: sampleSources.sampleSources
   }
+  console.log(sampleSources)
 }
 
   render() {

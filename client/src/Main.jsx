@@ -8,8 +8,9 @@ import Articles from './Articles.jsx'
 
 
 const Main = (props) => {
+  console.log(props)
   let events = props.state.events.map((event, index) => {
-  	return <li><Link to="/articles" key={index}>{event.description}</Link></li>
+  	return <li><Link to="/articles" key={index}>{event.summary}</Link></li>
   })
   let articles = props.state.articles.map((article, index) => {
   	return <li key={index}>{article.description}</li>
