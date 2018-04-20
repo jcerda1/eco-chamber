@@ -12,14 +12,13 @@ class App extends Component {
     events: sources.events,
     sources: sources.sources
   }
-    console.log(props)
-  }
+}
 
   render() {
     return (
       <div>
         <Header/>
-        <Main/>
+        <Main state={this.state}/>
       </div> 
     )  
   }; 
