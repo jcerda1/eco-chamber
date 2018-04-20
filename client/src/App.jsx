@@ -13,7 +13,6 @@ class App extends Component {
     events: sampleSources.sampleEvents,
     sources: sampleSources.sampleSources
   }
-  console.log(sampleSources)
 }
 
   render() {
