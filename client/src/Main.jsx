@@ -11,12 +11,15 @@ const Main = (props) => {
   let events = props.state.events.map((event, index) => {
   	return <li><Link to="/articles" key={index}>{event.description}</Link></li>
   })
+  let articles = props.state.articles.map((article, index) => {
+  	return <li key={index}>{article.description}</li>
+  })
 return (
   <main> 
     <Switch> 
       <Route exact path='/' component={Catagories}></Route> 
       <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
-      <Route path='/articles' component={Articles}></Route> 
+      <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
     </Switch>
   </main>
 )}
