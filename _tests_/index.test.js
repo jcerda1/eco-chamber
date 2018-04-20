@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import  App  from '../client/src/App.jsx';
 
 
-describe('<App />', () => {
-  it('renders 1 component <App /> ', () => {
-    const wrapper = shallow(<App/>);
-    expect(wrapper.find('div')).to.have.lengthOf(2)
-  });
-});
+// describe('<App />', () => {
+//   it('renders 1 component <App /> ', () => {
+//     const wrapper = shallow(<App/>);
+//     expect(wrapper.find('div')).to.have.lengthOf(2)
+//   });
+// });
