@@ -14,8 +14,12 @@ const Event = sequelize.define('Event', {
     unique: true,
     allowNull: false
   },
-  title: Sequelize.STRING,
-  summary: Sequelize.STRING,
+  title: {
+    type: Sequelize.STRING,
+  },
+  summary: {
+    type: Sequelize.STRING,
+  },
   titleSource: Sequelize.STRING,
   date: Sequelize.STRING
 });
@@ -117,7 +121,7 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 //   await events[1].addArticle(articles[13]); 
 // });
 
-///////////////////////////////
+/////////////////////////////
 
 //helper functions here
 

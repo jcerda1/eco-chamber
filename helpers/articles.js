@@ -24,10 +24,24 @@ const {
 const { EVENT_REGISTRY_API_KEY } = require('../config/config.js');
 const er = new EventRegistry({apiKey: EVENT_REGISTRY_API_KEY});
 
+
+
+// import { EventRegistry } from "eventregistry";
+// const er = new EventRegistry({apiKey: "YOUR_API_KEY"});
+// const iter = new QueryEventArticlesIter(er, "eng-2940883", {lang: "eng"});
+// iter.execQuery((items) => {
+//     for(const item of items) {
+//         console.info(item);
+//     }
+// });
+
 //needs to listen for messages from the queue that contain an event ID. 
 
 const getArticlesByEventId = async (eventId) => {
-  const iter = new QueryEventArticlesIter(er, eventId);
+  const iter = new QueryEventArticlesIter(er, eventId, {
+    lang: "eng",
+    articleBatchSize: 200
+  });
   iter.execQuery((articles) => {
     for (const article in articles) {
       await buildSaveArticle(article, eventId); 
