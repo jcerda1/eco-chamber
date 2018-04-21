@@ -15,7 +15,7 @@ return (
     </form>
      <Search/>
   </div>
-)};
+)}; 
 
 
 export default Header;
