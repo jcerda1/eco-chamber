@@ -99,8 +99,8 @@ const getTopTenEvents = (category, date) => {
     console.log(events.length);
     for (const event of events) {    
       await buildSaveEvent(event);  
-      await associateConceptsOrCategories(event.categories, 'concept', event.uri);
-      await associateConceptsOrCategories(event.concepts, 'category', event.uri); 
+      await associateConceptsOrCategories(event.categories, 'category', event.uri);
+      await associateConceptsOrCategories(event.concepts, 'concept', event.uri); 
     }
   }, () => console.log('Events saved'));
 }
