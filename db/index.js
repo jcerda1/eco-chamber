@@ -14,12 +14,10 @@ const Event = sequelize.define('Event', {
     unique: true,
     allowNull: false
   },
-  category: Sequelize.STRING,
   title: Sequelize.STRING,
   summary: Sequelize.STRING,
   titleSource: Sequelize.STRING,
   date: Sequelize.STRING
-
 });
 
 const Article = sequelize.define('Article', {
@@ -38,7 +36,7 @@ const Article = sequelize.define('Article', {
 });
 
 const Concept = sequelize.define('Concept', {
-  name: Sequelize.STRING,
+  description: Sequelize.STRING,
   uri: Sequelize.STRING,
   type: Sequelize.STRING,
 });
@@ -64,81 +62,69 @@ Article.belongsTo(Event);
 Source.hasMany(Article);
 Article.belongsTo(Source);
 
-Concept.belongsToMany(Event, {through: 'EventConcept' });
+Concept.belongsToMany(Event, {through: 'EventConcept'});
 Event.belongsToMany(Concept, {through: 'EventConcept'});
 
-Concept.belongsToMany(Article, {through: 'ArticleConcept' });
-Article.belongsToMany(Concept, {through: 'ArticleConcept' });
+Concept.belongsToMany(Article, {through: 'ArticleConcept'});
+Article.belongsToMany(Concept, {through: 'ArticleConcept'});
 
-Category.belongsToMany(Event, { through: 'EventCategory' });
-Event.belongsToMany(Category, { through: 'EventCategory'});
+Category.belongsToMany(Event, {through: 'EventCategory'});
+Event.belongsToMany(Category, {through: 'EventCategory'});
 
-Category.belongsToMany(Article, { through: 'ArticleCategory' });
-Article.belongsToMany(Category, { through: 'ArticleCategory' });
-
+Category.belongsToMany(Article, {through: 'ArticleCategory'});
+Article.belongsToMany(Category, {through: 'ArticleCategory'});
 
 ///// USE THIS TO SEED DB ///////
 
-sequelize.sync({ force: true }).then(async () => {
-  const events = await Event.bulkCreate(seed.sampleEvents);
-  const sources = await Source.bulkCreate(seed.sampleSources);
-  const articles = await Article.bulkCreate(seed.sampleArticles);
+// sequelize.sync({ force: true }).then(async () => {
+//   const events = await Event.bulkCreate(seed.sampleEvents);
+//   const sources = await Source.bulkCreate(seed.sampleSources);
+//   const articles = await Article.bulkCreate(seed.sampleArticles);
 
-  //associate articles with news outlets
+//   //associate articles with news outlets
 
-  await sources[0].addArticle(articles[0]);
-  await sources[0].addArticle(articles[7]);
-  await sources[1].addArticle(articles[1]);
-  await sources[1].addArticle(articles[8]);
-  await sources[2].addArticle(articles[2]);
-  await sources[2].addArticle(articles[9]);
-  await sources[3].addArticle(articles[3]);
-  await sources[3].addArticle(articles[10]);
-  await sources[4].addArticle(articles[4]);
-  await sources[4].addArticle(articles[11]);
-  await sources[5].addArticle(articles[5]);
-  await sources[5].addArticle(articles[12]);
-  await sources[6].addArticle(articles[6]);
-  await sources[6].addArticle(articles[13]);
+//   await sources[0].addArticle(articles[0]);
+//   await sources[0].addArticle(articles[7]);
+//   await sources[1].addArticle(articles[1]);
+//   await sources[1].addArticle(articles[8]);
+//   await sources[2].addArticle(articles[2]);
+//   await sources[2].addArticle(articles[9]);
+//   await sources[3].addArticle(articles[3]);
+//   await sources[3].addArticle(articles[10]);
+//   await sources[4].addArticle(articles[4]);
+//   await sources[4].addArticle(articles[11]);
+//   await sources[5].addArticle(articles[5]);
+//   await sources[5].addArticle(articles[12]);
+//   await sources[6].addArticle(articles[6]);
+//   await sources[6].addArticle(articles[13]);
 
-  //associate articles with first sample event
-  await events[0].addArticle(articles[0]);
-  await events[0].addArticle(articles[1]);
-  await events[0].addArticle(articles[2]);
-  await events[0].addArticle(articles[3]);
-  await events[0].addArticle(articles[4]);
-  await events[0].addArticle(articles[5]);
-  await events[0].addArticle(articles[6]);
+//   //associate articles with first sample event
+//   await events[0].addArticle(articles[0]);
+//   await events[0].addArticle(articles[1]);
+//   await events[0].addArticle(articles[2]);
+//   await events[0].addArticle(articles[3]);
+//   await events[0].addArticle(articles[4]);
+//   await events[0].addArticle(articles[5]);
+//   await events[0].addArticle(articles[6]);
 
-  //associate articles with second sample event
-  await events[1].addArticle(articles[7]);
-  await events[1].addArticle(articles[8]);
-  await events[1].addArticle(articles[9]);
-  await events[1].addArticle(articles[10]);
-  await events[1].addArticle(articles[11]);
-  await events[1].addArticle(articles[12]);
-  await events[1].addArticle(articles[13]); 
-});
+//   //associate articles with second sample event
+//   await events[1].addArticle(articles[7]);
+//   await events[1].addArticle(articles[8]);
+//   await events[1].addArticle(articles[9]);
+//   await events[1].addArticle(articles[10]);
+//   await events[1].addArticle(articles[11]);
+//   await events[1].addArticle(articles[12]);
+//   await events[1].addArticle(articles[13]); 
+// });
 
 ///////////////////////////////
 
-// const ratingsCountByCourseId = (courseId) => UserCourse.count({ where: { courseId } });
+//helper functions here
 
-// const updateCourseRating = async(courseId) => {
-//   const ratingsSum = await UserCourse.sum('rating', { where: { courseId } });
-//   ratingsCount = await ratingsCountByCourseId(courseId);
-//   const rating = Math.ceil(ratingsSum / ratingsCount);
-//   await Course.update({ rating }, { where: { id: courseId } });
-// };
-
-// module.exports = {
-//   User,
-//   Course,
-//   UserCourse,
-//   Step,
-//   UserStep,
-//   Comment,
-//   Tag,
-//   updateCourseRating,
-//   ratingsCountByCourseId,
-// }
+module.exports = {
+  Event,
+  Article,
+  Concept,
+  Source,
+  Category
+};
