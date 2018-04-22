@@ -41,7 +41,11 @@ const Article = sequelize.define('Article', {
 
 const Concept = sequelize.define('Concept', {
   description: Sequelize.STRING,
-  uri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   type: Sequelize.STRING,
 });
 
@@ -55,8 +59,11 @@ const Source = sequelize.define('Source', {
 });
 
 const Category = sequelize.define('Category', {
-  uri: Sequelize.STRING,
-  parentUri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   baseUri: Sequelize.STRING
 });
 
