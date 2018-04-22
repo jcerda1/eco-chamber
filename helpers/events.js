@@ -85,10 +85,9 @@ const getTopEvents = async (category, date) => {
 
   const sources = new QueryItems.OR(sourcesAll);
 
-  //alone, categoryURI works, dateStart works,
+  //alone, categoryURI works, dateStart works
 
   const q = new QueryEventsIter(er, {
-
     sourceUri: sources,
     dateStart: getDateYesterday(),
     sortBy: 'size',
@@ -101,7 +100,6 @@ const getTopEvents = async (category, date) => {
   q.execQuery(async (events) => {
     // console.log(events.length);
     for (const event of events) {  
-      //console.log(event);
       //console.log(util.inspect(event, {showHidden: false, depth: null}));
       if (event.uri.split('-')[0] !== 'eng') {
         console.log('This event is not in english');
@@ -225,7 +223,7 @@ const associateConceptsOrCategories = async (conceptsOrCategories, type, eventUr
   }  
 }
 
-getTopEvents();
+//getTopEvents();
 //getUriList('science', getDateYesterday());
 
 const testDataSaving = async () => {
