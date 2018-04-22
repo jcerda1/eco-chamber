@@ -238,6 +238,10 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
+module.exports = {
+  buildSaveConceptOrCategory
+}
+
 //testDataSaving();
 
 
