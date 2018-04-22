@@ -1,36 +1,23 @@
 const util = require('util');
 
 //event registry API
-const { 
-  EventRegistry, 
-  QueryEventsIter, 
-  ReturnInfo, 
-  QueryItems, 
-  QueryEvents,
-  RequestEventsUriList
-} = require('eventregistry');
-//db models
-const {
-  Event,
-  Article,
-  Concept,
-  Source,
-  Category
-} = require('../db/index.js');
-
-const { testEvents } = require('../db/largeTestDataER.js');
-
+const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents } = require('eventregistry');
 const { EVENT_REGISTRY_API_KEY } = require('../config/config.js');
 const er = new EventRegistry({apiKey: EVENT_REGISTRY_API_KEY});
-const moment = require('moment');
 
+//db models
+const { Event, Article, Concept, Source, Category } = require('../db/index.js');
+
+//mock data
+const { testEvents } = require('../db/largeTestDataER.js');
 
 //helper functions to format dates for API
+const moment = require('moment');
 const getDateToday = () => moment().format('YYYY-MM-DD');
 const getDateYesterday = () => moment().subtract(1, 'day').format('YYYY-MM-DD');
 
 //our top 10 categories.  Use these URIs to communicated with ER
-const categoriesURI = {
+const categoriesURI = { 
   business: 'dmoz/Business',
   arts: 'dmoz/Arts',
   computers: 'dmoz/Computers',
@@ -45,20 +32,8 @@ const categoriesURI = {
   sports: 'dmoz/Sports'
 };
 //in list format for certain API calls
-const categoriesAll = [
-  'dmoz/Business',
-  'dmoz/Arts',
-  'dmoz/Computers',
-  'dmoz/Games', 
-  'dmoz/Health', 
-  'dmoz/Home', 
-  'dmoz/Recreation',
-  'dmoz/Reference',
-  'dmoz/Science',
-  'dmoz/Shopping',
-  'dmoz/Society',
-  'dmoz/Sports'
-];
+const categoriesAll = ['dmoz/Business','dmoz/Arts','dmoz/Computers','dmoz/Games', 'dmoz/Health', 'dmoz/Home', 'dmoz/Recreation','dmoz/Reference',
+  'dmoz/Science','dmoz/Shopping','dmoz/Society','dmoz/Sports'];
 
 //our MVP seven news sources.  Use these URIs to communicate with ER
 const sourcesURI = {
@@ -70,7 +45,7 @@ const sourcesURI = {
   ap: 'hosted.ap.org',
   times: 'nytimes.com'
 };
-let uris = [];
+
 //in list format for certain API calls
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
 
@@ -80,13 +55,11 @@ const getAllTopTen = async () => {
     await getTopTenEvents(category, getDateYesterday());
   }
 }
-//helper function to retrieve top 10 events by category, format and save them to DB
+
+//helper function to retrieve top events, format and save them to DB
+//alone, categoryURI works, dateStart works to return data as expcted
 const getTopEvents = async (category, date) => {
-
   const sources = new QueryItems.OR(sourcesAll);
-
-  //alone, categoryURI works, dateStart works
-
   const q = new QueryEventsIter(er, {
     sourceUri: sources,
     dateStart: getDateYesterday(),
@@ -98,7 +71,6 @@ const getTopEvents = async (category, date) => {
   });
 
   q.execQuery(async (events) => {
-    // console.log(events.length);
     for (const event of events) {  
       //console.log(util.inspect(event, {showHidden: false, depth: null}));
       if (event.uri.split('-')[0] !== 'eng') {
@@ -115,27 +87,6 @@ const getTopEvents = async (category, date) => {
     }
   }, () => console.log('Events saved'))
   .catch(err => console.log(err));
-}
-
-const getUriList = (category, date) => {
- const q = new QueryEvents({
-    categoryUri: categoriesURI.category,
-    eventBatchSize: 50,
-    maxItems: 10,
-    dateStart: date,
-    lang: "eng",
-    sortBy: "size",
-    minArticlesInEvent: 100
-  });
-
-const eventUriList = new RequestEventsUriList();
-q.setRequestedResult(eventUriList);
-
-er.execQuery(q) // execute the query and return the promise
-  .then(result => {
-    uris = result;
-    console.log(uris);
-  }).catch(err => console.log(err));
 }
 
 //format instances to conform to DB models
@@ -158,7 +109,6 @@ const formatConcept = (concept) => {
 
 const formatCategory = (category) => {
   return Category.build({
-    parentUri: category.parentUri,
     uri: category.uri,
     baseUri: category.uri.split('/')[1]
   }); 
@@ -166,7 +116,6 @@ const formatCategory = (category) => {
 
 //save events in DB, and send message info to queue to be processed for retrieving articles
 const buildSaveEvent = async (event) => {
-
   const formatted = await formatEvent(event);
 
   return Event.find({where: {uri: event.uri}}).then(result => {
@@ -174,12 +123,10 @@ const buildSaveEvent = async (event) => {
       formatted.save().then(savedEvent => {
         //send this saved event info in a message through AWS queue to articles service
         console.log('event saved, sending to articles service');
-        //console.log(util.inspect(savedEvent.dataValues, {showHidden: false, depth: null}));
         return savedEvent;
       }).catch(err => console.log(err));
     } else {
       console.log('This event already exists')
-      //console.log(util.inspect(result.dataValues, {showHidden: false, depth: null}));
       return result;
      }
   }).catch(err => console.log(err));
@@ -196,7 +143,6 @@ const buildSaveConceptOrCategory = (obj, type) => {
           return saved;
         }).catch(err => console.log(err));
       } else {
-        //console.log(`this ${type} already exists: ${result.dataValues.uri}`);
         return result;
       }
   }).catch(err => console.log(err));
@@ -223,9 +169,7 @@ const associateConceptsOrCategories = async (conceptsOrCategories, type, eventUr
   }  
 }
 
-//getTopEvents();
-//getUriList('science', getDateYesterday());
-
+//test function to save many events from mock data
 const testDataSaving = async () => {
 
   for (const event of testEvents) {
@@ -235,22 +179,3 @@ const testDataSaving = async () => {
   }  
   console.log('done');
 }
-
-module.exports = {
-  buildSaveConceptOrCategory
-}
-
-//testDataSaving();
-
-
-    
-
-
-
-
-
-
-
-
-
-
