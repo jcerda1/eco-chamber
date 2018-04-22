@@ -11,10 +11,82 @@ const sampleEvents = [
     uri: 'sample2',
     category: 'Society',
     title: "Pope Apologizes For 'Serious Mistakes' In Handling Of Chile's Sex Abuse Scandal",
-    summary: "Pope Francis arrives in St. Peter's Square at the Vatican for his weekly general audience on Wednesday.Pope Francis has acknowledged \"serious mistakes\" in his handling of Chile's sex abuse scandal and summoned the country's bishops to an emergency meeting in Rome to discuss the matter.Francis blamed a lack of \"truthful and balanced information\" for misjudging the situation concerning Bishop Juan Barros, who he appointed to the small diocese of Osorno in 2015 despite allegations that he had",
+    summary: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
     titleSource: "NPR",
     date: "2018-04-11"
-  }  
+  }, 
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  },
+  {
+    uri: 'sample1',
+    category: 'Society',
+    title: "House Speaker Paul Ryan Will Not Seek Re-Election",
+    summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
+    titleSource: "NPR",
+    date: "2018-04-11"
+  }
 ];
 
 const sampleSources = [

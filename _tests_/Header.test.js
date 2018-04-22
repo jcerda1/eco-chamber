@@ -15,7 +15,7 @@ describe('<Header/>', () => {
 describe('<Events/>', () => {
   it('renders 1 component <Events /> ', () => {
     const wrapper = shallow(<Events/>);
-    expect(wrapper.find('div')).to.have.lengthOf(2)
+    expect(wrapper.find('div')).to.have.lengthOf(1)
   });
 });
 

@@ -6,11 +6,11 @@ import Articles from './Articles.jsx'
 
 
 
-
+ 
 const Main = (props) => {
-  console.log(props)
+  
   let events = props.state.events.map((event, index) => {
-  	return <li><Link to="/articles" key={index}>{event.summary}</Link></li>
+  	return <span className="someEvent" key={index}><Link to="/articles">{event.summary}</Link></span>
   })
   let articles = props.state.articles.map((article, index) => {
   	return <li key={index}>{article.description}</li>
@@ -24,6 +24,6 @@ return (
     </Switch>
   </main>
 )}
-
  
+  
 export default Main;  

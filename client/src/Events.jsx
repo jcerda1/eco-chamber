@@ -4,10 +4,10 @@ import React from 'react';
 const Events = (props) => {
   return (
     <div className="events-container">
-      <div>{props.events}</div> 
+      {props.events}
     </div>
   )
 }
-
+ 
 
 export default Events; 
