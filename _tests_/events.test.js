@@ -4,15 +4,16 @@ const expect = require('chai').expect;
 const { testEvents } = require('../db/largeTestDataER.js');
 
 //db models
-const { Event, Category, Concept } = require('../db/index.js');
+const { Event, Category, Concept } = require('../db/index.test.js');
+
 const { testDataSaving, associateConceptsOrCategories, buildSaveConceptOrCategory, buildSaveEvent, formatCategory,
   formatConcept, formatEvent, getTopEvents } = require('../helpers/events.js');
 
 describe('formatEvent', function() {
   it('should return an instance of sequelize event model', function(done) {
     let result = formatEvent(testEvents[0]);
-   
-    expect(result).to.be.an.instanceof(Event);
+
+    expect(result).to.have.property('dataValues');
     done();
   });
 
@@ -47,7 +48,7 @@ describe('formatConcept', function() {
   it('should return an instance of sequelize concept model', function(done) {
     let result = formatConcept(testEvents[0].concepts[0]);
 
-    expect(result).to.be.an.instanceof(Concept);
+    expect(result).to.have.property('dataValues');
     done();
   });
 
@@ -65,7 +66,7 @@ describe('formatCategory', function() {
   it('should return an instance of sequelize category model', function(done) {
     let result = formatCategory(testEvents[0].categories[0]);
 
-    expect(result).to.be.an.instanceof(Category);
+    expect(result).to.have.property('dataValues');
     done();
   });
 
@@ -89,3 +90,4 @@ describe('formatCategory', function() {
     done();
   });
 });
+
