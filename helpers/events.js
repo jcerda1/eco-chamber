@@ -100,7 +100,6 @@ const formatEvent = (event) => {
 
 const formatConcept = (concept) => {
   return Concept.build({
-    description: concept.description,
     uri: concept.uri,
     type: concept.type
   }); 
@@ -179,4 +178,15 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
-// getTopEvents(getDateYesterday());
+
+module.exports = {
+  testDataSaving,
+  associateConceptsOrCategories,
+  buildSaveConceptOrCategory,
+  buildSaveEvent,
+  formatCategory,
+  formatConcept,
+  formatEvent,
+  getTopEvents
+}
+
