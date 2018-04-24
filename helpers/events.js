@@ -59,7 +59,7 @@ const getAllTopTen = async () => {
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
 const getTopEvents = async (date) => {
-  const sources = new QueryItems.AND(sourcesAll);
+  const sources = new QueryItems.OR(sourcesAll);
   const q = new QueryEventsIter(er, {
     sourceUri: sources,
     dateStart: date,
