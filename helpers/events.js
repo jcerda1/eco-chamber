@@ -58,11 +58,11 @@ const getAllTopTen = async () => {
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
-const getTopEvents = async (category, date) => {
-  const sources = new QueryItems.OR(sourcesAll);
+const getTopEvents = async (date) => {
+  const sources = new QueryItems.AND(sourcesAll);
   const q = new QueryEventsIter(er, {
     sourceUri: sources,
-    dateStart: getDateYesterday(),
+    dateStart: date,
     sortBy: 'size',
     // eventBatchSize: 50,
     // maxItems: 10,
@@ -179,3 +179,5 @@ const testDataSaving = async () => {
   }  
   console.log('done');
 }
+
+getTopEvents(getDateYesterday());
