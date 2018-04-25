@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+  deploy:
+    machine: true
+    steps:
+      - checkout
+      - run: ssh ec2-user@ec2-13-56-156-13.us-west-1.compute.amazonaws.com "cd eco-chamber && git fetch origin && git checkout master && git reset --hard origin/master && npm install && node_modules/.bin/webpack && pm2 restart server"
+workflows:
+  version: 2
+  test-only:
+    jobs:
+      - test
+  test-and-deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
