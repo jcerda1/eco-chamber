@@ -10,14 +10,18 @@ const Articles = (props) => {
         <img src="https://www.npr.org/about/images/press/Logos/NPRLogo_RGB.png"/>
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Fox_News_Channel_logo.svg"/>
         <img src="https://www.npr.org/about/images/press/Logos/NPRLogo_RGB.png"/>
-        <img src="https://www.npr.org/about/images/press/Logos/NPRLogo_RGB.png"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"/>
       </div>
       <div>{props.articles}</div> 
     </div>
   )
   
 }
-
+ 
 
 
 
