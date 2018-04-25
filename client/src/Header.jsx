@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Route } from 'react-router-dom';
 import styles from './styles/index.css'
-//import Search from './Search.jsx'
+import Search from './Search.jsx'
 
 
 class Header extends Component {
@@ -10,11 +10,10 @@ class Header extends Component {
     return (
       <nav className="navbar"> 
         <div className="navbar-container">
-          <Link to="/" className="navbar-home">
+          <Link to="/" className="title">
             Eco-Chamber
           </Link>
-        
-        <ul className="navbar-links">
+        <ul className="login">
           <li>
             <Link to="/signup">Sign Up</Link>
           </li>
@@ -23,6 +22,7 @@ class Header extends Component {
           </li>
         </ul>
         </div>
+      <Search/>
       </nav>
     )
   }

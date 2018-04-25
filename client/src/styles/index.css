@@ -15,6 +15,56 @@
   cursor: pointer;
 }
 
+/* Stylying for navbar container*/
+
 .navbar-container {
   display: grid;
+  grid-template-columns: 20% auto 20%;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: 
+    "title title login" 
+    ".       .       . "
+    ".     search     . ";
+  justify-content: stretch;
+  border-style: solid;
+  border-width: 1px
+} 
+
+.title {
+  grid-area: title;
+  grid-column-start: 1;
+  border-style: solid;
+  border-width: 1px
+
+}
+
+.login {
+  grid-area: login;
+  border-style: solid;
+  border-width: 1px;
+  list-style-type: none;
+  
+}
+.search { 
+    grid-area: search;
+    padding:6px 15px 6px 30px;
+    margin:3px; 
+    outline:none;
+    grid-column-start: 3-end;
+
+}
+
+.search-form{
+    width:500px;
+    margin:0 auto;
+    border-style: solid;
+    border-width: 1px
+}
+
+.rounded { 
+    border-radius:15px; 
+    -moz-border-radius:15px; 
+    -webkit-border-radius:15px; 
+    outline:none;
+    width: 400px;
 }

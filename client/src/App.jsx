@@ -21,7 +21,7 @@ class App extends Component {
       <Route>
         <div className="onboarding">
           <Header/>
-          <Main/>
+          <Main state={this.state}/>
         </div>
       </Route> 
     )  
