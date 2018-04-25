@@ -19,7 +19,10 @@ workflows:
       - test
   test-and-deploy:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - test

@@ -17,8 +17,12 @@ const Event = sequelize.define('Event', {
     unique: true,
     allowNull: false
   },
-  title: Sequelize.STRING,
-  summary: Sequelize.STRING,
+  title: {
+    type: Sequelize.STRING,
+  },
+  summary: {
+    type: Sequelize.STRING,
+  },
   titleSource: Sequelize.STRING,
   date: Sequelize.STRING
 });
@@ -40,7 +44,11 @@ const Article = sequelize.define('Article', {
 
 const Concept = sequelize.define('Concept', {
   description: Sequelize.STRING,
-  uri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   type: Sequelize.STRING,
 });
 
@@ -54,9 +62,11 @@ const Source = sequelize.define('Source', {
 });
 
 const Category = sequelize.define('Category', {
-  name: Sequelize.STRING,
-  uri: Sequelize.STRING,
-  parentUri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   baseUri: Sequelize.STRING
 });
 
@@ -79,50 +89,54 @@ Category.belongsToMany(Article, {through: 'ArticleCategory'});
 Article.belongsToMany(Category, {through: 'ArticleCategory'});
 
 ///// USE THIS TO SEED DB ///////
-sequelize.sync({ force: true }).then(async () => {
-  const events = await Event.bulkCreate(seed.sampleEvents);
-  const sources = await Source.bulkCreate(seed.sampleSources);
-  const articles = await Article.bulkCreate(seed.sampleArticles);
-  const categories = await Category.bulkCreate(seed.sampleCategories);
 
-  //associate articles with news outlets
-  await sources[0].addArticle(articles[0]);
-  await sources[0].addArticle(articles[7]);
-  await sources[1].addArticle(articles[1]);
-  await sources[1].addArticle(articles[8]);
-  await sources[2].addArticle(articles[2]);
-  await sources[2].addArticle(articles[9]);
-  await sources[3].addArticle(articles[3]);
-  await sources[3].addArticle(articles[10]);
-  await sources[4].addArticle(articles[4]);
-  await sources[4].addArticle(articles[11]);
-  await sources[5].addArticle(articles[5]);
-  await sources[5].addArticle(articles[12]);
-  await sources[6].addArticle(articles[6]);
-  await sources[6].addArticle(articles[13]);
+// sequelize.sync({ force: true }).then(async () => {
+//   const events = await Event.bulkCreate(seed.sampleEvents);
+//   const sources = await Source.bulkCreate(seed.sampleSources);
+//   const articles = await Article.bulkCreate(seed.sampleArticles);
+//   const categories = await Category.bulkCreate(seed.sampleCategories);
+//
+//   //associate articles with news outlets
+//
+//   await sources[0].addArticle(articles[0]);
+//   await sources[0].addArticle(articles[7]);
+//   await sources[1].addArticle(articles[1]);
+//   await sources[1].addArticle(articles[8]);
+//   await sources[2].addArticle(articles[2]);
+//   await sources[2].addArticle(articles[9]);
+//   await sources[3].addArticle(articles[3]);
+//   await sources[3].addArticle(articles[10]);
+//   await sources[4].addArticle(articles[4]);
+//   await sources[4].addArticle(articles[11]);
+//   await sources[5].addArticle(articles[5]);
+//   await sources[5].addArticle(articles[12]);
+//   await sources[6].addArticle(articles[6]);
+//   await sources[6].addArticle(articles[13]);
 
-  //associate articles with first sample event
-  await events[0].addArticle(articles[0]);
-  await events[0].addArticle(articles[1]);
-  await events[0].addArticle(articles[2]);
-  await events[0].addArticle(articles[3]);
-  await events[0].addArticle(articles[4]);
-  await events[0].addArticle(articles[5]);
-  await events[0].addArticle(articles[6]);
+//   //associate articles with first sample event
+//   await events[0].addArticle(articles[0]);
+//   await events[0].addArticle(articles[1]);
+//   await events[0].addArticle(articles[2]);
+//   await events[0].addArticle(articles[3]);
+//   await events[0].addArticle(articles[4]);
+//   await events[0].addArticle(articles[5]);
+//   await events[0].addArticle(articles[6]);
 
-  //associate articles with second sample event
-  await events[1].addArticle(articles[7]);
-  await events[1].addArticle(articles[8]);
-  await events[1].addArticle(articles[9]);
-  await events[1].addArticle(articles[10]);
-  await events[1].addArticle(articles[11]);
-  await events[1].addArticle(articles[12]);
-  await events[1].addArticle(articles[13]); 
+//   //associate articles with second sample event
+//   await events[1].addArticle(articles[7]);
+//   await events[1].addArticle(articles[8]);
+//   await events[1].addArticle(articles[9]);
+//   await events[1].addArticle(articles[10]);
+//   await events[1].addArticle(articles[11]);
+//   await events[1].addArticle(articles[12]);
+//   await events[1].addArticle(articles[13]);
+//
+//   // associate event with category
+//   await events[0].addCategory(categories[0]);
+//   await events[1].addCategory(categories[1]);
+// });
 
-  // associate event with category
-  await events[0].addCategory(categories[0]);
-  await events[1].addCategory(categories[1]);
-});
+/////////////////////////////
 
 module.exports = {
   Event,
