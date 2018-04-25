@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Route } from 'react-router-dom';
+import styles from '../styles/index.css'
 //import Search from './Search.jsx'
 
 
 class Header extends Component {
   render() {
     return (
-      <nav ClassName="navbar"> 
+      <nav className="navbar"> 
         <div className="navbar-container">
           <Link to="/" className="navbar-home">
             Eco-Chamber
           </Link>
-        </div>
+        
         <ul className="navbar-links">
           <li>
             <Link to="/signup">Sign Up</Link>
@@ -21,6 +22,7 @@ class Header extends Component {
             <Link to="/signin">Log in</Link>
           </li>
         </ul>
+        </div>
       </nav>
     )
   }
