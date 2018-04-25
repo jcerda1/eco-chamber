@@ -3,7 +3,7 @@ import styles from './styles.css';
 
 class App extends React.Component {
   render() {
-    console.log(process.env.db_port);
+    console.log(process.env);
 
     return (
       <div>
