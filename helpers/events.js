@@ -180,4 +180,4 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
-getTopEvents(getDateYesterday());
+// getTopEvents(getDateYesterday());
