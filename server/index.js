@@ -30,5 +30,5 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 //   res.json(events);
 // }));
-
+console.log(process.env);
 app.listen(3000, () => console.log('Listening on port 3000!'));
