@@ -2,8 +2,7 @@ const util = require('util');
 
 //event registry API
 const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents } = require('eventregistry');
-const { EVENT_REGISTRY_API_KEY } = require('../config/config.js');
-const er = new EventRegistry({apiKey: EVENT_REGISTRY_API_KEY});
+const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 
 //db models
 const { Event, Article, Concept, Source, Category } = require('../db/index.js');
