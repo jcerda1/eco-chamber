@@ -14,8 +14,12 @@ const Event = sequelize.define('Event', {
     unique: true,
     allowNull: false
   },
-  title: Sequelize.STRING,
-  summary: Sequelize.STRING,
+  title: {
+    type: Sequelize.STRING,
+  },
+  summary: {
+    type: Sequelize.STRING,
+  },
   titleSource: Sequelize.STRING,
   date: Sequelize.STRING
 });
@@ -37,7 +41,11 @@ const Article = sequelize.define('Article', {
 
 const Concept = sequelize.define('Concept', {
   description: Sequelize.STRING,
-  uri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   type: Sequelize.STRING,
 });
 
@@ -51,8 +59,11 @@ const Source = sequelize.define('Source', {
 });
 
 const Category = sequelize.define('Category', {
-  uri: Sequelize.STRING,
-  parentUri: Sequelize.STRING,
+  uri: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
   baseUri: Sequelize.STRING
 });
 
@@ -117,7 +128,7 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 //   await events[1].addArticle(articles[13]); 
 // });
 
-///////////////////////////////
+/////////////////////////////
 
 //helper functions here
 
