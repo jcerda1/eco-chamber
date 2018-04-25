@@ -213,51 +213,51 @@ const sampleArticles = [
 
 const sampleCategories = [
   {
-    name: 'Business',
+    baseUri: 'Business',
     uri: 'dmoz/Business',
   },
   {
-    name: 'Arts',
+    baseUri: 'Arts',
     uri: 'dmoz/Arts',
   },
   {
-    name: 'Computers',
+    baseUri: 'Computers',
     uri: 'dmoz/Computers',
   },
   {
-    name: 'Games',
+    baseUri: 'Games',
     uri: 'dmoz/Games',
   },
   {
-    name: 'Health',
+    baseUri: 'Health',
     uri: 'dmoz/Health',
   },
   {
-    name: 'Home',
+    baseUri: 'Home',
     uri: 'dmoz/Home',
   },
   {
-    name: 'Recreation',
+    baseUri: 'Recreation',
     uri: 'dmoz/Recreation',
   },
   {
-    name: 'Reference',
+    baseUri: 'Reference',
     uri: 'dmoz/Reference',
   },
   {
-    name: 'Science',
+    baseUri: 'Science',
     uri: 'dmoz/Science',
   },
   {
-    name: 'Shopping',
+    baseUri: 'Shopping',
     uri: 'dmoz/Shopping',
   },
   {
-    name: 'Society',
+    baseUri: 'Society',
     uri: 'dmoz/Society',
   },
   {
-    name: 'Sports',
+    baseUri: 'Sports',
     uri: 'dmoz/Sports',
   },
 ]
@@ -268,6 +268,3 @@ module.exports = {
   sampleArticles,
   sampleCategories,
 }
-
-
-
