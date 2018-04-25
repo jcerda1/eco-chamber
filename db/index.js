@@ -1,7 +1,10 @@
+const { db_name, db_user, db_password, db_host, db_port } = process.env;
+
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('eco_dev', 'root', '', {
+const sequelize = new Sequelize(db_name, db_user, db_password, {
   dialect: 'mysql',
-  host: 'localhost',
+  host: db_host,
+  port: parseInt(db_port),
   logging: false,
   operatorsAliases: false,
 });
@@ -91,9 +94,10 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 //   const events = await Event.bulkCreate(seed.sampleEvents);
 //   const sources = await Source.bulkCreate(seed.sampleSources);
 //   const articles = await Article.bulkCreate(seed.sampleArticles);
-
+//   const categories = await Category.bulkCreate(seed.sampleCategories);
+//
 //   //associate articles with news outlets
-
+//
 //   await sources[0].addArticle(articles[0]);
 //   await sources[0].addArticle(articles[7]);
 //   await sources[1].addArticle(articles[1]);
@@ -125,17 +129,19 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 //   await events[1].addArticle(articles[10]);
 //   await events[1].addArticle(articles[11]);
 //   await events[1].addArticle(articles[12]);
-//   await events[1].addArticle(articles[13]); 
+//   await events[1].addArticle(articles[13]);
+//
+//   // associate event with category
+//   await events[0].addCategory(categories[0]);
+//   await events[1].addCategory(categories[1]);
 // });
 
 /////////////////////////////
-
-//helper functions here
 
 module.exports = {
   Event,
   Article,
   Concept,
   Source,
-  Category
+  Category,
 };

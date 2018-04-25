@@ -211,11 +211,60 @@ const sampleArticles = [
   }
 ];
 
+const sampleCategories = [
+  {
+    baseUri: 'Business',
+    uri: 'dmoz/Business',
+  },
+  {
+    baseUri: 'Arts',
+    uri: 'dmoz/Arts',
+  },
+  {
+    baseUri: 'Computers',
+    uri: 'dmoz/Computers',
+  },
+  {
+    baseUri: 'Games',
+    uri: 'dmoz/Games',
+  },
+  {
+    baseUri: 'Health',
+    uri: 'dmoz/Health',
+  },
+  {
+    baseUri: 'Home',
+    uri: 'dmoz/Home',
+  },
+  {
+    baseUri: 'Recreation',
+    uri: 'dmoz/Recreation',
+  },
+  {
+    baseUri: 'Reference',
+    uri: 'dmoz/Reference',
+  },
+  {
+    baseUri: 'Science',
+    uri: 'dmoz/Science',
+  },
+  {
+    baseUri: 'Shopping',
+    uri: 'dmoz/Shopping',
+  },
+  {
+    baseUri: 'Society',
+    uri: 'dmoz/Society',
+  },
+  {
+    baseUri: 'Sports',
+    uri: 'dmoz/Sports',
+  },
+]
+
 module.exports = {
   sampleEvents,
   sampleSources,
-  sampleArticles
+  sampleArticles,
+  sampleCategories,
 }
-
-
-
