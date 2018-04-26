@@ -1,4 +1,8 @@
 
+body {
+  background-color: #F8F8F8
+}
+
 /* Nav */
 
 .navbar {
@@ -144,7 +148,7 @@ img {
   border-width: 3px
 }
 
-.signup {
+.signup-link {
   font-size: 50px;
   border-style: solid;
   border-width: 3px
