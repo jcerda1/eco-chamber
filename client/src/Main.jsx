@@ -3,6 +3,8 @@ import { Switch, Route, Link, Redirect } from 'react-router-dom';
 import Catagories from './Catagories.jsx';
 import Events from './Events.jsx';
 import Articles from './Articles.jsx'
+import Signup from './Signup.jsx';
+import Signin from './Signin.jsx';
 
 
 
@@ -21,6 +23,8 @@ let articles = props.state.articles.map((article, index) => {
         <Route exact path='/' component={Catagories}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
         <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
+        <Route path='/signup' render={props => <Signup {...props} />}></Route> 
+        <Route path='/signin' render={props => <Signin {...props} />}></Route> 
       </Switch>
     </main>
 )}
