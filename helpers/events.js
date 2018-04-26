@@ -179,6 +179,6 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
-testDataSaving();
+//testDataSaving();
 
 // getTopEvents(getDateYesterday());
