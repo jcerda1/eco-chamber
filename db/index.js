@@ -90,7 +90,7 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 
 ///// USE THIS TO SEED DB ///////
 
-sequelize.sync({ force: true }).then(() => { console.log('db synced')});
+// sequelize.sync({ force: true }).then(() => { console.log('db synced')});
 //   const events = await Event.bulkCreate(seed.sampleEvents);
 //   const sources = await Source.bulkCreate(seed.sampleSources);
 //   const articles = await Article.bulkCreate(seed.sampleArticles);
