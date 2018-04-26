@@ -88,7 +88,22 @@ Event.belongsToMany(Category, {through: 'EventCategory'});
 Category.belongsToMany(Article, {through: 'ArticleCategory'});
 Article.belongsToMany(Category, {through: 'ArticleCategory'});
 
+//HELPER FUNCTIONS FOR TESTING
+
+const clearDB = () => {
+  return sequelize.sync({force: true}).then(() => console.log('DB cleared'));
+};
+
+const clearTable = (tableName) => {
+  return  tableName.destroy({
+    where: {},
+    truncate: true
+  }).then(() => console.log("table cleared"));
+};
+
 ///// USE THIS TO SEED DB ///////
+
+
 
 // sequelize.sync({ force: true }).then(async () => {
 //   const events = await Event.bulkCreate(seed.sampleEvents);
@@ -144,4 +159,6 @@ module.exports = {
   Concept,
   Source,
   Category,
+  clearTable,
+  clearDB
 };

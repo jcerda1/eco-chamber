@@ -6880,4 +6880,4 @@ const testEvents = [
   wgt: 1 }
   ];
 
-module.exports = { testEvents, testArticlesTestEvent1, testArticlesEvent2 };
+module.exports = { testEvents, testArticlesTestEvent0, testArticlesTestEvent2 };
