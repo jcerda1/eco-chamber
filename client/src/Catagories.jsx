@@ -4,7 +4,6 @@ import styles from './styles/index.css'
 
 
 const Catagories = (props) => (
-
   <div className="categories-container">
     {props.cat}
   </div>

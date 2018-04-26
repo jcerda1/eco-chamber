@@ -16,7 +16,7 @@ let categories = props.state.events.map((cat, index) => {
 })
 
 let events = props.state.events.map((event, index) => {
-  	return <span className="someEvent" key={index}><Link to="/articles">{event.summary}</Link></span>
+  	return <span className="event" key={index}><Link to="/articles">{event.summary}</Link></span>
 })
 let articles = props.state.articles.map((article, index) => {
   	return <li key={index}>{article.description}</li>

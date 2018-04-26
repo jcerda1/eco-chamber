@@ -4,7 +4,7 @@ import React from 'react';
 
 
 const Signup = () => (
-  <div>Hello from Signup</div>
+  <p className="signup">Hello from Signin. This page will display a log in at some point</p>
 )
 
 
