@@ -4,7 +4,7 @@ import Catagories from './Catagories.jsx';
 import Events from './Events.jsx';
 import Articles from './Articles.jsx'
 import Signup from './Signup.jsx';
-import Signin from './Signin.jsx';
+import Signin from './Signin.jsx'; 
 
 
 

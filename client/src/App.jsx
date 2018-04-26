@@ -10,9 +10,9 @@ class App extends Component {
   constructor(props) { 
   super(props);
   this.state = { 
-    articles: sampleSources.sampleArticles,
+    articles: sampleSources.sampleArticles, 
     events: sampleSources.sampleEvents,
-    sources: sampleSources.sampleSources
+    sources: sampleSources.sampleSources 
   } 
 }
 
