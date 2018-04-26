@@ -13,16 +13,16 @@ class Header extends Component {
           <Link to="/" className="title">
             Eco-Chamber
           </Link>
-        <ul className="login">
-          <li>
+        <ul >
+          <li className="signup">
             <Link to="/signup">Sign Up</Link>
           </li>
-          <li>
+          <li className="login">
             <Link to="/signin">Log in</Link>
           </li>
         </ul>
-        </div>
       <Search/>
+        </div>
       </nav>
     )
   }
