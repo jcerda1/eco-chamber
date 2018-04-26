@@ -1,5 +1,4 @@
-const { db_name, db_user, db_password, db_host, db_port } = process.env;
-console.log(db_name, db_user, db_password, db_host, db_port);
+const { db_name, db_user, db_password, db_host, db_port } = process.env;\
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(db_name, db_user, db_password, {
   dialect: 'mysql',
