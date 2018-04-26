@@ -18,12 +18,10 @@ class App extends Component {
 
   render() {
     return (
-      <Route>
         <div className="onboarding">
           <Header/>
           <Main state={this.state}/>
         </div>
-      </Route> 
     )  
   }; 
 }
