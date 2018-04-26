@@ -8,14 +8,14 @@ import Search from './Search.jsx'
 class Header extends Component {
   render() {
     return (
-      <nav className="navbar"> 
+      <nav className="navbar">  
         <div className="navbar-container">
           <Link to="/" className="title">
             Eco-Chamber
           </Link>
         <ul >
           <li className="signup">
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/signup">Sign Up</Link>  
           </li>
           <li className="login">
             <Link to="/signin">Log in</Link>
