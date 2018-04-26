@@ -131,33 +131,33 @@ describe('buildSaveEvent', function() {
   });
 });
 
-describe('buildSaveConceptOrCategory', async function(done) {
-  beforeAll(() => {
-    return clearDB();
-  });
+// describe('buildSaveConceptOrCategory', function() {
+//   beforeAll(() => {
+//     return clearDB();
+//   });
 
-  it('should save a formatted concept if it doesn\'t already exist in the database', async function(done) {
+//   it('should save a formatted concept if it doesn\'t already exist in the database', async function(done) {
 
-  });
+//   });
 
-  it('should retrieve a matching concept if it is already in the database', async function(done) {
+//   it('should retrieve a matching concept if it is already in the database', async function(done) {
 
-  });
+//   });
 
-  it('should save a formatted category if it doesn\'t already exist in the database', async function(done) {
+//   it('should save a formatted category if it doesn\'t already exist in the database', async function(done) {
 
-  });
+//   });
 
-  it('should retrieve a matching category if it is already in the database', async function(done) {
+//   it('should retrieve a matching category if it is already in the database', async function(done) {
 
-  });
+//   });
 
-  it('should accept a category with a non-english char in the uri', async function(done) {
+//   it('should accept a category with a non-english char in the uri', async function(done) {
 
-  });
+//   });
 
-  it('should accept a concept with a non-english char in the uri', async function(done) {
+//   it('should accept a concept with a non-english char in the uri', async function(done) {
 
-  });
+//   });
 
-});
+// });
