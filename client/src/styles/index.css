@@ -7,7 +7,7 @@ body {
 
 .navbar {
   margin-bottom: 1 rem;
-}
+} 
 
 .navbar a {
   font-weight: bold;
@@ -132,11 +132,12 @@ img {
 
 .img-container {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   border-style: solid;
   border-width: 1px
 
 }
+
 
 /* sigin and signup component*/
 

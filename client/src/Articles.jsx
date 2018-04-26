@@ -9,7 +9,7 @@ const Articles = (props) => {
       <div className="img-container">
         {props.img}
       </div>
-      <div>{props.articles}</div> 
+      <div>{props.articles}</div>
     </div>
   )
   

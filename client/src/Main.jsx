@@ -19,7 +19,7 @@ let events = props.state.events.map((event, index) => {
   	return <span className="event" key={index}><Link to="/articles">{event.summary}</Link></span>
 })
 let articles = props.state.articles.map((article, index) => {
-  	return <li img={article.img} key={index}>{article.description}</li>
+  	return <li className="article" key={index}>{article.description}</li>
 })
 let img = props.state.articles.map((img, index) => {
     return <img src={img.img} key={index}/>

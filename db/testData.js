@@ -230,55 +230,56 @@ const sampleArticles = [
     description: "Did not report",
     body: "BODY WILL GO HERE",
     url: ""
-  },
-  {
-    // id: 11,
-    // sourceId: 4,
-    // eventId: 2,
-    uri: "sampleUri11",
-    date: "2018-04-11",
-    img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
-    title:"Pope Francis Admits ‘Grave Errors’ in Chile Sex Abuse Cases",
-    description:"Pope Francis has apologized for “grave errors” in the handling of sexual abuse cases in Chile, where he had adamantly defended a bishop accused of covering up abuse by the country’s most notorious pedophile priest.",
-    body: "BODY WILL GO HERE",
-    url: "https://www.nytimes.com/2018/04/11/world/americas/pope-francis-sex-abuse-apology.html"
-  },
-  {
-    // id: 12,
-    // sourceId: 5,
-    // eventId: 2,
-    uri: "sampleUri12",
-    date: "2018-04-11",
-    img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
-    title:"Did not report",
-    description: "Did not report",
-    body: "BODY WILL GO HERE",
-    url: ""
-  },
-  {
-    // id: 13,
-    // sourceId: 6,
-    // eventId: 2,
-    uri: "sampleUri13",
-    date: "2018-04-11",
-    img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
-    title:"Pope acknowledges 'grave errors' in Chilean sex abuse scandal",
-    description: "Francis summoned all of Chile's bishops to the Vatican for an emergency meeting, and invited victims to the Holy See to beg their forgiveness.",
-    body: "BODY WILL GO HERE",
-    url: "https://www.nbcnews.com/news/world/pope-acknowledges-grave-errors-chilean-sex-abuse-scandal-n865141"   
-  },
-  {
-    // id: 14,
-    // sourceId: 7,
-    // eventId: 2,
-    uri: "sampleUri14",
-    date: "2018-04-11",
-    img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
-    title:"Pope Admits He Made ‘Serious Errors’ In Handling Chile Sex Abuse Allegations",
-    description: "In a rare move, the pontiff is summoning all Chilean bishops to Rome to discuss the scandal.",
-    body: "BODY WILL GO HERE",
-    url: "https://www.huffingtonpost.com/entry/pope-admits-serious-mistakes-chilean-abuse-scandal_us_5ace716ae4b0701783aaf630"   
-  }
+//   },
+//   {
+//     // id: 11,
+//     // sourceId: 4,
+//     // eventId: 2,
+//     uri: "sampleUri11",
+//     date: "2018-04-11",
+//     img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
+//     title:"Pope Francis Admits ‘Grave Errors’ in Chile Sex Abuse Cases",
+//     description:"Pope Francis has apologized for “grave errors” in the handling of sexual abuse cases in Chile, where he had adamantly defended a bishop accused of covering up abuse by the country’s most notorious pedophile priest.",
+//     body: "BODY WILL GO HERE",
+//     url: "https://www.nytimes.com/2018/04/11/world/americas/pope-francis-sex-abuse-apology.html"
+//   },
+//   {
+//     // id: 12,
+//     // sourceId: 5,
+//     // eventId: 2,
+//     uri: "sampleUri12",
+//     date: "2018-04-11",
+//     img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
+//     title:"Did not report",
+//     description: "Did not report",
+//     body: "BODY WILL GO HERE",
+//     url: ""
+//   },
+//   {
+//     // id: 13,
+//     // sourceId: 6,
+//     // eventId: 2,
+//     uri: "sampleUri13",
+//     date: "2018-04-11",
+//     img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
+//     title:"Pope acknowledges 'grave errors' in Chilean sex abuse scandal",
+//     description: "Francis summoned all of Chile's bishops to the Vatican for an emergency meeting, and invited victims to the Holy See to beg their forgiveness.",
+//     body: "BODY WILL GO HERE",
+//     url: "https://www.nbcnews.com/news/world/pope-acknowledges-grave-errors-chilean-sex-abuse-scandal-n865141"   
+//   },
+//   {
+//     // id: 14,
+//     // sourceId: 7,
+//     // eventId: 2,
+//     uri: "sampleUri14",
+//     date: "2018-04-11",
+//     img: "https://i2.wp.com/obeygiant.com/images/2017/09/cnn-logo-square.png?ssl=1",
+//     title:"Pope Admits He Made ‘Serious Errors’ In Handling Chile Sex Abuse Allegations",
+//     description: "In a rare move, the pontiff is summoning all Chilean bishops to Rome to discuss the scandal.",
+//     body: "BODY WILL GO HERE",
+//     url: "https://www.huffingtonpost.com/entry/pope-admits-serious-mistakes-chilean-abuse-scandal_us_5ace716ae4b0701783aaf630"   
+//   }
+}
 ];
 
 <<<<<<< HEAD
