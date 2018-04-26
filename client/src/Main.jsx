@@ -4,12 +4,16 @@ import Catagories from './Catagories.jsx';
 import Events from './Events.jsx';
 import Articles from './Articles.jsx'
 import Signup from './Signup.jsx';
-import Signin from './Signin.jsx'; 
+import Signin from './Signin.jsx';  
 
 
 
  
 const Main = (props) => {
+
+let categories = props.state.events.map((cat, index) => {
+  return <div key={index}><Link to='/events'>{cat.category}</Link></div>
+})
 
 let events = props.state.events.map((event, index) => {
   	return <span className="someEvent" key={index}><Link to="/articles">{event.summary}</Link></span>
@@ -20,7 +24,7 @@ let articles = props.state.articles.map((article, index) => {
   return (
     <main> 
       <Switch> 
-        <Route exact path='/' component={Catagories}></Route> 
+        <Route exact path='/' render={props => <Catagories {...props} cat={categories}/>}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
         <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 
