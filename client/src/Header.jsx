@@ -9,7 +9,7 @@ class Header extends Component {
   render() {
     return (
       <nav className="navbar">  
-        <div className="navbar-container">
+        <div className="navbar-container"> 
           <Link to="/" className="title">
             Eco-Chamber
           </Link>
@@ -21,7 +21,7 @@ class Header extends Component {
             <Link to="/signin">Log in</Link>
           </li>
         </ul>
-      <Search/>
+        <Search/>
         </div>
       </nav>
     )
