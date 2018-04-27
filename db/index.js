@@ -1,10 +1,9 @@
-const { db_name, db_user, db_password, db_host, db_port } = process.env;
+const { db_name, db_user, db_password, db_host } = process.env;
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(db_name, db_user, db_password, {
   dialect: 'mysql',
   host: db_host,
   password: db_password,
-  port: parseInt(db_port),
   logging: false,
   operatorsAliases: false,
 });
@@ -88,9 +87,29 @@ Event.belongsToMany(Category, {through: 'EventCategory'});
 Category.belongsToMany(Article, {through: 'ArticleCategory'});
 Article.belongsToMany(Category, {through: 'ArticleCategory'});
 
+//HELPER FUNCTIONS FOR TESTING
+
+const clearDB = () => {
+  return sequelize.sync({force: true}).then(() => console.log('DB cleared'));
+};
+
+const clearTable = (tableName) => {
+  return  tableName.destroy({
+    where: {},
+    truncate: true
+  }).then(() => console.log("table cleared"));
+};
+
+const getEventsWithArticles = async (baseCategory) => {
+  //to do, helper functino to get all events that match the category
+
+};
+
 ///// USE THIS TO SEED DB ///////
 
+// sequelize.sync({ force: true }).then(async () => {
 // sequelize.sync({ force: true }).then(() => { console.log('db synced')});
+
 //   const events = await Event.bulkCreate(seed.sampleEvents);
 //   const sources = await Source.bulkCreate(seed.sampleSources);
 //   const articles = await Article.bulkCreate(seed.sampleArticles);
@@ -144,4 +163,6 @@ module.exports = {
   Concept,
   Source,
   Category,
+  clearTable,
+  clearDB
 };
