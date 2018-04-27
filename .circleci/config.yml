@@ -6,7 +6,7 @@ jobs:
       - image: circleci/mysql:5.6.39
         command: [mysqld]
     environment:
-      db_name: "ecotest"
+      db_name: "circle_test"
       db_user: "root"
       db_password: ""
       db_host: "localhost"
