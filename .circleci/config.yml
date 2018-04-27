@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/node:7.10
       - image: circleci/mysql:5.6.39
-        command: [mysql.server.start]
+        command: [mysql -u root -e "create database ecotest"]
     environment:
       db_name: "ecotest"
       db_user: "root"
