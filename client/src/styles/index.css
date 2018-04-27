@@ -37,7 +37,7 @@ body {
 .title {
   grid-area: title;
   grid-column-start: 1;
-  color: #A0A0A0;
+  color: #505050;
   /*border-style: solid;
   border-width: 1px;*/
   justify-self: left;
