@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: circleci/node:7.10
       - image: circleci/mysql:5.6.39
+        command: [mysql.server.start]
     environment:
       db_name: "ecotest"
       db_user: "root"
@@ -12,7 +13,6 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: mysql -u root -h 127.0.0.1 -e "create database ecotest" 
       - run: npm test
   deploy:
     machine: true
