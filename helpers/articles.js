@@ -7,7 +7,7 @@ const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 const { Event, Article, Concept, Source, Category } = require('../db/index.js');
 
 //mock data
-const { testEvents, testArticlesTestEvent1 } = require('../db/largeTestDataER.js');
+const { testEvents, testArticlesTestEvent0 } = require('../db/largeTestDataER.js');
 const eventUriList = ['eng-3850133','eng-3863384','eng-3912189','eng-3878323','eng-3866211','eng-3856710',
   'eng-3881510','eng-3848756','eng-3850781','eng-3875139','eng-3907227','eng-3863714'
 ];
