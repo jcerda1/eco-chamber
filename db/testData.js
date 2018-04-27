@@ -282,7 +282,7 @@ const sampleArticles = [
 }
 ];
 
-<<<<<<< HEAD
+
 const sampleCategories = [
   {
     baseUri: 'Business',
@@ -340,9 +340,6 @@ module.exports = {
   sampleArticles,
   sampleCategories,
 }
-=======
-export default { sampleSources, sampleArticles, sampleEvents } ;
 
 
 
->>>>>>> 976cc77... intergrated new mock data
