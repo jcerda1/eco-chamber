@@ -4,7 +4,6 @@ jobs:
     docker:
       - image: circleci/node:7.10
       - image: circleci/mysql:5.6.39
-        command: [mysqld]
     environment:
       db_name: "circle_test"
       db_user: "root"
