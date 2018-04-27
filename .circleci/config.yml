@@ -11,6 +11,7 @@ jobs:
       db_host: "localhost"
     steps:
       - checkout
+      - run: sudo apt-get update
       - run: sudo apt-get install mysql-server
       - run: npm install
       - run: mysql -u root -e "create database ecotest"
