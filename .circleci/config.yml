@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run: sudo apt-get update
       - run: sudo apt-get install mysql-server
-      = run: sudo service mysql start
+      - run: sudo service mysql start
       - run: npm install
       - run: mysql -u root -e "create database ecotest"
       - run: npm test
