@@ -37,6 +37,7 @@ body {
 .title {
   grid-area: title;
   grid-column-start: 1;
+  color: #A0A0A0;
   /*border-style: solid;
   border-width: 1px;*/
   justify-self: left;
@@ -111,8 +112,8 @@ body {
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(2, 1fr);
   font-family: "Times New Roman", Times, serif;
-  font-style: italic;
   border-style: solid;
+  border-color: grey;
   border-width: 1px
 }
 
