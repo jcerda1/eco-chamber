@@ -1,9 +1,9 @@
 const { db_name, db_user, db_password, db_host } = process.env;
-
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(db_name, db_user, db_password, {
   dialect: 'mysql',
   host: db_host,
+  password: db_password,
   logging: false,
   operatorsAliases: false,
 });
@@ -107,9 +107,9 @@ const getEventsWithArticles = async (baseCategory) => {
 
 ///// USE THIS TO SEED DB ///////
 
-
-
 // sequelize.sync({ force: true }).then(async () => {
+// sequelize.sync({ force: true }).then(() => { console.log('db synced')});
+
 //   const events = await Event.bulkCreate(seed.sampleEvents);
 //   const sources = await Source.bulkCreate(seed.sampleSources);
 //   const articles = await Article.bulkCreate(seed.sampleArticles);

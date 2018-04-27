@@ -178,7 +178,6 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
-
 module.exports = {
   testDataSaving,
   associateConceptsOrCategories,
@@ -189,4 +188,3 @@ module.exports = {
   formatEvent,
   getTopEvents
 }
-
