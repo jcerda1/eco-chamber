@@ -108,17 +108,21 @@ const clearTable = (tableName) => {
   });
 };
 
-const getEventsWithArticles = async (baseCategory) => {
-  //to do, helper functino to get all events that match the category
+// const getEventsWithArticles = async (baseCategory) => {
+//   //to do, helper functino to get all events that match the category
 
-};
+// };
 
 ///// USE THIS TO SEED DB ///////
 
 // sequelize.sync({ force: true }).then(async () => {
+
 //   const categories = await Category.bulkCreate(seed.sampleCategories);
 //   console.log('synced');
 // });
+
+ sequelize.sync({ force: true }).then(() => { console.log('db synced')});
+
 
 // sequelize.sync({ force: true }).then(async () => {
 //   const events = await Event.bulkCreate(seed.sampleEvents);
