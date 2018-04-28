@@ -1,74 +1,56 @@
 const sampleEvents = [
   {
     uri: 'sample1',
-    category: 'World',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
     uri: 'sample2',
-    category: 'US',
     title: "Pope Apologizes For 'Serious Mistakes' In Handling Of Chile's Sex Abuse Scandal",
     summary: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-    titleSource: "NPR",
     date: "2018-04-11"
   }, 
   {
-    uri: 'sample1',
-    category: 'Politics',
+    uri: 'sample3',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Business',
+    uri: 'sample4',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Tech',
+    uri: 'sample5',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Art',
+    uri: 'sample6',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Science',
+    uri: 'sample7',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Sport',
+    uri: 'sample8',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   },
   {
-    uri: 'sample1',
-    category: 'Food',
+    uri: 'sample9',
     title: "House Speaker Paul Ryan Will Not Seek Re-Election",
     summary: "House Speaker Paul Ryan will announce Wednesday that he will not run for re-election in 2018, a source familiar with the speaker's decision tells NPR. Ryan will not step down before then. There have been rumors for some time that Ryan could retire. He already passed a signature piece of legislation on taxes, something he's been focused on since he began his public career.Congress is not expected to get much, if anything, else done this year. Ryan's tenure has been something of an uneasy one" ,
-    titleSource: "NPR",
     date: "2018-04-11"
   }
 ];
@@ -285,51 +267,78 @@ const sampleArticles = [
 
 const sampleCategories = [
   {
-    baseUri: 'Business',
+    name: 'Business',
+  },
+  {
+    name: 'Arts',
+  },
+  {
+    name: 'Computers',
+  },
+  {
+    name: 'Games',
+  },
+  {
+    name: 'Health',
+  },
+  {
+    name: 'Home',
+  },
+  {
+    name: 'Recreation',
+  },
+  {
+    name: 'Reference',
+  },
+  {
+    name: 'Science',
+  },
+  {
+    name: 'Shopping',
+  },
+  {
+    name: 'Society',
+  },
+  {
+    name: 'Sports',
+  },
+]
+
+const sampleSubcategories = [
+  {
     uri: 'dmoz/Business',
   },
   {
-    baseUri: 'Arts',
     uri: 'dmoz/Arts',
   },
   {
-    baseUri: 'Computers',
     uri: 'dmoz/Computers',
   },
   {
-    baseUri: 'Games',
     uri: 'dmoz/Games',
   },
   {
-    baseUri: 'Health',
     uri: 'dmoz/Health',
   },
   {
-    baseUri: 'Home',
     uri: 'dmoz/Home',
   },
   {
-    baseUri: 'Recreation',
     uri: 'dmoz/Recreation',
   },
   {
-    baseUri: 'Reference',
     uri: 'dmoz/Reference',
   },
   {
-    baseUri: 'Science',
     uri: 'dmoz/Science',
   },
   {
-    baseUri: 'Shopping',
     uri: 'dmoz/Shopping',
   },
   {
-    baseUri: 'Society',
     uri: 'dmoz/Society',
   },
   {
-    baseUri: 'Sports',
     uri: 'dmoz/Sports',
   },
 ]
@@ -339,7 +348,5 @@ module.exports = {
   sampleSources,
   sampleArticles,
   sampleCategories,
+  sampleSubcategories,
 }
-
-
-
