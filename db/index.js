@@ -19,9 +19,8 @@ const Event = sequelize.define('Event', {
     type: Sequelize.STRING,
   },
   summary: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
   },
-  titleSource: Sequelize.STRING,
   date: Sequelize.STRING
 });
 
@@ -60,12 +59,15 @@ const Source = sequelize.define('Source', {
 });
 
 const Category = sequelize.define('Category', {
+  name: Sequelize.STRING,
+});
+
+const Subcategory = sequelize.define('Subcategory', {
   uri: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },
-  baseUri: Sequelize.STRING
 });
 
 Event.hasMany(Article);
@@ -77,14 +79,11 @@ Article.belongsTo(Source);
 Concept.belongsToMany(Event, {through: 'EventConcept'});
 Event.belongsToMany(Concept, {through: 'EventConcept'});
 
-Concept.belongsToMany(Article, {through: 'ArticleConcept'});
-Article.belongsToMany(Concept, {through: 'ArticleConcept'});
+Subcategory.belongsToMany(Event, {through: 'EventSubcategory'});
+Event.belongsToMany(Subcategory, {through: 'EventSubcategory'});
 
-Category.belongsToMany(Event, {through: 'EventCategory'});
-Event.belongsToMany(Category, {through: 'EventCategory'});
-
-Category.belongsToMany(Article, {through: 'ArticleCategory'});
-Article.belongsToMany(Category, {through: 'ArticleCategory'});
+Category.hasMany(Subcategory);
+Subcategory.belongsTo(Category);
 
 //HELPER FUNCTIONS FOR TESTING
 
@@ -105,16 +104,17 @@ const getEventsWithArticles = async (baseCategory) => {
 
 ///// USE THIS TO SEED DB ///////
 
-// sequelize.sync({ force: true }).then(async () => {
 // sequelize.sync({ force: true }).then(() => { console.log('db synced')});
 
+// sequelize.sync({ force: true }).then(async () => {
 //   const events = await Event.bulkCreate(seed.sampleEvents);
 //   const sources = await Source.bulkCreate(seed.sampleSources);
 //   const articles = await Article.bulkCreate(seed.sampleArticles);
 //   const categories = await Category.bulkCreate(seed.sampleCategories);
-//
-//   //associate articles with news outlets
-//
+//   const subcategories = await Subcategory.bulkCreate(seed.sampleSubcategories);
+
+//   // associate articles with news outlets
+
 //   await sources[0].addArticle(articles[0]);
 //   await sources[0].addArticle(articles[7]);
 //   await sources[1].addArticle(articles[1]);
@@ -130,7 +130,7 @@ const getEventsWithArticles = async (baseCategory) => {
 //   await sources[6].addArticle(articles[6]);
 //   await sources[6].addArticle(articles[13]);
 
-//   //associate articles with first sample event
+//   // associate articles with first sample event
 //   await events[0].addArticle(articles[0]);
 //   await events[0].addArticle(articles[1]);
 //   await events[0].addArticle(articles[2]);
@@ -147,10 +147,14 @@ const getEventsWithArticles = async (baseCategory) => {
 //   await events[1].addArticle(articles[11]);
 //   await events[1].addArticle(articles[12]);
 //   await events[1].addArticle(articles[13]);
-//
+
+//   // category event with subcategory
+//   await categories[0].addSubcategory(subcategories[0]);
+//   await categories[1].addSubcategory(subcategories[1]);
+
 //   // associate event with category
-//   await events[0].addCategory(categories[0]);
-//   await events[1].addCategory(categories[1]);
+//   await events[0].addSubcategory(subcategories[0]);
+//   await events[1].addSubcategory(subcategories[1]);
 // });
 
 /////////////////////////////
