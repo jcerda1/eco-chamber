@@ -3,11 +3,11 @@ import React from 'react';
 
 const Events = (props) => {
   return (
-    <div className="events-container">
+    <ul className="events-container">
       {props.events}
-    </div>
+    </ul>
   )
 }
  
 
-export default Events;   
+export default Events;    
