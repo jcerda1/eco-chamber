@@ -96,68 +96,98 @@ describe('formatCategory', function() {
 });
 
 describe('buildSaveEvent', function() {
-  beforeAll(() => {
+  beforeEach(() => {
     // Clears the database 
     // Jest will wait for this promise to resolve before running tests.
     return clearDB();
   });
 
   it('should save a formatted event if it doesn\'t already exist in the database', async function(done) {
-    expect.assertions(3);
+    expect.assertions(4);
 
     const before = await Event.find({where:{uri:testEvents[0].uri}});
-
     expect(before).not.toBeTruthy();
 
     await buildSaveEvent(testEvents[0]);
     
-    const after = await Event.find({where:{uri:testEvents[0].uri}});
+    const after = await Event.find({where:{}});
     expect(after).toBeTruthy();
+    expect(after.dataValues.uri).toEqual(testEvents[0].uri);
     expect(after._options.isNewRecord).toBe(false);
     done();
   });
 
   it('should retrieve a matching event if it is already in the database', async function(done) {
+    expect.assertions(3);
+    let id;
+
+    const before = await Event.find({where:{}});
+    expect(before).not.toBeTruthy();
+    
+    await buildSaveEvent(testEvents[4]);
+   
+    await Event.find({where:{}}).then(event => {
+      expect(event).toBeTruthy();
+      id = event.id;
+    });  
+    
+    const buildSaveAfterCreate = await buildSaveEvent(testEvents[4]);
+    expect(buildSaveAfterCreate.dataValues.id).toEqual(id);
+    done();
+  });
+
+  it('should not save the event if event has no uri', async function(done) {
     expect.assertions(2);
 
-    await buildSaveEvent(testEvents[4]);
+    const badEvent = {
+      title: 'bad event',
+      summary: 'fail fail all the live long day'
+    };
 
-    const afterCreate = await Event.find({where:{uri:testEvents[4].uri}});
-    expect(afterCreate).toBeTruthy();
+    const event= await buildSaveEvent(badEvent);
+    expect(event).not.toBeTruthy();
 
-    const buildSaveAfterCreate = await buildSaveEvent(testEvents[4]);
-    expect(afterCreate.dataValues).toEqual(buildSaveAfterCreate.dataValues);
+    const allEvent = await Event.findAll({});
+    expect(allEvent.length).toEqual(0);
+
     done();
   });
 });
 
-// describe('buildSaveConceptOrCategory', function() {
-//   beforeAll(() => {
-//     return clearDB();
-//   });
+xdescribe('buildSaveConceptOrCategory', function() {
+  beforeEach(() => {
+    return clearDB();
+  });
 
-//   it('should save a formatted concept if it doesn\'t already exist in the database', async function(done) {
+  it('should save a formatted concept if it doesn\'t already exist in the database', async function(done) {
 
-//   });
+  });
 
-//   it('should retrieve a matching concept if it is already in the database', async function(done) {
+  it('should retrieve a matching concept if it is already in the database', async function(done) {
 
-//   });
+  });
 
-//   it('should save a formatted category if it doesn\'t already exist in the database', async function(done) {
+  it('should save a formatted category if it doesn\'t already exist in the database', async function(done) {
 
-//   });
+  });
 
-//   it('should retrieve a matching category if it is already in the database', async function(done) {
+  it('should retrieve a matching category if it is already in the database', async function(done) {
 
-//   });
+  });
 
-//   it('should accept a category with a non-english char in the uri', async function(done) {
+  it('should accept a category with a non-english char in the uri', async function(done) {
 
-//   });
+  });
 
-//   it('should accept a concept with a non-english char in the uri', async function(done) {
+  it('should accept a concept with a non-english char in the uri', async function(done) {
 
-//   });
+  });
 
-// });
+});
+
+xdescribe('associateConceptsOrCategories', function() {
+  beforeEach(() => {
+    return clearDB();
+  });
+
+});
