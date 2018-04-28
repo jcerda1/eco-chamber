@@ -90,14 +90,13 @@ Article.belongsToMany(Category, {through: 'ArticleCategory'});
 //HELPER FUNCTIONS FOR TESTING
 
 const clearDB = () => {
-  return sequelize.sync({force: true}).then(() => console.log('DB cleared'));
+  return sequelize.sync({force: true});
 };
 
 const clearTable = (tableName) => {
   return  tableName.destroy({
-    where: {},
-    truncate: true
-  }).then(() => console.log("table cleared"));
+    where: {}
+  });
 };
 
 const getEventsWithArticles = async (baseCategory) => {
