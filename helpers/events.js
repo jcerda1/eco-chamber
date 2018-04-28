@@ -8,6 +8,7 @@ const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 const { Event, Article, Concept, Source, Category, Subcategory } = require('../db/index.js');
 
 //mock data
+const { sampleUrisObj } = require('./sampleUriList.js');
 const { testEvents } = require('../db/largeTestDataER.js');
 let uris = [];
 let uniqueEvents = [];
@@ -46,7 +47,7 @@ const categoriesAll = ['dmoz/Business','dmoz/Arts','dmoz/Computers','dmoz/Games'
 
 //our MVP seven news sources.  Use these URIs to communicate with ER
 const sourcesURI = {
-  fox: 'foxnews.com',
+  fox: new QueryItems.OR(['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com']),
   breitbart: 'breitbart.com',
   huffington: 'huffingtonpost.com',
   msnbc: 'msnbc.com',
@@ -82,9 +83,8 @@ const getEventUrisByNewsSource = (newsUri, date) => {
 
 const getEventUrisByAllSources = async (date) => {
   let uris = {};
-  let foxes = new QueryItems.OR(foxAll);
   
-  const fox = await getEventUrisByNewsSource(foxAll, date);
+  const fox = await getEventUrisByNewsSource(sourcesURI.fox, date);
   const breitbart = await getEventUrisByNewsSource(sourcesURI.breitbart, date);
   const huffington = await getEventUrisByNewsSource(sourcesURI.huffington, date);
   const msnbc = await getEventUrisByNewsSource(sourcesURI.msnbc, date);
@@ -92,20 +92,47 @@ const getEventUrisByAllSources = async (date) => {
   const ap = await getEventUrisByNewsSource(sourcesURI.ap, date);
   const times = await getEventUrisByNewsSource(sourcesURI.times, date);
 
-  uris['fox'] = fox.uriWgtList.results;
-  uris['breitbart'] = breitbart.uriWgtList.results;
-  uris['huffington'] = huffington.uriWgtList.results;
-  uris['msnbc'] = breitbart.uriWgtList.results;
-  uris['hill'] = hill.uriWgtList.results;
-  uris['ap'] = ap.uriWgtList.results;
-  uris['times'] = times.uriWgtList.results;
+  uris['fox'] = fox.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['breitbart'] = breitbart.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['huffington'] = huffington.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['msnbc'] = breitbart.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['hill'] = hill.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['ap'] = ap.uriWgtList.results.map(item => item.split(":")[0]);
+  uris['times'] = times.uriWgtList.results.map(item => item.split(":")[0]);
 
-  console.log(uris);
   return uris;
 }
 
-getEventUrisByAllSources(getDateYesterday());
+const extractReleventEvents = (urisObj) => {
+  //right
+  let fox = new Set(urisObj.fox);
+  let breitbart = new Set(urisObj.breitbart);
+  let rightAll = new Set([...fox].filter(x => breitbart.has(x)));
+  let rightAny = new Set([...fox, ...breitbart]);
+  //left
+  let huffington = new Set(urisObj.huffington);
+  let msnbc = new Set(urisObj.msnbc);
+  let leftAll = new Set([...huffington].filter(x => msnbc.has(x)));
+  let leftAny = new Set([...huffington, ...msnbc]);
+  //center
+  let ap = new Set(urisObj.ap);
+  let times = new Set(urisObj.times);
+  let hill = new Set(urisObj.hill);
+  let centerAll = new Set([...ap].filter(x => hill.has(x) && times.has(x)));
+  let centerAny = new Set([...ap, ...times, ...hill]);
 
+  //every news source has reported
+  let all = new Set([...rightAll].filter(x => leftAll.has(x) && centerAll.has(x)));
+  let english = [...all].filter(uri => uri.split('-')[0] === 'eng');
+
+  //at least one of left, right and center have reported
+  let spectrum = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
+  let spectrumEnglish = [...spectrum].filter(uri => uri.split('-')[0] === 'eng');
+
+  console.log("all english", english);
+  console.log(english.length);
+  console.log("all spectrum", spectrumEnglish);
+}
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
@@ -115,10 +142,6 @@ const getTopEvents = async (date) => {
     sourceUri: sources,
     dateStart: date,
     sortBy: 'size',
-    // eventBatchSize: 50,
-    // maxItems: 10,
-    // minArticlesInEvent: 10,
-    // lang: "eng",
   });
 
   q.execQuery(async (events) => {
