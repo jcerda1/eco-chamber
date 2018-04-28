@@ -7,6 +7,7 @@ import { get } from './helpers/api';
 
 class App extends Component {
   constructor(props) { 
+
     super(props);
     this.state = { 
       // articles: sampleSources.sampleArticles, 
@@ -21,6 +22,16 @@ class App extends Component {
     // get('/sources', { eventId: 1 }).then(sources => console.log(sources));
   }
 
+  super(props);
+  this.state = { 
+    articles: sampleSources.sampleArticles, 
+    events: sampleSources.sampleEvents,
+    sources: sampleSources.sampleSources,
+    categories: sampleSources.sampleCategories
+  } 
+}
+
+
   render() {  
     return (
       <div className="onboarding">
@@ -28,7 +39,7 @@ class App extends Component {
         <Main state={this.state}/>
       </div>
     )  
-  }; 
+  };  
 }
 
 export default App;
