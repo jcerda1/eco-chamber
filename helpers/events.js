@@ -1,7 +1,7 @@
 const util = require('util');
 
 //event registry API
-const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents } = require('eventregistry');
+const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents, RequestEventsUriWgtList } = require('eventregistry');
 const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 
 //db models
@@ -57,6 +57,8 @@ const sourcesURI = {
 
 //in list format for certain API calls
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
+const foxAll = ['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com'];
+
 
 //once every 24 hours, get the top twenty events for all our 10 categories.
 const getAllTopTen = async () => {
@@ -64,6 +66,46 @@ const getAllTopTen = async () => {
     await getTopTenEvents(category, getDateYesterday());
   }
 };
+
+//get lists of events by individual news sources
+
+const getEventUrisByNewsSource = (newsUri, date) => {
+  const q = new QueryEvents({
+        sourceUri: newsUri,
+        dateStart: date,
+    });
+  
+    const requestEventsUriList = new RequestEventsUriWgtList();
+    q.setRequestedResult(requestEventsUriList);
+    return er.execQuery(q); // execute the query and return the promise
+}
+
+const getEventUrisByAllSources = async (date) => {
+  let uris = {};
+  let foxes = new QueryItems.OR(foxAll);
+  
+  const fox = await getEventUrisByNewsSource(foxAll, date);
+  const breitbart = await getEventUrisByNewsSource(sourcesURI.breitbart, date);
+  const huffington = await getEventUrisByNewsSource(sourcesURI.huffington, date);
+  const msnbc = await getEventUrisByNewsSource(sourcesURI.msnbc, date);
+  const hill = await getEventUrisByNewsSource(sourcesURI.hill, date);
+  const ap = await getEventUrisByNewsSource(sourcesURI.ap, date);
+  const times = await getEventUrisByNewsSource(sourcesURI.times, date);
+
+  uris['fox'] = fox.uriWgtList.results;
+  uris['breitbart'] = breitbart.uriWgtList.results;
+  uris['huffington'] = huffington.uriWgtList.results;
+  uris['msnbc'] = breitbart.uriWgtList.results;
+  uris['hill'] = hill.uriWgtList.results;
+  uris['ap'] = ap.uriWgtList.results;
+  uris['times'] = times.uriWgtList.results;
+
+  console.log(uris);
+  return uris;
+}
+
+getEventUrisByAllSources(getDateYesterday());
+
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
@@ -190,7 +232,6 @@ const testDataSaving = async () => {
   console.log('done');
 }
 
-// testDataSaving();
 
 module.exports = {
   testDataSaving,
