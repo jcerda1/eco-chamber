@@ -20,12 +20,11 @@ class Header extends Component {
             <Link to="/signin">Log in</Link>
           </li>
         </ul>
-        <Search/>
         </div>
       </nav>
     )
   }
-}
+} 
  
 export default Header;
  

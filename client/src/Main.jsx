@@ -11,14 +11,14 @@ import Signin from './Signin.jsx';
  
 const Main = (props) => {
  
-let categories = props.state.events.map((cat, index) => {
-  return <div key={index}><Link to='/events'>{cat.category}</Link></div>
+let categories = props.state.categories.map((cat, index) => {
+  return <div key={index}><Link to='/events'>{cat.baseUri}</Link></div>
 })
 
 let events = props.state.events.map((event, index) => {
   	return <span className="event" key={index}><Link to="/articles">{event.summary}</Link></span>
 })
-let articles = props.state.articles.map((article, index) => {
+let articles = props.state.articles.map((article, index) => { 
   	return <div key={index}>
              <div className="images">
                <img src={article.img}/>
