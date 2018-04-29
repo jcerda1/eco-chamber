@@ -163,6 +163,7 @@ body {
 .article-body {
   list-style: none;
   padding: 10px;
+  font-weight: bold;
   text-align: justify;
 }
 
