@@ -37,7 +37,8 @@ body {
 .title {
   grid-area: title;
   grid-column-start: 1;
-  color: #505050;
+  text-decoration: none;
+  color: black;
   /*border-style: solid;
   border-width: 1px;*/
   justify-self: left;
@@ -200,7 +201,6 @@ img {
   border-style: solid;
   border-width: 3px
 }
-
 
 
 
