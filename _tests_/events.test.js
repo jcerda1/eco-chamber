@@ -1,15 +1,27 @@
 //fake data
 const { testEvents } = require('../db/largeTestDataER.js');
+let uris = [];
+let uniqueEvents = [];
+
+for (let i = 0; i < testEvents.length; i++) {
+  const event  = testEvents[i];
+  if (!uris.includes(event.uri)) {
+    uniqueEvents.push(event);
+    uris.push(event.uri);
+  }
+}
+
+console.log(uniqueEvents.map(x => x.title.eng))
 
 //db models
-const { Event, Category, Concept, clearDB, clearTable } = require('../db/index.js');
+const { Event, Category, Subcategory, Concept, clearDB, clearTable } = require('../db/index.js');
 
-const { testDataSaving, associateConceptsOrCategories, buildSaveConceptOrCategory, buildSaveEvent, formatCategory,
+const { testDataSaving, associateConceptsOrSubcategories, buildSaveConcept, buildSaveSubcategory, buildSaveEvent, formatSubcategory,
   formatConcept, formatEvent, getTopEvents } = require('../helpers/events.js');
 
 describe('formatEvent', function() {
   it('should return an instance of sequelize event model', function(done) {
-    let result = formatEvent(testEvents[0]);
+    let result = formatEvent(uniqueEvents[0]);
 
     expect(result).toBeInstanceOf(Event);
     expect(result._options.isNewRecord).toBe(true);
@@ -18,7 +30,7 @@ describe('formatEvent', function() {
   });
 
   it('should have a uri category', function(done) {
-    let result = formatEvent(testEvents[2]);
+    let result = formatEvent(uniqueEvents[2]);
     
     expect(result.dataValues).toHaveProperty('uri');
     expect(typeof result.dataValues.uri).toBe('string');
@@ -27,7 +39,7 @@ describe('formatEvent', function() {
   });
 
   it('should have a title', function(done) {
-    let result = formatEvent(testEvents[4]);
+    let result = formatEvent(uniqueEvents[4]);
 
     expect(result.dataValues).toHaveProperty('title');
     expect(typeof result.dataValues.title).toBe('string');
@@ -35,7 +47,7 @@ describe('formatEvent', function() {
   });
 
   it('should ignore unnecessary data returned from Event Registry', function(done) {
-    let result = formatEvent(testEvents[0]);
+    let result = formatEvent(uniqueEvents[0]);
 
     expect(result).not.toHaveProperty('location');
     expect(result).not.toHaveProperty('categories');
@@ -46,7 +58,7 @@ describe('formatEvent', function() {
 
 describe('formatConcept', function() {
   it('should return an instance of sequelize concept model', function(done) {
-    let result = formatConcept(testEvents[0].concepts[0]);
+    let result = formatConcept(uniqueEvents[0].concepts[0]);
 
     expect(result).toBeInstanceOf(Concept);
     expect(result._options.isNewRecord).toBe(true);
@@ -55,7 +67,7 @@ describe('formatConcept', function() {
   });
 
   it('should have a uri category', function(done) {
-    let result = formatConcept(testEvents[0].concepts[0]);
+    let result = formatConcept(uniqueEvents[0].concepts[1]);
 
     expect(result.dataValues).toHaveProperty('uri');
     expect(typeof result.dataValues.uri).toBe('string');
@@ -64,18 +76,18 @@ describe('formatConcept', function() {
   });
 });
 
-describe('formatCategory', function() {
-  it('should return an instance of sequelize category model', function(done) {
-    let result = formatCategory(testEvents[0].categories[0]);
+describe('formatSubcategory', function() {
+  it('should return an instance of sequelize subcategory model', function(done) {
+    let result = formatSubcategory(uniqueEvents[0].categories[0]);
 
-    expect(result).toBeInstanceOf(Category);
+    expect(result).toBeInstanceOf(Subcategory);
     expect(result._options.isNewRecord).toBe(true);
     expect(result.dataValues).toBeTruthy();
     done();
   });
 
   it('should have a uri category', function(done) {
-    let result = formatCategory(testEvents[0].categories[0]);
+    let result = formatSubcategory(uniqueEvents[0].categories[1]);
 
     expect(result.dataValues).toHaveProperty('uri');
     expect(typeof result.dataValues.uri).toBe('string');
@@ -84,13 +96,13 @@ describe('formatCategory', function() {
     done();
   });
 
-  it('should have a baseUri category derived from the dmoz uri category', function(done) {
-    let result = formatCategory(testEvents[0].categories[0]);
-
-    expect(result.dataValues).toHaveProperty('baseUri');
-    expect(typeof result.dataValues.baseUri).toBe('string');
-    expect(result.dataValues.baseUri).not.toContain('dmoz');
-    expect(result.dataValues.baseUri).toEqual(result.dataValues.uri.split('/')[1]);
+  it('should relate to a higher level Category from the dmoz system', async function(done) {
+    let result = formatSubcategory(uniqueEvents[0].categories[2]);
+    let base = result.dataValues.uri.split('/')[1];
+    let category = await Category.find({where: {name: base}});
+  
+    expect(category.dataValues.name).not.toContain('dmoz');
+    expect(base).toEqual(category.dataValues.name);
     done();
   });
 });
@@ -105,14 +117,14 @@ describe('buildSaveEvent', function() {
   it('should save a formatted event if it doesn\'t already exist in the database', async function(done) {
     expect.assertions(4);
 
-    const before = await Event.find({where:{uri:testEvents[0].uri}});
+    const before = await Event.find({where:{uri:uniqueEvents[0].uri}});
     expect(before).not.toBeTruthy();
 
-    await buildSaveEvent(testEvents[0]);
+    await buildSaveEvent(uniqueEvents[0]);
     
     const after = await Event.find({where:{}});
     expect(after).toBeTruthy();
-    expect(after.dataValues.uri).toEqual(testEvents[0].uri);
+    expect(after.dataValues.uri).toEqual(uniqueEvents[0].uri);
     expect(after._options.isNewRecord).toBe(false);
     done();
   });
@@ -124,14 +136,14 @@ describe('buildSaveEvent', function() {
     const before = await Event.find({where:{}});
     expect(before).not.toBeTruthy();
     
-    await buildSaveEvent(testEvents[4]);
+    await buildSaveEvent(uniqueEvents[4]);
    
     await Event.find({where:{}}).then(event => {
       expect(event).toBeTruthy();
       id = event.id;
     });  
     
-    const buildSaveAfterCreate = await buildSaveEvent(testEvents[4]);
+    const buildSaveAfterCreate = await buildSaveEvent(uniqueEvents[4]);
     expect(buildSaveAfterCreate.dataValues.id).toEqual(id);
     done();
   });
@@ -148,41 +160,11 @@ describe('buildSaveEvent', function() {
     expect(event).not.toBeTruthy();
 
     const allEvent = await Event.findAll({});
+    console.log(allEvent);
     expect(allEvent.length).toEqual(0);
 
     done();
   });
-});
-
-xdescribe('buildSaveConceptOrCategory', function() {
-  beforeEach(() => {
-    return clearDB();
-  });
-
-  it('should save a formatted concept if it doesn\'t already exist in the database', async function(done) {
-
-  });
-
-  it('should retrieve a matching concept if it is already in the database', async function(done) {
-
-  });
-
-  it('should save a formatted category if it doesn\'t already exist in the database', async function(done) {
-
-  });
-
-  it('should retrieve a matching category if it is already in the database', async function(done) {
-
-  });
-
-  it('should accept a category with a non-english char in the uri', async function(done) {
-
-  });
-
-  it('should accept a concept with a non-english char in the uri', async function(done) {
-
-  });
-
 });
 
 xdescribe('associateConceptsOrCategories', function() {

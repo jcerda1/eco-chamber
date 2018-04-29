@@ -88,7 +88,9 @@ Subcategory.belongsTo(Category);
 //HELPER FUNCTIONS FOR TESTING
 
 const clearDB = () => {
-  return sequelize.sync({force: true});
+  return sequelize.sync({force: true}).then(async () => {
+    await Category.bulkCreate(seed.sampleCategories);
+  }).catch(err => console.log(err));
 };
 
 const clearTable = (tableName) => {

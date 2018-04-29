@@ -136,8 +136,8 @@ const getEventInfo = async(uriList) => {
   er.execQuery(q).then(async (events) => {
     for (const x of events.events.results) {
       await buildSaveEvent(x);
-      await associateConceptsOrSubcategories(x.categories, 'subcategory', event.uri);
-      await associateConceptsOrCategories(x.concepts, 'concept', event.uri); 
+      await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
+      await associateConceptsOrCategories(x.concepts, 'concept', x.uri); 
     }
   }).catch(err => console.log(err));
 }
@@ -159,8 +159,6 @@ const testUris = [ 'eng-3930372',
   'eng-3934872',
   'eng-3935085' ]
 
-
-getEventInfo(testUris);
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
