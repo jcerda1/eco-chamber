@@ -15,7 +15,7 @@ for (let i = 0; i < testEvents.length; i++) {
 const { Event, Category, Subcategory, Concept, clearDB, clearTable } = require('../db/index.js');
 
 const { testDataSaving, associateConceptsOrSubcategories, buildSaveConcept, buildSaveSubcategory, buildSaveEvent, formatSubcategory,
-  formatConcept, formatEvent } = require('../helpers/events.js');
+  formatConcept, formatEvent, extractReleventEvents } = require('../helpers/events.js');
 
 describe('formatEvent', function() {
   it('should return an instance of sequelize event model', function(done) {
@@ -203,9 +203,97 @@ describe('buildSaveEvent', function() {
   });
 });
 
-xdescribe('associateConceptsOrCategories', function() {
-  beforeEach(() => {
-    return clearDB();
+describe('buildSaveSubcategory', function() {
+
+});
+
+describe('associateConceptsOrSubcategories', function() {
+  beforeEach(async() => {
+    return clearDB().then(async() => {
+      const testEvent = uniqueEvents[6];
+      await buildSaveEvent(testEvent);
+      console.log('test event created');
+    }); 
   });
+
+  it('should save all concepts associated with the input event', async function(done) {
+    expect.assertions(4);
+
+    const testEvent = uniqueEvents[6]; 
+    await Event.findAll({where:{}}).then(result => {
+      expect(result.length).toBe(1);
+    });
+
+    await Concept.findAll({where:{}}).then(result => {
+      expect(result.length).toBe(0);
+    });
+
+    await associateConceptsOrSubcategories(testEvent.concepts, 'concept', testEvent.uri);
+
+    await Concept.findAll({where:{}}).then(result => {
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.length).toEqual(testEvent.concepts.length);
+    })
+
+    done();
+  });
+
+  it('should associate all concepts through EventConcept table', async function(done) {
+    expect.assertions(3);
+
+    const testConcepts = uniqueEvents[6].concepts;
+
+    const event = await Event.find({where:{}});
+    const concepts = await event.getConcepts();
+    expect(concepts.length).toBe(0);
+
+    await associateConceptsOrSubcategories(testConcepts, 'concept', uniqueEvents[6].uri);
+
+    const savedConcepts = await event.getConcepts();
+    expect(savedConcepts.length).toBeGreaterThan(0);
+    expect(savedConcepts.length).toEqual(testConcepts.length);
+    done();
+  });
+
+  it('should save all subcategories associated with the input event', async function(done) {
+    expect.assertions(4);
+
+    const testEvent = uniqueEvents[6]; 
+    await Event.findAll({where:{}}).then(result => {
+      expect(result.length).toBe(1);
+    });
+    await Subcategory.findAll({where:{}}).then(result => {
+      expect(result.length).toBe(0);
+    });
+    await associateConceptsOrSubcategories(testEvent.categories, 'subcategory', testEvent.uri);
+    await Subcategory.findAll({where:{}}).then(result => {
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.length).toEqual(testEvent.categories.length);
+    });
+    done();
+  });
+
+  it('should associate all subcategories greater than weight 50 through EventSubcategory table', async function(done) {
+    expect.assertions(3);
+
+    const testCategories = uniqueEvents[6].categories;
+    const weighted = testCategories.filter(x => x.wgt > 50);
+    const rejects = testCategories.filter(x => x.wgt <= 50);
+
+    const event = await Event.find({where:{}});
+    const subcategories = await event.getSubcategories();
+    expect(subcategories.length).toBe(0);
+
+    await associateConceptsOrSubcategories(testCategories, 'subcategory', uniqueEvents[6].uri);
+
+    const savedSubcategories = await event.getSubcategories();
+
+    expect(savedSubcategories.length).toBeGreaterThan(0);
+    expect(savedSubcategories.length).toEqual(weighted.length);
+    done();
+  });
+});
+
+xdescribe('extractReleventEvents', function() {
 
 });
