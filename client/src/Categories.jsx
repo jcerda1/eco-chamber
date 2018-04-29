@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
 
 
-const Catagories = (props) => (
+const Categories = (props) => (
   <div className="categories-container">
     {props.cat}
   </div>
@@ -13,4 +13,4 @@ const Catagories = (props) => (
 
 
 
-export default Catagories; 
+export default Categories;  

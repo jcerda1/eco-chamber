@@ -6,9 +6,7 @@ import React from 'react';
 const Articles = (props) => {
   return (
     <div className="articles-container">
-      <div className="articles">
-        {props.articles}
-      </div>
+      {props.articles}
     </div> 
   )
   

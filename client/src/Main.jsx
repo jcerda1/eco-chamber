@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
-import Catagories from './Catagories.jsx';
+import Categories from './Categories.jsx';
 import Events from './Events.jsx';
 import Articles from './Articles.jsx'
 import Signup from './Signup.jsx';
@@ -23,20 +23,18 @@ let events = props.state.events.map((event, index) => {
            </li>
 })
 let articles = props.state.articles.map((article, index) => { 
-  	return <div key={index}>
-             <div className="images">
-               <img src={article.img}/>
-             </div>
-             <div className="articles" >
+  	return <li key={index}>
+             <img src={article.img}/>
+             <div className="article-body">
                {article.description}
              </div> 
-           </div>
+           </li>
 })
 
   return (
     <main> 
       <Switch> 
-        <Route exact path='/' render={props => <Catagories {...props} cat={categories}/>}></Route> 
+        <Route exact path='/' render={props => <Categories {...props} cat={categories}/>}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
         <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 
