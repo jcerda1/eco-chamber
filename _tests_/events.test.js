@@ -77,7 +77,7 @@ describe('formatConcept', function() {
 describe('formatSubcategory', function() {
 
   beforeEach(() => {
-    return clearDB().then(() => console.log('db cleared in formatSubcategory test'));
+    return clearDB();
   })
   it('should return an instance of sequelize subcategory model', function(done) {
     let result = formatSubcategory(uniqueEvents[0].categories[0]);
@@ -148,7 +148,7 @@ describe('buildSaveEvent', function() {
   beforeEach(() => {
     // Clears the database 
     // Jest will wait for this promise to resolve before running tests.
-    return clearDB().then(() => console.log('db cleared and Categories created in buildSaveEvent tests'));
+    return clearDB();
   });
 
   it('should save a formatted event if it doesn\'t already exist in the database', async function(done) {
@@ -197,7 +197,6 @@ describe('buildSaveEvent', function() {
     expect(event).not.toBeTruthy();
 
     const allEvent = await Event.findAll({});
-    console.log(allEvent);
     expect(allEvent.length).toEqual(0);
 
     done();
