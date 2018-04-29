@@ -118,7 +118,6 @@ describe('buildSaveConcept', function() {
     expect.assertions(3);
 
     const test = uniqueEvents[4].concepts[0];
-    console.log(test);
     const before = await Concept.findAll({where: {}});
     expect(before.length).toEqual(0);
 
@@ -131,20 +130,18 @@ describe('buildSaveConcept', function() {
   });
 
   it('should save concepts whose uri contains nonenglish chars', async function(done) {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const test = uniqueEvents[5].concepts[0];
-
     const saved = await buildSaveConcept(test);
     expect(saved).toBeTruthy();
 
     const found = await Concept.find({where: {uri: test.uri}});
     expect(found).toBeTruthy();
     expect(found.dataValues.uri).toEqual(test.uri);
+    expect(found.dataValues.uri).toContain('ć');
     done();
-
   });
-
 });
 
 describe('buildSaveEvent', function() {
