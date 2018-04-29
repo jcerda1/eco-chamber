@@ -11,8 +11,6 @@ for (let i = 0; i < testEvents.length; i++) {
   }
 }
 
-console.log(uniqueEvents.map(x => x.title.eng))
-
 //db models
 const { Event, Category, Subcategory, Concept, clearDB, clearTable } = require('../db/index.js');
 
@@ -111,7 +109,7 @@ describe('buildSaveEvent', function() {
   beforeEach(() => {
     // Clears the database 
     // Jest will wait for this promise to resolve before running tests.
-    return clearDB();
+    return clearDB().then(() => console.log('db cleared and Categories created'));
   });
 
   it('should save a formatted event if it doesn\'t already exist in the database', async function(done) {
