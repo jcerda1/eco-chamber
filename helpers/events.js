@@ -123,14 +123,14 @@ const extractReleventEvents = (urisObj) => {
   let centerAny = new Set([...ap, ...times, ...hill]);
 
   //all 7 sources have reported
-  let all = new Set([...rightAll].filter(x => leftAll.has(x) && centerAll.has(x)));
-  let english = [...all].filter(uri => uri.split('-')[0] === 'eng');
+  let allLangs = new Set([...rightAll].filter(x => leftAll.has(x) && centerAll.has(x)));
+  let all = [...allLangs].filter(uri => uri.split('-')[0] === 'eng');
 
   //at least one of left, right and center have reported
-  let spectrum = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
-  let spectrumEnglish = [...spectrum].filter(uri => uri.split('-')[0] === 'eng');
+  let spectrumLangs = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
+  let spectrum = [...spectrumLangs].filter(uri => uri.split('-')[0] === 'eng');
 
-  return {all: english, spectrum: spectrumEnglish};
+  return { rightAll, rightAny, leftAll, leftAny, centerAll, centerAny, all, spectrum };
 };
 
 

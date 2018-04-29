@@ -1,4 +1,5 @@
 //fake data
+const { sampleUrisObj } = require('../helpers/sampleUriList.js');
 const { testEvents } = require('../db/largeTestDataER.js');
 let uris = [];
 let uniqueEvents = [];
@@ -268,7 +269,6 @@ describe('associateConceptsOrSubcategories', function() {
     return clearDB().then(async() => {
       const testEvent = uniqueEvents[6];
       await buildSaveEvent(testEvent);
-      console.log('test event created');
     }); 
   });
 
@@ -350,6 +350,46 @@ describe('associateConceptsOrSubcategories', function() {
   });
 });
 
-xdescribe('extractReleventEvents', function() {
+describe('extractReleventEvents', function() {
 
+  it('given an object of uris by news source, should return properties related to the policital spectrum', function(done) { 
+  
+    const uris = extractReleventEvents(sampleUrisObj);
+ 
+    expect(uris).toHaveProperty('rightAll');
+    expect(uris).toHaveProperty('rightAny');
+    expect(uris).toHaveProperty('leftAll');
+    expect(uris).toHaveProperty('leftAny');
+    expect(uris).toHaveProperty('centerAll');
+    expect(uris).toHaveProperty('centerAny');
+    expect(uris).toHaveProperty('all');
+    expect(uris).toHaveProperty('spectrum');
+    done();
+  });
+
+  it('should return subsets of the original uris', function(done) {
+    const uris = extractReleventEvents(sampleUrisObj);
+    const concat = sampleUrisObj.fox.concat(sampleUrisObj.breitbart);
+    const subsets = uris.rightAll;
+
+    expect(subsets).toBeInstanceOf(Set);
+    expect([...subsets].length).toBeLessThan(concat.length);
+    done();
+  });
+
+  it('should return events that have been reported on by right, middle and center', function(done) {
+    const uris = extractReleventEvents(sampleUrisObj);
+    const spectrum = [...uris.spectrum];
+    const right = sampleUrisObj.fox.concat(sampleUrisObj.breitbart);
+    const left = sampleUrisObj.huffington.concat(sampleUrisObj.msnbc);
+    const center = sampleUrisObj.ap.concat(sampleUrisObj.times.concat(sampleUrisObj.hill));
+
+    for (const uri of spectrum) {
+      expect(right).toContain(uri);
+      expect(left).toContain(uri);
+      expect(center).toContain(uri);
+    }
+
+    done();
+  });
 });
