@@ -12,12 +12,12 @@ import Signin from './Signin.jsx';
 const Main = (props) => {
  
 let categories = props.state.categories.map((cat, index) => {
-  return <div key={index}><Link to='/events'>{cat.baseUri}</Link></div>
+  return <Link to='/events'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.baseUri}</div></Link>
 })
 
 let events = props.state.events.map((event, index) => {
   	return <li>
-             <Link to="/articles"><h2 className="li-header">{event.title}</h2></Link>
+             <Link to="/articles" style={{"text-decoration": "none", "color": "black"}}><h2 className="li-header">{event.title}</h2></Link>
              <div className="body"><p>{event.summary}</p></div>
              <div className="source"><p>{event.category}</p></div>
            </li>
