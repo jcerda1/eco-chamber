@@ -6,7 +6,7 @@ import Articles from './Articles.jsx'
 import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';  
 
-
+ 
 
  
 const Main = (props) => {
@@ -34,7 +34,7 @@ let articles = props.state.articles.map((article, index) => {
   return (
     <main> 
       <Switch> 
-        <Route exact path='/' render={props => <Categories {...props} cat={categories}/>}></Route> 
+        <Route exact path='/' render={props => <Categories {...props} events={events} cat={categories}/>}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
         <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 

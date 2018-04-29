@@ -5,9 +5,9 @@ import React from 'react';
 
 const Articles = (props) => {
   return (
-    <div className="articles-container">
+    <ul className="articles-container">
       {props.articles}
-    </div> 
+    </ul> 
   )
   
 }
