@@ -104,7 +104,10 @@ const getEventsWithArticles = async (baseCategory) => {
 
 ///// USE THIS TO SEED DB ///////
 
-// sequelize.sync({ force: true }).then(() => { console.log('db synced')});
+// sequelize.sync({ force: true }).then(async () => {
+//   const categories = await Category.bulkCreate(seed.sampleCategories);
+//   console.log('synced');
+// });
 
 // sequelize.sync({ force: true }).then(async () => {
 //   const events = await Event.bulkCreate(seed.sampleEvents);
@@ -165,6 +168,7 @@ module.exports = {
   Concept,
   Source,
   Category,
+  Subcategory,
   clearTable,
   clearDB
 };

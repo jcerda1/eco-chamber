@@ -5,10 +5,20 @@ const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents } = 
 const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 
 //db models
-const { Event, Article, Concept, Source, Category } = require('../db/index.js');
+const { Event, Article, Concept, Source, Category, Subcategory } = require('../db/index.js');
 
 //mock data
 const { testEvents } = require('../db/largeTestDataER.js');
+let uris = [];
+let uniqueEvents = [];
+
+for (let i = 0; i < testEvents.length; i++) {
+  const event  = testEvents[i];
+  if (!uris.includes(event.uri)) {
+    uniqueEvents.push(event);
+    uris.push(event.uri);
+  }
+}
 
 //helper functions to format dates for API
 const moment = require('moment');
@@ -53,7 +63,7 @@ const getAllTopTen = async () => {
   for (const category of categoriesURI) {
     await getTopTenEvents(category, getDateYesterday());
   }
-}
+};
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
@@ -77,8 +87,8 @@ const getTopEvents = async (date) => {
       } else {
         if (event.totalArticleCount > 10) {
           await buildSaveEvent(event);
-          await associateConceptsOrCategories(event.categories, 'category', event.uri);
-          await associateConceptsOrCategories(event.concepts, 'concept', event.uri); 
+          await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
+          await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri); 
         } else {
           console.log('This event is not large enough to save');
         }       
@@ -86,7 +96,7 @@ const getTopEvents = async (date) => {
     }
   }, () => console.log('Events saved'))
   .catch(err => console.log(err));
-}
+};
 
 //format instances to conform to DB models
 const formatEvent = (event) => {
@@ -96,21 +106,20 @@ const formatEvent = (event) => {
     title: event.title.eng || event.title || "",
     summary: event.summary.eng || event.summary || ""
   });
-}
+};
 
 const formatConcept = (concept) => {
   return Concept.build({
     uri: concept.uri,
     type: concept.type
   }); 
-}
+};
 
-const formatCategory = (category) => {
-  return Category.build({
-    uri: category.uri,
-    baseUri: category.uri.split('/')[1]
+const formatSubcategory = (subcategory) => {
+  return Subcategory.build({
+    uri: subcategory.uri,
   }); 
-}
+};
 
 //save events in DB, and send message info to queue to be processed for retrieving articles
 const buildSaveEvent = async (event) => {
@@ -130,35 +139,38 @@ const buildSaveEvent = async (event) => {
   }).catch(err => console.log(err));
 };
 
-//helper function to save concept or category in DB
-const buildSaveConceptOrCategory = (obj, type) => {
-  let formatted = type === 'concept'? formatConcept(obj) : formatCategory(obj);
-  let model = type === 'concept'? Concept : Category;
-
-  return model.find({where: {uri: obj.uri}}).then(result => {
-      if (result === null) {
-        formatted.save().then(saved => {
-          return saved;
-        }).catch(err => console.log(err));
-      } else {
-        return result;
+const buildSaveSubcategory = ({ uri }) => {
+  return Subcategory.findOrCreate({ where: { uri } })
+    .spread((newSubcategory, created) => {
+      if (created) {
+        const name = newSubcategory.uri.split('/')[1];
+        Category.findOne({ where: { name } })
+          .then(category => category.addSubcategory(newSubcategory));
       }
-  }).catch(err => console.log(err));
+
+      return newSubcategory;
+    });
+};
+
+//helper function to save concept or category in DB
+const buildSaveConcept = (concept) => {
+  return Concept.findOrCreate({ where: { uri: concept.uri } })
+    .spread((newConcept, created) => newConcept);
 }
 
 // save arrays of either concepts or categories and associate each one with the event
-const associateConceptsOrCategories = async (conceptsOrCategories, type, eventUri) => {
+const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
   const event = await Event.find({where: { uri: eventUri }});
 
   if (event) {
-    for (const item of conceptsOrCategories) {
-      let saved = await buildSaveConceptOrCategory(item, type);
-
+    for (const item of conceptsOrSubcategories) {
       if (type === 'concept') {
+        const saved = await buildSaveConcept(item);
         await event.addConcept(saved).catch(err => console.log(err));
-      } else if (type === 'category') {
+      } else if (type === 'subcategory') {
+        const saved = await buildSaveSubcategory(item);
         if (item.wgt > 50) {
-          await event.addCategory(saved).catch(err => console.log(err));
+          await event.addSubcategory(saved).catch(err => console.log(err));
         }       
       }
     }
@@ -169,22 +181,25 @@ const associateConceptsOrCategories = async (conceptsOrCategories, type, eventUr
 
 //test function to save many events from mock data
 const testDataSaving = async () => {
-
-  for (const event of testEvents) {
+  for (const event of uniqueEvents) {
     await buildSaveEvent(event); 
-    await associateConceptsOrCategories(event.concepts, 'concept', event.uri);
-    await associateConceptsOrCategories(event.categories, 'category', event.uri);
-  }  
+    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
+    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
+  }
+
   console.log('done');
 }
 
+// testDataSaving();
+
 module.exports = {
   testDataSaving,
-  associateConceptsOrCategories,
-  buildSaveConceptOrCategory,
+  associateConceptsOrSubcategories,
+  buildSaveConcept,
+  buildSaveSubcategory,
   buildSaveEvent,
-  formatCategory,
+  formatSubcategory,
   formatConcept,
   formatEvent,
-  getTopEvents
+  getTopEvents,
 }
