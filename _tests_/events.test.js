@@ -17,7 +17,7 @@ console.log(uniqueEvents.map(x => x.title.eng))
 const { Event, Category, Subcategory, Concept, clearDB, clearTable } = require('../db/index.js');
 
 const { testDataSaving, associateConceptsOrSubcategories, buildSaveConcept, buildSaveSubcategory, buildSaveEvent, formatSubcategory,
-  formatConcept, formatEvent, getTopEvents } = require('../helpers/events.js');
+  formatConcept, formatEvent } = require('../helpers/events.js');
 
 describe('formatEvent', function() {
   it('should return an instance of sequelize event model', function(done) {
