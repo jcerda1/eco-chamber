@@ -41,9 +41,6 @@ const categoriesURI = {
   society: 'dmoz/Society',
   sports: 'dmoz/Sports'
 };
-//in list format for certain API calls
-const categoriesAll = ['dmoz/Business','dmoz/Arts','dmoz/Computers','dmoz/Games', 'dmoz/Health', 'dmoz/Home', 'dmoz/Recreation','dmoz/Reference',
-  'dmoz/Science','dmoz/Shopping','dmoz/Society','dmoz/Sports'];
 
 //our MVP seven news sources.  Use these URIs to communicate with ER
 const sourcesURI = {
@@ -55,21 +52,11 @@ const sourcesURI = {
   ap: 'hosted.ap.org',
   times: 'nytimes.com'
 };
-
 //in list format for certain API calls
 const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
 const foxAll = ['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com'];
 
-
-//once every 24 hours, get the top twenty events for all our 10 categories.
-const getAllTopTen = async () => {
-  for (const category of categoriesURI) {
-    await getTopTenEvents(category, getDateYesterday());
-  }
-};
-
-//get lists of events by individual news sources
-
+//get lists of event uris by individual news sources
 const getEventUrisByNewsSource = (newsUri, date) => {
   const q = new QueryEvents({
         sourceUri: newsUri,
@@ -79,8 +66,9 @@ const getEventUrisByNewsSource = (newsUri, date) => {
     const requestEventsUriList = new RequestEventsUriWgtList();
     q.setRequestedResult(requestEventsUriList);
     return er.execQuery(q); // execute the query and return the promise
-}
+};
 
+//get all the uris for all 7 of our MVP news sources
 const getEventUrisByAllSources = async (date) => {
   let uris = {};
   
@@ -103,25 +91,34 @@ const getEventUrisByAllSources = async (date) => {
   return uris;
 }
 
+//get the uris that are shared between news outlets
 const extractReleventEvents = (urisObj) => {
   //right
   let fox = new Set(urisObj.fox);
   let breitbart = new Set(urisObj.breitbart);
+  //both outlets have reported
   let rightAll = new Set([...fox].filter(x => breitbart.has(x)));
+  //at least one outlet has reported
   let rightAny = new Set([...fox, ...breitbart]);
+
   //left
   let huffington = new Set(urisObj.huffington);
   let msnbc = new Set(urisObj.msnbc);
+  //both outlets have reported
   let leftAll = new Set([...huffington].filter(x => msnbc.has(x)));
+  //at least one outlet has reported
   let leftAny = new Set([...huffington, ...msnbc]);
+
   //center
   let ap = new Set(urisObj.ap);
   let times = new Set(urisObj.times);
   let hill = new Set(urisObj.hill);
+  //all outlets have reported
   let centerAll = new Set([...ap].filter(x => hill.has(x) && times.has(x)));
+  //at least one outlet has reported
   let centerAny = new Set([...ap, ...times, ...hill]);
 
-  //every news source has reported
+  //all 7 sources have reported
   let all = new Set([...rightAll].filter(x => leftAll.has(x) && centerAll.has(x)));
   let english = [...all].filter(uri => uri.split('-')[0] === 'eng');
 
@@ -129,10 +126,41 @@ const extractReleventEvents = (urisObj) => {
   let spectrum = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
   let spectrumEnglish = [...spectrum].filter(uri => uri.split('-')[0] === 'eng');
 
-  console.log("all english", english);
-  console.log(english.length);
-  console.log("all spectrum", spectrumEnglish);
+  return {all: english, spectrum: spectrumEnglish};
+};
+
+
+//helper function to retrive detailed event info by event uri list
+const getEventInfo = async(uriList) => {
+  const q = new QueryEventsIter.initWithEventUriList(uriList);
+  er.execQuery(q).then(async (events) => {
+    for (const x of events.events.results) {
+      await buildSaveEvent(x);
+      await associateConceptsOrSubcategories(x.categories, 'subcategory', event.uri);
+      await associateConceptsOrCategories(x.concepts, 'concept', event.uri); 
+    }
+  }).catch(err => console.log(err));
 }
+
+const testUris = [ 'eng-3930372',
+  'eng-3935597',
+  'eng-3933940',
+  'eng-3932941',
+  'eng-3932823',
+  'eng-3934188',
+  'eng-3933294',
+  'eng-3936137',
+  'eng-3934190',
+  'eng-3933704',
+  'eng-3935404',
+  'eng-3934355',
+  'eng-3933761',
+  'eng-3935589',
+  'eng-3934872',
+  'eng-3935085' ]
+
+
+getEventInfo(testUris);
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
@@ -162,6 +190,7 @@ const getTopEvents = async (date) => {
   }, () => console.log('Events saved'))
   .catch(err => console.log(err));
 };
+
 
 //format instances to conform to DB models
 const formatEvent = (event) => {
@@ -254,7 +283,6 @@ const testDataSaving = async () => {
 
   console.log('done');
 }
-
 
 module.exports = {
   testDataSaving,
