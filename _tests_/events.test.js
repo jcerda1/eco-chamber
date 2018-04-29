@@ -204,7 +204,63 @@ describe('buildSaveEvent', function() {
 });
 
 describe('buildSaveSubcategory', function() {
+  beforeEach(() => {
+    return clearDB().then(async() => await buildSaveEvent(uniqueEvents[9]));
+  });
 
+  it('should save a subcategory if it is not already in the db', async function(done) {
+    expect.assertions(4);
+
+    const testCategories = uniqueEvents[9].categories;
+    const before = await Subcategory.find({where:{}});
+    expect(before).not.toBeTruthy();
+
+    await buildSaveSubcategory(testCategories[0]);
+    
+    const after = await Subcategory.find({where:{}});
+    expect(after).toBeTruthy();
+    expect(after.dataValues.uri).toEqual(testCategories[0].uri);
+    expect(after._options.isNewRecord).toBe(false);
+    done();
+  });
+
+  it('should retrieve a subcategory if it is already in the db', async function(done) {
+    expect.assertions(3);
+    const testCategories = uniqueEvents[9].categories;
+    let id;
+
+    const before = await Subcategory.find({where:{}});
+    expect(before).not.toBeTruthy();
+    
+    await buildSaveSubcategory(testCategories[0]);
+   
+    await Subcategory.find({where:{}}).then(x => {
+      expect(x).toBeTruthy();
+      id = x.id;
+    });  
+    
+    const buildSaveAfterCreate = await buildSaveSubcategory(testCategories[0]);
+    expect(buildSaveAfterCreate.dataValues.id).toEqual(id);
+    done();
+  });
+
+  it('should associate each subcategory with its higher level dmoz Category', async function(done) {
+    expect.assertions(4);
+    const testCategories = uniqueEvents[9].categories;
+
+    const saved = await buildSaveSubcategory(testCategories[0]);
+    const name = saved.dataValues.uri.split('/')[1];
+
+    const category = await Category.find({where:{name}});
+    const sub = await Subcategory.find({where:{uri:testCategories[0].uri}});
+    expect(category).toBeTruthy();
+    expect(sub).toBeTruthy();
+    
+    const subs = await category.getSubcategories();
+    expect(subs.length).toBe(1);
+    expect(subs[0].dataValues.uri).toEqual(saved.dataValues.uri);   
+    done();
+  });
 });
 
 describe('associateConceptsOrSubcategories', function() {
