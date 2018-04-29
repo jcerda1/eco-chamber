@@ -17,17 +17,17 @@ let categories = props.state.categories.map((cat, index) => {
 
 let events = props.state.events.map((event, index) => {
   	return <li>
-             <Link to="/articles"><h2 className="li-header">{index + 1}</h2></Link>
+             <Link to="/articles"><h2 className="li-header">{event.title}</h2></Link>
              <div className="body"><p>{event.summary}</p></div>
              <div className="source"><p>{event.category}</p></div>
            </li>
 })
 let articles = props.state.articles.map((article, index) => { 
   	return <li key={index}>
-             <img src={article.img}/>
-             <div className="article-body">
-               {article.description}
-             </div> 
+             <div className="article-img"><img  src={article.img}/></div>
+             <ul className="article-body">
+               <li>{article.title}</li>
+             </ul> 
            </li>
 })
 
