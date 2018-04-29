@@ -109,6 +109,44 @@ describe('formatSubcategory', function() {
   });
 });
 
+describe('buildSaveConcept', function() {
+  beforeEach(() => {
+    return clearDB();
+  });
+
+  it('should save a formatted concept if it does not exist in DB', async function(done) {
+    expect.assertions(3);
+
+    const test = uniqueEvents[4].concepts[0];
+    console.log(test);
+    const before = await Concept.findAll({where: {}});
+    expect(before.length).toEqual(0);
+
+    await buildSaveConcept(test);
+
+    const after = await Concept.find({where:{uri: test.uri}});
+    expect(after).toBeTruthy();
+    expect(after.dataValues.uri).toEqual(test.uri);
+    done();
+  });
+
+  it('should save concepts whose uri contains nonenglish chars', async function(done) {
+    expect.assertions(3)
+
+    const test = uniqueEvents[5].concepts[0];
+
+    const saved = await buildSaveConcept(test);
+    expect(saved).toBeTruthy();
+
+    const found = await Concept.find({where: {uri: test.uri}});
+    expect(found).toBeTruthy();
+    expect(found.dataValues.uri).toEqual(test.uri);
+    done();
+
+  });
+
+});
+
 describe('buildSaveEvent', function() {
   beforeEach(() => {
     // Clears the database 
