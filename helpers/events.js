@@ -23,8 +23,12 @@ for (let i = 0; i < testEvents.length; i++) {
 
 //helper functions to format dates for API
 const moment = require('moment');
-const getDateToday = () => moment().format('YYYY-MM-DD');
-const getDateYesterday = () => moment().subtract(1, 'day').format('YYYY-MM-DD');
+
+const getDate = (daysAgo) => {
+  daysAgo 
+    ? moment().subtract(daysAgo, 'day').format('YYYY-MM-DD') 
+    : moment().format('YYYY-MM-DD');
+};
 
 //our top 10 categories.  Use these URIs to communicated with ER
 const categoriesURI = { 
@@ -292,4 +296,5 @@ module.exports = {
   formatConcept,
   formatEvent,
   getTopEvents,
+  extractReleventEvents,
 }
