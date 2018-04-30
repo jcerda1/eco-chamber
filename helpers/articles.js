@@ -56,7 +56,7 @@ const getArticlesByEventUri = async (eventUri) => {
 
   return iter.execQuery(async (articles) => {
     for (const article of articles) {
-      console.log(util.inspect(article, {showHidden: false, depth: null}));
+      // console.log(util.inspect(article, {showHidden: false, depth: null}));
       await buildSaveArticle(article, eventUri); 
     }
   }, () => {
@@ -64,8 +64,6 @@ const getArticlesByEventUri = async (eventUri) => {
     console.log('articles saved');
   }).catch(err => console.log(err));
 };
-
-getArticlesByEventUri(eventUriList[1]);
 
 const formatArticle = (article) => {
   return Article.build({
@@ -98,29 +96,37 @@ const calculateBias = (sourceTitle) => {
 const buildSaveArticle = async (article) => {
   let formatted = await formatArticle(article);
   let event = await Event.find({where: {uri: article.eventUri}});
-  //let source = await extractFormatSource(article);
   let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
   let savedArticle;
 
+  if (!source) {
+    source = await extractFormatSource(article);
+    source.save().then(saved => console.log('saved source: ' + saved.dataValues.uri));
+  }
 
-  Article.find({where: {uri: article.uri}}).then( async result => {
-    savedArticle = result ? result : await formatted.save();
-    
+  await Article.find({where: {uri: article.uri}}).then(async result => {
+    if (result) {
+      savedArticle = result;
+    } else {
+      savedArticle = await formatted.save();
+    }  
     if (event) {
       await event.addArticle(savedArticle).catch(err => console.log(err));
     } else {
       console.log('We encountered an error retrieving the event ' + article.eventUri);
     }
-
-    if (!source) {
-      source = await extractFormatSource(article);
-      source.save().then(saved => console.log('saved source: ' + saved.dataValues.uri));
-    }
-    
-    await source.addArticle(savedArticle).then(result => console.log('associated source')).catch(err => console.log(err));
+   
+    await source.addArticle(savedArticle).catch(err => console.log(err));
   }).catch(err => console.log(err));
+
+  return savedArticle;
 }
 
+// export default Article = {
+
+// }
+
+module.exports = { formatArticle, extractFormatSource, buildSaveArticle, calculateBias }
 
 
 
