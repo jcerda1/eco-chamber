@@ -24,6 +24,15 @@ const Event = sequelize.define('Event', {
   date: Sequelize.STRING
 });
 
+const Source = sequelize.define('Source', {
+  uri: Sequelize.STRING,
+  title: Sequelize.STRING,
+  importance: Sequelize.INTEGER,
+  image: Sequelize.STRING,
+  thumbImage: Sequelize.STRING,
+  bias: Sequelize.INTEGER
+});
+
 const Article = sequelize.define('Article', {
   uri: {
     type: Sequelize.STRING,
@@ -47,15 +56,6 @@ const Concept = sequelize.define('Concept', {
     allowNull: false
   },
   type: Sequelize.STRING,
-});
-
-const Source = sequelize.define('Source', {
-  uri: Sequelize.STRING,
-  title: Sequelize.STRING,
-  importance: Sequelize.INTEGER,
-  image: Sequelize.STRING,
-  thumbImage: Sequelize.STRING,
-  bias: Sequelize.INTEGER
 });
 
 const Category = sequelize.define('Category', {
@@ -88,10 +88,19 @@ Subcategory.belongsTo(Category);
 //HELPER FUNCTIONS FOR TESTING
 
 const clearDB = () => {
-  return sequelize.sync({force: true}).then(async () => {
-    await Category.bulkCreate(seed.sampleCategories);
-  }).catch(err => console.log(err));
+  return sequelize
+  .query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+    return sequelize.sync({force: true}).then(async () => {
+        await Category.bulkCreate(seed.sampleCategories);
+    }).catch(err => console.log("sync err: ", err));
+  }).catch(err => console.log("query err: ", err));
 };
+
+// const clearDB = () => {
+//   return sequelize.sync({force:true}).then(async() => {
+//     await Category.bulkCreate(seed.sampleCategories);
+//   }).catch(err => console.log("plain DB err: ", err));
+// }
 
 const clearTable = (tableName) => {
   return  tableName.destroy({
