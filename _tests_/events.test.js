@@ -1,14 +1,15 @@
 //fake data
 const { sampleUrisObj } = require('../helpers/sampleUriList.js');
 const { testEvents } = require('../db/largeTestDataER.js');
-let uris = [];
+console.log(testEvents.length);
+let eventUris = [];
 let uniqueEvents = [];
 
 for (let i = 0; i < testEvents.length; i++) {
   const event  = testEvents[i];
-  if (!uris.includes(event.uri)) {
+  if (!eventUris.includes(event.uri)) {
     uniqueEvents.push(event);
-    uris.push(event.uri);
+    eventUris.push(event.uri);
   }
 }
 
@@ -367,8 +368,10 @@ describe('extractReleventEvents', function() {
     expect(uris).toHaveProperty('leftAny');
     expect(uris).toHaveProperty('centerAll');
     expect(uris).toHaveProperty('centerAny');
-    expect(uris).toHaveProperty('all');
-    expect(uris).toHaveProperty('spectrum');
+    expect(uris).toHaveProperty('allSet');
+    expect(uris).toHaveProperty('allArray');
+    expect(uris).toHaveProperty('spectrumSet');
+    expect(uris).toHaveProperty('spectrumArray');
     done();
   });
 
@@ -384,7 +387,7 @@ describe('extractReleventEvents', function() {
 
   it('should return events that have been reported on by right, middle and center', function(done) {
     const uris = extractReleventEvents(sampleUrisObj);
-    const spectrum = [...uris.spectrum];
+    const spectrum = uris.spectrumArray;
     const right = sampleUrisObj.fox.concat(sampleUrisObj.breitbart);
     const left = sampleUrisObj.huffington.concat(sampleUrisObj.msnbc);
     const center = sampleUrisObj.ap.concat(sampleUrisObj.times.concat(sampleUrisObj.hill));
