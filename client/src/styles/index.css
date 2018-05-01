@@ -101,7 +101,7 @@ body {
   list-style-type: none;
   margin: 5px;
   padding: 10px;
-  background-color: #D3D3D3;
+  background-color: #96cab8;
 }
 
 /* Events container */
@@ -126,7 +126,7 @@ body {
 .li-header {
   margin-top: auto;
   border: 1px solid grey;
-  background-color: #C0C0C0;
+  background-color: #96cab8;
   padding: 10px;
   text-align: center;
 }
@@ -170,8 +170,8 @@ body {
 
 .article-img {
   margin-top: 5px;
-  border: 1px solid grey;
-  background-color: #C0C0C0;
+  border: 1px solid #042106;
+  background-color: #96cab8;
   padding: 10px;
   text-align: center;
 
@@ -183,25 +183,18 @@ img {
   justify-self: center;
   align-self: center;
   border-style: solid;
-  border-color: white;
+  border-color: #56615b;
   border-width: 2px;
 }
 
 
 /* sigin and signup component*/
 
-/*.signin {
+.signin {
   font-size: 50px;
   border-style: solid;
   border-width: 3px
 }
-
-.signup-link {
-  font-size: 50px;
-  border-style: solid;
-  border-width: 3px
-}*/
-
 
 /* style for sign up page*/
 
