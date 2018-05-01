@@ -38,7 +38,7 @@ class App extends Component {
         <Main state={this.state}/>
       </div>
     )  
-  };  
+  };   
 }
 
 export default App;
