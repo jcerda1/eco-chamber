@@ -101,7 +101,7 @@ body {
   list-style-type: none;
   margin: 5px;
   padding: 10px;
-  background-color: #96cab8;
+  background-color: #D3D3D3;
 }
 
 /* Events container */
@@ -126,7 +126,7 @@ body {
 .li-header {
   margin-top: auto;
   border: 1px solid grey;
-  background-color: #96cab8;
+  background-color: #C0C0C0;
   padding: 10px;
   text-align: center;
 }
@@ -170,8 +170,8 @@ body {
 
 .article-img {
   margin-top: 5px;
-  border: 1px solid #042106;
-  background-color: #96cab8;
+  border: 1px solid grey;
+  background-color: #C0C0C0;
   padding: 10px;
   text-align: center;
 
@@ -183,7 +183,7 @@ img {
   justify-self: center;
   align-self: center;
   border-style: solid;
-  border-color: #56615b;
+  border-color: white;
   border-width: 2px;
 }
 
@@ -195,6 +195,13 @@ img {
   border-style: solid;
   border-width: 3px
 }
+/*
+.signup-link {
+  font-size: 50px;
+  border-style: solid;
+  border-width: 3px
+}
+*/
 
 /* style for sign up page*/
 
