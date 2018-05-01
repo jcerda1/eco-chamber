@@ -14,10 +14,10 @@ class Header extends Component {
           </Link>
         <ul >
           <li className="signup">
-            <Link to="/signup">Sign Up</Link>  
+            <Link style={{"text-decoration": "none", "color": "black"}} to="/signup">Sign Up</Link>  
           </li>
           <li className="login">
-            <Link to="/signin">Log in</Link>
+            <Link style={{"text-decoration": "none", "color": "black"}} to="/signin">Log in</Link>
           </li>
         </ul>
         </div>
