@@ -5,7 +5,7 @@ import Main from './Main.jsx';
 // import sampleSources from '../../db/testData.js';
 import { get } from './helpers/api';
 
-class App extends Component {
+class App extends Component { 
   constructor(props) { 
 
     super(props);
