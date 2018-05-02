@@ -19,7 +19,14 @@ app.get('/categories', wrap(async (req, res) => {
 // events
 app.get('/events', wrap(async (req, res) => {
   const { categoryId } = req.query;
-  const { Subcategories } = await db.Category.findById(categoryId, { include: [{ model: db.Subcategory, include: db.Event }] });
+  // TODO: limit events to last X days
+  const { Subcategories } = await db.Category.findById(categoryId, {
+    include: [{
+      model: db.Subcategory,
+      include: db.Event,
+    }],
+  });
+
   let events = [];
   for (let i = 0; i < Subcategories.length; i++) {
     events = events.concat(Subcategories[i].Events);
@@ -30,7 +37,17 @@ app.get('/events', wrap(async (req, res) => {
 // articles
 app.get('/articles', wrap(async (req, res) => {
   const { eventId } = req.query;
-  const articles = await db.Article.findAll({ where: { eventId } });
+
+  const sourceUris = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
+  const sources = await db.Source.findAll({ where: { uri: sourceUris } });
+  const sourceIds = sources.map(source => source.dataValues.id);
+
+  const articles = await db.Article.findAll({
+    where: {
+      eventId,
+      sourceId: sourceIds,
+    }
+  });
   res.json(articles);
 }));
 
