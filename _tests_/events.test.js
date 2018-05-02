@@ -79,7 +79,7 @@ describe('formatConcept', function() {
 describe('formatSubcategory', function() {
 
   beforeEach(() => { 
-    return clearDB()l
+    return clearDB();
   });
 
   it('should return an instance of sequelize subcategory model', function(done) {
