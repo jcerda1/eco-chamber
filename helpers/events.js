@@ -66,13 +66,13 @@ const foxAll = ['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnew
 //get lists of event uris by individual news sources
 const getEventUrisByNewsSource = (newsUri, date) => {
   const q = new QueryEvents({
-        sourceUri: newsUri,
-        dateStart: date,
-    });
-  
-    const requestEventsUriList = new RequestEventsUriWgtList();
-    q.setRequestedResult(requestEventsUriList);
-    return er.execQuery(q); // execute the query and return the promise
+      sourceUri: newsUri,
+      dateStart: date,
+  });
+ 
+  const requestEventsUriList = new RequestEventsUriWgtList();
+  q.setRequestedResult(requestEventsUriList);
+  return er.execQuery(q); // execute the query and return the promise
 };
 
 //get all the uris for all 7 of our MVP news sources
@@ -93,9 +93,8 @@ const getEventUrisByAllSources = async (date) => {
   for (const item in sources) {
     uris[item] = sources[item].uriWgtList.results.map(x => x.split(":")[0]).filter(x => x.split("-")[0] === "eng");
   } 
-
   return uris;
-}
+};
 
 //get the uris that are shared between news outlets
 const extractReleventEvents = (urisObj) => {
@@ -139,14 +138,13 @@ const extractReleventEvents = (urisObj) => {
 const getEventInfo = async(uriList) => {
   const q = new QueryEventsIter.initWithEventUriList(uriList);
   er.execQuery(q).then(async (events) => {
-    console.log(events.length);
     for (const x of events.events.results) {
       await buildSaveEvent(x);
       await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
       await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
     }
   }).catch(err => console.log(err));
-}
+};
 
 //single function that does all of the retreiving relevant event info by date,
 //saving only the unsaved relevent events to the DB it all into the DB
@@ -165,44 +163,10 @@ const getUrisAndEventsByDate = async (date) => {
   
   let chunks = _.chunk(unsavedUris, 20);  
   for (const array of chunks) {
-    await getEventInfo(chunks[i]);
+    await getEventInfo(array);
   } 
   console.log('fetched all events');
-}
-
-
-//helper function to retrieve top events, format and save them to DB
-//alone, categoryURI works, dateStart works to return data as expcted
-const getTopEventsByNewsSource = async (sourceUri, date) => {
-  const currentEvents = {events:[]};
-  const source = new QueryItems(sourceUri);
-  const q = new QueryEventsIter(er, {
-    sourceUri: source,
-    dateStart: date,
-    sortBy: 'size',
-    maxItems: -1
-  });
-
-  q.execQuery(async (events) => {
-    for (const event of events) {  
-      //console.log(util.inspect(event, {showHidden: false, depth: null}));
-      if (event.uri.split('-')[0] !== 'eng') {
-        console.log('This event is not in english');
-      } else {
-        if (event.totalArticleCount > 10) {
-          currentEvents['events'].push(event);
-          await buildSaveEvent(event);
-          await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
-          await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri); 
-        } else {
-          console.log('This event is not large enough to save');
-        }       
-      }      
-    }
-  }, () => console.log('Events saved'))
-  .catch(err => console.log(err));
 };
-
 
 //format instances to conform to DB models
 const formatEvent = (event) => {
@@ -262,7 +226,7 @@ const buildSaveSubcategory = ({ uri }) => {
 const buildSaveConcept = (concept) => {
   return Concept.findOrCreate({ where: { uri: concept.uri } })
     .spread((newConcept, created) => newConcept);
-}
+};
 
 // save arrays of either concepts or categories and associate each one with the event
 const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
@@ -283,7 +247,7 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
   } else {
     console.log('We encountered an error retrieving the event: ' + eventUri);
   }  
-}
+};
 
 //test function to save many events from mock data
 const testDataSaving = async () => {
