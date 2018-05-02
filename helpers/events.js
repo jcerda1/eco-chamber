@@ -199,8 +199,6 @@ const getTopEventsByNewsSource = async (sourceUri, date) => {
         }       
       }      
     }
-
-    return 
   }, () => console.log('Events saved'))
   .catch(err => console.log(err));
 };
