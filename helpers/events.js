@@ -180,7 +180,7 @@ const getTopEventsByNewsSource = async (sourceUri, date) => {
     sourceUri: source,
     dateStart: date,
     sortBy: 'size',
-    maxItmes: -1
+    maxItems: -1
   });
 
   q.execQuery(async (events) => {
