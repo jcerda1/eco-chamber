@@ -175,7 +175,7 @@ const getUrisAndEventsByDate = async (date) => {
 //alone, categoryURI works, dateStart works to return data as expcted
 const getTopEventsByNewsSource = async (sourceUri, date) => {
   const currentEvents = {events:[]};
-  const source = new QueryItems(sourcUri);
+  const source = new QueryItems(sourceUri);
   const q = new QueryEventsIter(er, {
     sourceUri: source,
     dateStart: date,
