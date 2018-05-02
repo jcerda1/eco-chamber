@@ -7,9 +7,6 @@ const Categories = (props) => (
     <div className="categories-container">
       {props.cat}
     </div>
-    <ul className="events-container">
-      {props.events}
-    </ul>
   </div>
 )
 

@@ -19,36 +19,36 @@ body {
   cursor: pointer;
 }
 
-/* Navbar Container */
+/* Navbar Container */ 
 
 .navbar-container {
   display: grid;
-  grid-template-columns: 20% auto 20%;
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-areas: 
-    "title title login" 
-    ".       .       . "
-    ".     search     . ";
+  grid-template-columns: 100px 4fr 1fr;
   justify-content: stretch;
+  padding-bottom: 10px; 
+  padding-top: 20px;
+  padding: 10px;
   /*border-style: solid;
   border-width: 1px;*/
 } 
 
 .title {
-  grid-area: title;
+  
   grid-column-start: 1;
   text-decoration: none;
   color: black;
   /*border-style: solid;
   border-width: 1px;*/
-  justify-self: left;
+  grid-column: 2 / 3;
   align-self: center;
   font-size: 25px;
 }
 
 .login {
-  grid-area: login;
+  justify-self: right;
+  align-self: right;
   display: inline-flex;
+  grid-column: 3;
   /*border-style: solid;
   border-width: 1px;*/
   list-style-type: none;
@@ -57,8 +57,11 @@ body {
 }
 
 .signup {
+   justify-self: right;
+  align-self: right;
   grid-area: login;
   display: inline-flex;
+  grid-column: 3;
   /*border-style: solid;
   border-width: 1px;*/
   list-style-type: none;
@@ -109,42 +112,47 @@ body {
 .events-container {
   list-style: none;
   padding: 10px;
+  padding-left: 150px;
+  padding-right: 150px;
   margin: 2em;
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
+  /*grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));*/
   overflow: scroll;
 }
 
 .events-container li {
-  border: 2px solid grey;
-  border-radius: 5px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .li-header {
-  margin-top: auto;
   border: 1px solid grey;
-  background-color: #C0C0C0;
+  width: 300px;
+  height: auto;
+  background-color: #D3D3D3;
   padding: 10px;
   text-align: center;
+  margin-top: -10px;
 }
 
-.events-container .source {
+/*.events-container .source {
   margin-top: auto;
   border-top: 1px solid grey;
   padding: 10px;
   text-align: center;
-}
+}*/
 
 .body {
+  border-top: 1px solid;
   padding: 10px;
   text-align: justify;
 }
 
 
 /* articles */
+
+
 
 .articles-container {
   list-style: none;

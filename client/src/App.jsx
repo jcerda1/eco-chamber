@@ -33,10 +33,17 @@ class App extends Component {
 
   render() {  
     return (
+
       <div className="onboarding">
         <Header/>
         <Main state={this.state}/>
       </div>
+
+        <div className="onboarding">
+          <Header state={this.state}/>
+          <Main state={this.state}/>
+        </div>
+
     )  
   };   
 }
