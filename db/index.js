@@ -21,7 +21,7 @@ const Event = sequelize.define('Event', {
   summary: {
     type: Sequelize.TEXT,
   },
-  date: Sequelize.STRING
+  date: Sequelize.DATE
 });
 
 const Source = sequelize.define('Source', {

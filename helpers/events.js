@@ -21,6 +21,9 @@ for (let i = 0; i < testEvents.length; i++) {
   }
 }
 
+//lodash
+const _ = require('lodash');
+
 //helper functions to format dates for API
 const moment = require('moment');
 
@@ -75,22 +78,21 @@ const getEventUrisByNewsSource = (newsUri, date) => {
 //get all the uris for all 7 of our MVP news sources
 const getEventUrisByAllSources = async (date) => {
   let uris = {};
-  
-  const fox = await getEventUrisByNewsSource(sourcesURI.fox, date);
-  const breitbart = await getEventUrisByNewsSource(sourcesURI.breitbart, date);
-  const huffington = await getEventUrisByNewsSource(sourcesURI.huffington, date);
-  const msnbc = await getEventUrisByNewsSource(sourcesURI.msnbc, date);
-  const hill = await getEventUrisByNewsSource(sourcesURI.hill, date);
-  const ap = await getEventUrisByNewsSource(sourcesURI.ap, date);
-  const times = await getEventUrisByNewsSource(sourcesURI.times, date);
+  let sources = 
+  {
+    fox: await getEventUrisByNewsSource(sourcesURI.fox, date),
+    breitbart: await getEventUrisByNewsSource(sourcesURI.breitbart, date),
+    huffington: await getEventUrisByNewsSource(sourcesURI.huffington, date),
+    msnbc: await getEventUrisByNewsSource(sourcesURI.msnbc, date),
+    hill: await getEventUrisByNewsSource(sourcesURI.hill, date),
+    ap: await getEventUrisByNewsSource(sourcesURI.ap, date),
+    times: await getEventUrisByNewsSource(sourcesURI.times, date),
+  }
 
-  uris['fox'] = fox.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");
-  uris['breitbart'] = breitbart.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
-  uris['huffington'] = huffington.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
-  uris['msnbc'] = breitbart.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
-  uris['hill'] = hill.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
-  uris['ap'] = ap.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
-  uris['times'] = times.uriWgtList.results.map(item => item.split(":")[0]).filter(item => item.split("-")[0] === "eng");;
+  //strip the wgt value and only pass along the events in english
+  for (const item in sources) {
+    uris[item] = sources[item].uriWgtList.results.map(x => x.split(":")[0]).filter(x => x.split("-")[0] === "eng");
+  } 
 
   return uris;
 }
@@ -133,53 +135,52 @@ const extractReleventEvents = (urisObj) => {
   return { rightAll, rightAny, leftAll, leftAny, centerAll, centerAny, allSet, allArray, spectrumSet, spectrumArray };
 };
 
-
 //helper function to retrive detailed event info by event uri list
 const getEventInfo = async(uriList) => {
   const q = new QueryEventsIter.initWithEventUriList(uriList);
   er.execQuery(q).then(async (events) => {
-    console.log(typeof events);
+    console.log(events.length);
     for (const x of events.events.results) {
       await buildSaveEvent(x);
       await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
-      await associateConceptsOrCategories(x.concepts, 'concept', x.uri); 
+      await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
     }
   }).catch(err => console.log(err));
 }
 
-const testUris = [ 'eng-3930372',
-  'eng-3935597',
-  'eng-3933940',
-  'eng-3932941',
-  'eng-3932823',
-  'eng-3934188',
-  'eng-3933294',
-  'eng-3936137',
-  'eng-3934190',
-  'eng-3933704',
-  'eng-3935404',
-  'eng-3934355',
-  'eng-3933761',
-  'eng-3935589',
-  'eng-3934872',
-  'eng-3935085' ];
-
+//single function that does all of the retreiving relevant event info by date,
+//saving only the unsaved relevent events to the DB it all into the DB
+//COSTS 35 tokens
 const getUrisAndEventsByDate = async (date) => {
+  let unsavedUris = [];
   const uriObj = await getEventUrisByAllSources(date);
-  console.log(uriObj);
   const relevent = extractReleventEvents(uriObj);
-  console.log(relevent);
+  const releventUris = relevent.spectrumArray;
+  for (var i = 0; i < releventUris.length; i++) {
+    let found = await Event.find({where:{uri: releventUris[i]}});
+    if (!found) {
+      unsavedUris.push(releventUris[i]);
+    }
+  }
+  
+  let chunks = _.chunk(unsavedUris, 20);  
+  for (const array of chunks) {
+    await getEventInfo(chunks[i]);
+  } 
+  console.log('fetched all events');
 }
 
 
 //helper function to retrieve top events, format and save them to DB
 //alone, categoryURI works, dateStart works to return data as expcted
-const getTopEvents = async (date) => {
-  const sources = new QueryItems.OR(sourcesAll);
+const getTopEventsByNewsSource = async (sourceUri, date) => {
+  const currentEvents = {events:[]};
+  const source = new QueryItems(sourcUri);
   const q = new QueryEventsIter(er, {
-    sourceUri: sources,
+    sourceUri: source,
     dateStart: date,
     sortBy: 'size',
+    maxItmes: -1
   });
 
   q.execQuery(async (events) => {
@@ -189,6 +190,7 @@ const getTopEvents = async (date) => {
         console.log('This event is not in english');
       } else {
         if (event.totalArticleCount > 10) {
+          currentEvents['events'].push(event);
           await buildSaveEvent(event);
           await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
           await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri); 
@@ -197,6 +199,8 @@ const getTopEvents = async (date) => {
         }       
       }      
     }
+
+    return 
   }, () => console.log('Events saved'))
   .catch(err => console.log(err));
 };
@@ -206,7 +210,7 @@ const getTopEvents = async (date) => {
 const formatEvent = (event) => {
   return Event.build({
     uri: event.uri,
-    date: event.eventDate,
+    date: moment(event.eventDate, "YYYY-MM-DD"),
     title: event.title.eng || event.title || "",
     summary: event.summary.eng || event.summary || ""
   });
@@ -303,10 +307,9 @@ module.exports = {
   formatSubcategory,
   formatConcept,
   formatEvent,
-  getTopEvents,
   extractReleventEvents,
 }
 
 //getUrisAndEventsByDate(getDate(1));
-//console.log(extractReleventEvents(sampleUrisObj2));
+
 
