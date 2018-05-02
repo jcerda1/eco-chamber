@@ -40,7 +40,6 @@ class App extends Component {
       </div>
 
         <div className="onboarding">
-          <Header state={this.state}/>
           <Main state={this.state}/>
         </div>
 
