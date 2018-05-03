@@ -27,14 +27,16 @@ class App extends Component {
     articles: sampleSources.sampleArticles, 
     events: sampleSources.sampleEvents,
     sources: sampleSources.sampleSources,
-    categories: sampleSources.sampleCategories
+    categories: sampleSources.sampleCategories,
+    currentCat: "Arts"
   } 
   this.handleClickCat = this.handleClickCat.bind(this);
+  console.log(this)
 }
 
 
   handleClickCat(e) {
-    console.log(e.target.id)
+    this.setState({currentCat: e.target.id})
   }
 
   render() {  
