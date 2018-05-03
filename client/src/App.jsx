@@ -29,7 +29,13 @@ class App extends Component {
     sources: sampleSources.sampleSources,
     categories: sampleSources.sampleCategories
   } 
+  this.handleClickCat = this.handleClickCat.bind(this);
 }
+
+
+  handleClickCat(e) {
+    console.log(e.target.id)
+  }
 
   render() {  
     return (
@@ -40,7 +46,7 @@ class App extends Component {
       </div>
 
         <div className="onboarding">
-          <Header state={this.state}/>
+          <Header state={this.state} catClick={this.handleClickCat}/>
           <Main state={this.state}/>
         </div>
 

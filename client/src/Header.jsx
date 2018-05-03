@@ -6,7 +6,7 @@ import Categories from './Categories.jsx';
 const Header = (props) => {
 
   let categories = props.state.categories.map((cat, index) => {
-  return <Link to='/events'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.baseUri}</div></Link>
+  return <Link to='/events'style={{"text-decoration": "none", "color": "black"}}><div onClick={(e) =>{props.catClick(e)}} id={cat.baseUri} key={index}>{cat.baseUri}</div></Link>
   });
 
   return (
