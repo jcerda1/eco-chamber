@@ -105,6 +105,9 @@ body {
 }
 
 /* articles */
+.articles-event {
+  text-align: center;
+}
 
 .articles-container {
   border-top: 10px solid transparent;

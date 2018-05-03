@@ -31,12 +31,15 @@ class App extends Component {
     currentCat: "Arts"
   } 
   this.handleClickCat = this.handleClickCat.bind(this);
-  console.log(this)
+  console.log(this.state)
 }
 
 
   handleClickCat(e) {
-    this.setState({currentCat: e.target.id})
+    let temp = this.state.currentCat;
+    temp = e.target.id
+    this.setState({currentCat: temp});
+    console.log(this.state)
   }
 
   render() {  

@@ -10,9 +10,11 @@ import Signin from './Signin.jsx';
 
  
 const Main = (props) => {
+
+let currentCat = props.state.currentCat;
  
 let categories = props.state.categories.map((cat, index) => {
-  return <Link to='/events'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.baseUri}</div></Link>
+  return <Link to='/'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.baseUri}</div></Link>
 });
 
 let events = props.state.events.map((event, index) => {
@@ -36,7 +38,7 @@ let articles = props.state.articles.map((article, index) => {
       <Switch> 
         <Route exact path='/' render={props => <Events {...props} events={events} />}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
-        <Route path='/articles' render={props => <Articles {...props} articles={articles}/>}></Route> 
+        <Route path='/articles' render={props => <Articles {...props} currentCat={currentCat} articles={articles}/>}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 
         <Route path='/signin' render={props => <Signin {...props} />}></Route> 
       </Switch>
