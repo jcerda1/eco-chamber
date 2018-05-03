@@ -1,12 +1,18 @@
 
 body {
-  background-color: #F8F8F8
+  background-color: #F8F8F8;
+  margin: 0;
+  padding-top: 200px;
 }
 
 /* Nav */
 
 .navbar {
   margin-bottom: 1 rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #b3b3b3;
 } 
 
 .navbar a {
@@ -23,6 +29,7 @@ body {
   padding-bottom: 10px; 
   padding-top: 20px;
   padding: 10px;
+  height: 100px;
 } 
 
 .title {
