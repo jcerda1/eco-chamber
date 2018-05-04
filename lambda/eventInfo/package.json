@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eventregistry": "^1.2.1",
-    "lodash": "^4.17.10"
+    "eventregistry": "^1.2.1"
   }
 }
