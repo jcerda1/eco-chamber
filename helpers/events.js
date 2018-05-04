@@ -186,12 +186,13 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
 };
 
 
-//get the uris for the events we care about
+//get the uris for the events we care about across all news sources
 const getUris = async() => {
   const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventUris');
   return extractReleventEvents(response.data.data);  
 };
 
+//get detailed event info for any events we have not already saved
 const getEventInfo = async(uris) => {
   let unsaved = [];
   for (const uri in uris) {
@@ -210,6 +211,7 @@ const getEventInfo = async(uris) => {
   }
 };
 
+//get the articles associated with each event
 const getArticles = async(uris) => {
   const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/articles', { uris });
   for (const article of response.data.data) {
@@ -217,6 +219,7 @@ const getArticles = async(uris) => {
   }
 };
 
+//once every 24 hours, hit all three lambda functions to get our data into the DB
 const dailyFetch = async() => {
   const uris = await getUris();
   await getEventInfo(uris);
