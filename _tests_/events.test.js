@@ -465,75 +465,76 @@ describe('extractFormatSource', function() {
   });
 });
 
-// describe('buildASaveArticle', function() {
-//   beforeEach(() => {
-//     return clearDB().then(async() => await buildSaveEvent(testEvents[1]));
-//   });
+describe('buildASaveArticle', function() {
+  beforeEach(() => {
+    return clearDB().then(async() => await buildSaveEvent(testEvents[1]));
+  });
 
-//   // afterEach(() => {
-//   //   return clearDB();
-//   // });
+  // afterEach(() => {
+  //   return clearDB();
+  // });
 
-//   it('should save a formatted article if it does not exist in DB', async function(done) {
-//     expect.assertions(3);
+  it('should save a formatted article if it does not exist in DB', async function(done) {
+    expect.assertions(3);
 
-//     const test = event1Articles[1];
-//     const before = await Article.findAll({where: {}});
-//     expect(before.length).toEqual(0);
+    const test = event1Articles[1];
+    const before = await Article.findAll({where: {}});
+    expect(before.length).toEqual(0);
 
-//     const saved = await buildSaveArticle(test);
-//     const after = await Article.find({where:{uri: test.uri}});
+    const saved = await buildSaveArticle(test);
+    const after = await Article.find({where:{uri: test.uri}});
   
-//     expect(after).toBeTruthy();
-//     expect(after.dataValues.uri).toEqual(saved.dataValues.uri);
-//     done();
-//   });
+    expect(after).toBeTruthy();
+    expect(after.dataValues.uri).toEqual(saved.dataValues.uri);
+    done();
+  });
 
-//   xit('should retrive an article if it does exist in the DB', async function(done) {
-//     expect.assertions(5);
+  it('should retrive an article if it does exist in the DB', async function(done) {
+    expect.assertions(5);
 
-//     const test = event1Articles[2];
-//     const before = await Article.findAll({where: {}});
-//     expect(before.length).toEqual(0);
+    const test = event1Articles[2];
+    const before = await Article.findAll({where: {}});
+    expect(before.length).toEqual(0);
 
-//     const saved = await buildSaveArticle(test);
-//     const after1 = await Article.findAll({where:{}});
-//     const savedAgain = await buildSaveArticle(test);
-//     const after2 = await Article.findAll({where:{}});
+    const saved = await buildSaveArticle(test);
+    const after1 = await Article.findAll({where:{}});
+    const savedAgain = await buildSaveArticle(test);
+    const after2 = await Article.findAll({where:{}});
 
-//     expect(after1.length).toBeGreaterThan(0);
-//     expect(after2.length).toBeGreaterThan(0);
-//     expect(savedAgain.dataValues.uri).toEqual(saved.dataValues.uri);
-//     expect(after2.length).toEqual(after1.length);
-//     done();
-//   });
+    expect(after1.length).toBeGreaterThan(0);
+    expect(after2.length).toBeGreaterThan(0);
+    expect(savedAgain.dataValues.uri).toEqual(saved.dataValues.uri);
+    expect(after2.length).toEqual(after1.length);
+    done();
+  });
 
-//   xit('should associate the source to the article', async function(done) {
-//     expect.assertions(5);
-//     const test = event1Articles[4];
-//     const saved = await buildSaveArticle(test);
-//     await Article.find({where:{}}).then(article => {
-//       expect(article.dataValues).toHaveProperty('SourceId');
-//       expect(article.dataValues.SourceId).toBeTruthy();
-//     });
-//     const source = await Source.find({where: {uri: test.source.uri}});
-//     const articles = await source.getArticles();
+  it('should associate the source to the article', async function(done) {
+    expect.assertions(5);
+    const test = event1Articles[4];
+    const saved = await buildSaveArticle(test);
+    await Article.find({where:{}}).then(article => {
+      expect(article.dataValues).toHaveProperty('SourceId');
+      expect(article.dataValues.SourceId).toBeTruthy();
+    });
+    const source = await Source.find({where: {uri: test.source.uri}});
+    const articles = await source.getArticles();
     
-//     expect(source.dataValues.uri).toEqual(test.source.uri);
-//     expect(articles.length).toBeGreaterThan(0);
-//     expect(articles[0].dataValues.uri).toEqual(test.uri);
-//     done();
-//   }); 
+    expect(source.dataValues.uri).toEqual(test.source.uri);
+    expect(articles.length).toBeGreaterThan(0);
+    expect(articles[0].dataValues.uri).toEqual(test.uri);
+    done();
+  }); 
 
-//   xit('should call format source if the source does not exist yet', async function(done) {
+
+  xit('should call format source if the source does not exist yet', async function(done) {
     
-//   });
+  });
 
-//   xit('should not call format source if the source already exists', async function(done) {
+  xit('should not call format source if the source already exists', async function(done) {
    
-//   }); 
-// });
+  }); 
+});
 
-// // xdescribe('calculateBias', function() {
+xdescribe('calculateBias', function() {
 
-// // });
+});

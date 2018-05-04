@@ -11,8 +11,9 @@ const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 const _ = require('lodash');
 
 const getEventInfo = async(uriList) => {
-  const q = new QueryEvent(uriList);
-  return er.execQuery(q);
+  const q = QueryEvent.initWithEventUriList(uriList);
+  const response = await er.execQuery(q);
+  return response.events.results
 }
 
 //note, above is untested, waiting to have more tokens available
