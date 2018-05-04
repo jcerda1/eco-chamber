@@ -128,6 +128,8 @@ const buildSaveArticle = async (article) => {
 
 module.exports = { formatArticle, extractFormatSource, buildSaveArticle, calculateBias }
 
+getArticlesByEventUri(eventUriList[0]);
+
 
 
 

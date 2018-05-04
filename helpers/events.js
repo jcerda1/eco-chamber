@@ -136,13 +136,16 @@ const extractReleventEvents = (urisObj) => {
 
 //helper function to retrive detailed event info by event uri list
 const getEventInfo = async(uriList) => {
-  const q = new QueryEventsIter.initWithEventUriList(uriList);
+  const q = new QueryEvents.initWithEventUriList(uriList);
   er.execQuery(q).then(async (events) => {
-    for (const x of events.events.results) {
-      await buildSaveEvent(x);
-      await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
-      await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
-    }
+    console.log("EVENTS LENGTH: ", events.events.results.length);
+    // for (const x of events.events.results) {
+    //   counter++;
+    //   await buildSaveEvent(x);
+    //   await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
+    //   await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
+    // }
+    console.log(util.inspect(events.events.results)); 
   }).catch(err => console.log(err));
 };
 
@@ -272,6 +275,7 @@ module.exports = {
   extractReleventEvents,
 }
 
-//getUrisAndEventsByDate(getDate(1));
+console.log([... new Set(sampleUrisObj2.fox)].length)
+
 
 
