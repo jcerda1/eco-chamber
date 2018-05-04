@@ -1,100 +1,14 @@
-const util = require('util');
-
-//event registry API
-const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents, RequestEventsUriWgtList } = require('eventregistry');
-const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
+//axios
+const axios = require('axios');
 
 //db models
 const { Event, Article, Concept, Source, Category, Subcategory } = require('../db/index.js');
 
-//mock data
-const { sampleUrisObj, sampleUrisObj2 } = require('./sampleUriList.js');
-const { testEvents } = require('../db/largeTestDataER.js');
-let uris = [];
-let uniqueEvents = [];
-
-for (let i = 0; i < testEvents.length; i++) {
-  const event  = testEvents[i];
-  if (!uris.includes(event.uri)) {
-    uniqueEvents.push(event);
-    uris.push(event.uri);
-  }
-}
-
 //lodash
 const _ = require('lodash');
 
-//helper functions to format dates for API
+//moment
 const moment = require('moment');
-
-const getDate = (daysAgo) => {
-  return daysAgo 
-    ? moment().subtract(daysAgo, 'day').format('YYYY-MM-DD') 
-    : moment().format('YYYY-MM-DD');
-};
-
-//our top 10 categories.  Use these URIs to communicated with ER
-const categoriesURI = { 
-  business: 'dmoz/Business',
-  arts: 'dmoz/Arts',
-  computers: 'dmoz/Computers',
-  games: 'dmoz/Games',
-  health: 'dmoz/Health',
-  home: 'dmoz/Home',
-  recreation: 'dmoz/Recreation',
-  reference: 'dmoz/Reference',
-  science: 'dmoz/Science',
-  shopping: 'dmoz/Shopping',
-  society: 'dmoz/Society',
-  sports: 'dmoz/Sports'
-};
-
-//our MVP seven news sources.  Use these URIs to communicate with ER
-const sourcesURI = {
-  fox: new QueryItems.OR(['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com']),
-  breitbart: 'breitbart.com',
-  huffington: 'huffingtonpost.com',
-  msnbc: 'msnbc.com',
-  hill: 'thehill.com',
-  ap: 'hosted.ap.org',
-  times: 'nytimes.com'
-};
-//in list format for certain API calls
-const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
-const foxAll = ['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com'];
-
-//get lists of event uris by individual news sources
-const getEventUrisByNewsSource = (newsUri, date) => {
-  const q = new QueryEvents({
-      sourceUri: newsUri,
-      dateStart: date,
-  });
- 
-  const requestEventsUriList = new RequestEventsUriWgtList();
-  q.setRequestedResult(requestEventsUriList);
-  return er.execQuery(q); // execute the query and return the promise
-};
-
-//get all the uris for all 7 of our MVP news sources
-const getEventUrisByAllSources = async (date) => {
-  let uris = {};
-  let sources = 
-  {
-    fox: await getEventUrisByNewsSource(sourcesURI.fox, date),
-    breitbart: await getEventUrisByNewsSource(sourcesURI.breitbart, date),
-    huffington: await getEventUrisByNewsSource(sourcesURI.huffington, date),
-    msnbc: await getEventUrisByNewsSource(sourcesURI.msnbc, date),
-    hill: await getEventUrisByNewsSource(sourcesURI.hill, date),
-    ap: await getEventUrisByNewsSource(sourcesURI.ap, date),
-    times: await getEventUrisByNewsSource(sourcesURI.times, date),
-  }
-
-  //strip the wgt value and only pass along the events in english
-  for (const item in sources) {
-    uris[item] = sources[item].uriWgtList.results.map(x => x.split(":")[0]).filter(x => x.split("-")[0] === "eng");
-  } 
-  return uris;
-};
 
 //get the uris that are shared between news outlets
 const extractReleventEvents = (urisObj) => {
@@ -131,44 +45,7 @@ const extractReleventEvents = (urisObj) => {
   let spectrumSet = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
   let spectrumArray = [...spectrumSet];
 
-  return { rightAll, rightAny, leftAll, leftAny, centerAll, centerAny, allSet, allArray, spectrumSet, spectrumArray };
-};
-
-//helper function to retrive detailed event info by event uri list
-const getEventInfo = async(uriList) => {
-  const q = new QueryEvents.initWithEventUriList(uriList);
-  er.execQuery(q).then(async (events) => {
-    console.log("EVENTS LENGTH: ", events.events.results.length);
-    // for (const x of events.events.results) {
-    //   counter++;
-    //   await buildSaveEvent(x);
-    //   await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
-    //   await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
-    // }
-    console.log(util.inspect(events.events.results)); 
-  }).catch(err => console.log(err));
-};
-
-//single function that does all of the retreiving relevant event info by date,
-//saving only the unsaved relevent events to the DB it all into the DB
-//COSTS 35 tokens
-const getUrisAndEventsByDate = async (date) => {
-  let unsavedUris = [];
-  const uriObj = await getEventUrisByAllSources(date);
-  const relevent = extractReleventEvents(uriObj);
-  const releventUris = relevent.spectrumArray;
-  for (var i = 0; i < releventUris.length; i++) {
-    let found = await Event.find({where:{uri: releventUris[i]}});
-    if (!found) {
-      unsavedUris.push(releventUris[i]);
-    }
-  }
-  
-  let chunks = _.chunk(unsavedUris, 20);  
-  for (const array of chunks) {
-    await getEventInfo(array);
-  } 
-  console.log('fetched all events');
+  return spectrumArray;
 };
 
 //format instances to conform to DB models
@@ -194,7 +71,63 @@ const formatSubcategory = (subcategory) => {
   }); 
 };
 
-//save events in DB, and send message info to queue to be processed for retrieving articles
+const formatArticle = (article) => {
+  return Article.build({
+    uri: article.uri,
+    url: article.url,
+    title: article.title,
+    body: article.body,
+    date: article.date,
+    sentiment: article.sentiment,
+    image: article.image,
+  });
+};
+
+const extractFormatSource = (article) => {
+  return Source.build({
+    uri: article.source.uri,
+    title: article.source.title,
+    importance: article.source.importance,
+    image: article.source.image,
+    thumbImage: article.source.thumbImage,
+    bias: calculateBias(article.source.title)
+  });
+};
+
+const calculateBias = (sourceTitle) => {
+  //TO DO: Rank top US news sources with bias
+  return null;
+}
+
+const buildSaveArticle = async (article) => {
+  let formatted = await formatArticle(article);
+  let event = await Event.find({where: {uri: article.eventUri}});
+  let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
+  let savedArticle;
+
+  if (!source) {
+    source = await extractFormatSource(article);
+    source.save().then(saved => console.log('saved source: ' + saved.dataValues.uri));
+  }
+
+  await Article.find({where: {uri: article.uri}}).then(async result => {
+    if (result) {
+      savedArticle = result;
+    } else {
+      savedArticle = await formatted.save();
+    }  
+    if (event) {
+      await event.addArticle(savedArticle).catch(err => console.log(err));
+    } else {
+      console.log('We encountered an error retrieving the event ' + article.eventUri);
+    }
+   
+    await source.addArticle(savedArticle).catch(err => console.log(err));
+  }).catch(err => console.log(err));
+
+  return savedArticle;
+}
+
 const buildSaveEvent = async (event) => {
   const formatted = await formatEvent(event);
 
@@ -252,19 +185,46 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
   }  
 };
 
-//test function to save many events from mock data
-const testDataSaving = async () => {
-  for (const event of uniqueEvents) {
-    await buildSaveEvent(event); 
-    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
-    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
+
+//get the uris for the events we care about
+const getUris = async() => {
+  const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventUris');
+  return extractReleventEvents(response.data.data);  
+};
+
+const getEventInfo = async(uris) => {
+  let unsaved = [];
+  for (const uri in uris) {
+    let saved = await Event.find({where:{uri: event.uri}});
+    if (!saved) {
+      unsaved.push(uri);
+    }
   }
 
-  console.log('done');
-}
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventInfo', { uris: unsaved });
+  
+  for (const event of response.data.events) {
+    await buildSaveEvent(event); 
+    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
+    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
+  }
+};
+
+const getArticles = async(uris) => {
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/articles', { uris });
+  for (const article of response.data.data) {
+    await buildSaveArticle(article);  
+  }
+};
+
+const dailyFetch = async() => {
+  const uris = await getUris();
+  await getEventInfo(uris);
+  await getArticles(uris);
+  console.log('fetched!');
+};
 
 module.exports = {
-  testDataSaving,
   associateConceptsOrSubcategories,
   buildSaveConcept,
   buildSaveSubcategory,
@@ -275,7 +235,7 @@ module.exports = {
   extractReleventEvents,
 }
 
-console.log([... new Set(sampleUrisObj2.fox)].length)
+dailyFetch();
 
 
 

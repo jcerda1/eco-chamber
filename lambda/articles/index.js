@@ -8,18 +8,18 @@ const { EventRegistry, ArticleInfoFlags, ReturnInfo, QueryEvent, RequestEventArt
 const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
 
 const getAllArticles = async(uriList) => {
-  let eventsArticles = {};
+  let eventArticles = [];
   for (const uri of uriList) {
     let current = await getArticlesByEventUri(uri);
-    eventsArticles[uri] = current;
+    eventArticles = eventArticles.concat(current);   
   }
-  return eventsArticles;
+  return eventArticles;
 }
 
 const getArticlesByEventUri = async(uri) => {
   const q = new QueryEvent(uri);
   q.setRequestedResult(new RequestEventArticles({page: 1, count: 100}));
-  const res = er.execQuery(q);  
-  return res;
+  const res = await er.execQuery(q);  
+  return res[uri].articles.results;
 };
 
