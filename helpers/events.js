@@ -202,7 +202,7 @@ const getEventInfo = async(uris) => {
   }
 
   const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventInfo', { uris: unsaved });
-  
+
   for (const event of response.data.events) {
     await buildSaveEvent(event); 
     await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
@@ -232,10 +232,14 @@ module.exports = {
   formatSubcategory,
   formatConcept,
   formatEvent,
+  formatArticle,
   extractReleventEvents,
+  extractFormatSource,
+  buildSaveArticle,
+  calculateBias
 }
 
-dailyFetch();
+//dailyFetch();
 
 
 
