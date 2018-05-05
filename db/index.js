@@ -7,6 +7,13 @@ const sequelize = new Sequelize(db_name, db_user, db_password, {
   operatorsAliases: false,
 });
 
+// const sequelize = new Sequelize('eco_chamber', "root", "", {
+//   dialect: 'mysql',
+//   host: 'localhost',
+//   logging: false,
+//   operatorsAliases: false,
+// });
+
 const seed = require('./testData.js');
 
 const Event = sequelize.define('Event', {
