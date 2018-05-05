@@ -38,11 +38,12 @@ class App extends Component {
 >>>>>>> a27d39a... cleaned up app file
   } 
   this.handleClickCat = this.handleClickCat.bind(this);
+  this.updateEvents = this.updateEvents.bind(this)
   console.log(this.state)
 }
 
 componentDidMount() {
-    // get('/categories').then(categories => console.log(categories));
+     //get('/categories').then(categories => console.log(categories));
     // get('/events', { categoryId: 1 }).then(events => console.log(events));
     // get('/articles', { eventId: 1 }).then(articles => console.log(articles));
   }
@@ -51,7 +52,12 @@ handleClickCat(e) {
   let temp = this.state.currentCat;
   temp = e.target.id
     this.setState({currentCat: temp});
-    console.log(this.state)
+    this.updateEvents(e);
+
+}
+
+updateEvents(e) {
+  console.log('from load events', e)
 }
 
   render() {  

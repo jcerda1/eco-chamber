@@ -14,7 +14,7 @@ const Main = (props) => {
 let currentCat = props.state.currentCat;
  
 let categories = props.state.categories.map((cat, index) => {
-  return <Link to='/'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.baseUri}</div></Link>
+  return <Link to='/'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.name}</div></Link>
 });
 
 let events = props.state.events.map((event, index) => {
