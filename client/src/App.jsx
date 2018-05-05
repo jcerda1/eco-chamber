@@ -32,36 +32,36 @@ class App extends Component {
 =======
       articles: sampleSources.sampleArticles, 
       events: [],
-      outlets: [{
-        Huffington: {
-          id: 1,
-          img: "https://www.huffingtonpost.com/entry/paul-ryan-reelection_us_5a328e40e4b07ff75b00d34a"
-        },
-        MSNBC: {
-          id: 2, 
-          "http://www.msnbc.com/rachel-maddow-show/house-speaker-paul-ryan-exit-stage-right"
-        },
-        VOX: {
-          id: 3, 
-          "https://www.vox.com/policy-and-politics/2018/4/11/17225202/paul-ryan-out-retirement-announcement"
-        },
-        NYT: {
-          id: 4, 
-          "https://www.nytimes.com/2018/04/11/us/politics/paul-ryan-speaker.html"
-        },
-         TheHill: {
-          id: 5, 
-          "http://thehill.com/homenews/house/382610-ryan-announces-he-wont-seek-reelection"
-        },
-         FOX: {
-          id: 6, 
-          "http://www.foxnews.com/politics/2018/04/11/house-speaker-paul-ryan-wont-run-for-re-election-ap-reports.html"
-        },
-        Breitbart: {
-          id: 7, 
-          "http://www.breitbart.com/big-government/2018/04/11/speaker-paul-ryan-retires-year-will-last-member-house"
-        }
-      }],
+      // outlets: [
+      //   Huffington: {
+      //     id: 1,
+      //     img: "https://www.huffingtonpost.com/entry/paul-ryan-reelection_us_5a328e40e4b07ff75b00d34a"
+      //   },
+      //   MSNBC: {
+      //     id: 2, 
+      //     "http://www.msnbc.com/rachel-maddow-show/house-speaker-paul-ryan-exit-stage-right"
+      //   },
+      //   VOX: {
+      //     id: 3, 
+      //     "https://www.vox.com/policy-and-politics/2018/4/11/17225202/paul-ryan-out-retirement-announcement"
+      //   },
+      //   NYT: {
+      //     id: 4, 
+      //     "https://www.nytimes.com/2018/04/11/us/politics/paul-ryan-speaker.html"
+      //   },
+      //    TheHill: {
+      //     id: 5, 
+      //     "http://thehill.com/homenews/house/382610-ryan-announces-he-wont-seek-reelection"
+      //   },
+      //    FOX: {
+      //     id: 6, 
+      //     "http://www.foxnews.com/politics/2018/04/11/house-speaker-paul-ryan-wont-run-for-re-election-ap-reports.html"
+      //   },
+      //   Breitbart: {
+      //     id: 7, 
+      //     "http://www.breitbart.com/big-government/2018/04/11/speaker-paul-ryan-retires-year-will-last-member-house"
+      //   }
+      // ],
       sources: sampleSources.sampleSources,
       categories: [],
       currentCat: "Arts"

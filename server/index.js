@@ -126,7 +126,8 @@ app.get('/articles', wrap(async (req, res) => {
     where: {
       eventId,
       sourceId: sourceIds,
-    }
+    }, 
+    include: db.Source
   });
   res.json(articles);
 >>>>>>> d601c5f... removed force true from db file
