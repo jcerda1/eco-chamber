@@ -52,7 +52,7 @@ handleClickCat(e) {
   let temp = this.state.currentCat;
   temp = e.target.id
     this.setState({currentCat: temp});
-    this.updateEvents(e);
+    this.updateEvents(e.target.id);
 
 }
 
