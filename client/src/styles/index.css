@@ -148,12 +148,14 @@ body {
   background-color: #C0C0C0;
   padding: 10px;
   text-align: center;
+  border: 1px solid grey;
+  border-radius: 5px;
 
 }
 
 img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   justify-self: center;
   align-self: center;
   border-style: solid;

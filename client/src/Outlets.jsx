@@ -1,12 +1,11 @@
 import React from 'react';
 
 
-const Outlets = () => (
-   <div className="article-img">
-     <img  src={article.img} alt="no image"/>
-   </div>
-)
-
+const Outlets = (props) => {
+  return props.outlets.map(img => {
+  	return <img className="article-img" src={img.img}/>
+  })
+}
 
 
 

@@ -12,6 +12,7 @@ import Signin from './Signin.jsx';
 const Main = (props) => {
 
 let currentCat = props.state.currentCat;
+let outlets = props.state.outlets
  
 let categories = props.state.categories.map((cat, index) => {
   return <Link to='/'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.name}</div></Link>
@@ -26,7 +27,6 @@ let events = props.state.events.map((event, index) => {
 
 let articles = props.state.articles.map((article, index) => { 
   	return <li key={index}>
-             <div className="article-img"><img  src={article.img} alt="no image"/></div>
              <ul className="article-body">
                <a style={{"textDecoration": "none", "color": "black"}} href={article.url}>{article.title}</a> 
              </ul> 
@@ -38,7 +38,7 @@ let articles = props.state.articles.map((article, index) => {
       <Switch> 
         <Route exact path='/' render={props => <Events {...props} events={events} />}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
-        <Route path='/articles' render={props => <Articles {...props} currentCat={currentCat} articles={articles}/>}></Route> 
+        <Route path='/articles' render={props => <Articles {...props} currentCat={currentCat} outlets={outlets} articles={articles}/>}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 
         <Route path='/signin' render={props => <Signin {...props} />}></Route> 
       </Switch>

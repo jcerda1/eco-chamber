@@ -243,7 +243,7 @@ const sampleArticles = [
     // eventId: 1,
     uri: "sampleUri3",
     date: "2018-04-11",
-    img: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Vox_logo.svg",
+    img: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Associated_Press_logo_2012.svg",
     title:"Ryan to retire as Speaker in January",
     description:"Speaker Paul Ryan (R-Wis.) is retiring at the end of this Congress, ending his speakership a little more than three years after it began and as the GOP faces a possible loss of its majority this fall.",
     body: "BODY WILL GO HERE",
@@ -378,10 +378,43 @@ const sampleSubcategories = [
   },
 ]
 
+const Outlets = [
+              {
+              name: "Huffington", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/5/5a/HuffPost.svg"
+              },
+              {
+              name: "MSNBC", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/6/62/MSNBC_2015_logo.svg"
+              },
+              {
+              name: "AP", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Associated_Press_logo_2012.svg"
+              },
+              {
+              name: "NYT", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/5/58/NewYorkTimes.svg"
+              },
+              {
+              name: "TheHill", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/9/93/The_Hill_logo.jpeg"
+              },
+              {
+              name: "FOX", 
+              img:  "https://upload.wikimedia.org/wikipedia/commons/6/67/Fox_News_Channel_logo.svg"
+              },
+              {
+              name: "Breitbart", 
+              img: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Breitbart_News.svg"
+              }
+  
+      ]
+
 module.exports = {
   sampleEvents,
   sampleSources,
   sampleArticles,
   sampleCategories,
   sampleSubcategories,
+  Outlets
 }
