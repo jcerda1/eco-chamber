@@ -20,7 +20,7 @@ let categories = props.state.categories.map((cat, index) => {
 
 let events = props.state.events.map((event, index) => {
   	return <li>
-             <Link to="/articles" style={{"text-decoration": "none", "color": "black", "padding": "10px"}}><h2 onClick={(id) => {console.log(event.id)}} className="li-header">{event.title}</h2></Link>
+             <Link to="/articles" style={{"text-decoration": "none", "color": "black", "padding": "10px"}}><h2 onClick={(id) => {props.handleEvent(event.id)}} className="li-header">{event.title}</h2></Link>
              <div value={event.id} className="body"><p>{event.summary}</p></div>
            </li>
 });

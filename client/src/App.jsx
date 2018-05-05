@@ -47,7 +47,7 @@ class App extends Component {
 componentDidMount() {
   get('/categories').then(categories => this.setState({categories: categories}));
   get('/events', { categoryId: 1 }).then(events => this.setState({events: events}));
-  //get('/articles', { eventId: 4}).then(articles => this.setState({articles: articles}));
+  get('/articles', { eventId: 1}).then(articles => this.setState({articles: articles}));
 }
 
 handleClickCat(e, id) {
@@ -63,7 +63,8 @@ updateEvents(id) {
 
 handleEvent(id) {
   console.log(id);
-  //get('/articles', { eventId: `${id}` }).then(articles => this.setState({articles: articles}));
+  console.log(this.state.articles)
+  get('/articles', { eventId: `${id}` }).then(articles => this.setState({articles: articles}));
 }
 
   render() {  
