@@ -18,7 +18,7 @@ const getAllArticles = async(uriList) => {
 
 const getArticlesByEventUri = async(uri) => {
   const q = new QueryEvent(uri);
-  q.setRequestedResult(new RequestEventArticles({page: 1, count: 100}));
+  q.setRequestedResult(new RequestEventArticles({page: 1, count: 100, lang: ["eng"]}));
   const res = await er.execQuery(q);  
   return res[uri].articles.results;
 };

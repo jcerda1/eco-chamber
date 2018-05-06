@@ -1,3 +1,7 @@
+//fake data
+const { testEvents, event0Articles, event1Articles } = require('../db/largeTestDataER.js');
+const { lambda1, relevantEvents, lambda2, lambda3, lambda4 } = require('./sampleData.js');
+
 //axios
 const axios = require('axios');
 
@@ -97,7 +101,7 @@ const extractFormatSource = (article) => {
 const calculateBias = (sourceTitle) => {
   //TO DO: Rank top US news sources with bias
   return null;
-}
+};
 
 const buildSaveArticle = async (article) => {
   let formatted = await formatArticle(article);
@@ -126,7 +130,7 @@ const buildSaveArticle = async (article) => {
   }).catch(err => console.log(err));
 
   return savedArticle;
-}
+};
 
 const buildSaveEvent = async (event) => {
   const formatted = await formatEvent(event);
@@ -185,18 +189,18 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
   }  
 };
 
-
-//get the uris for the events we care about across all news sources
+//get the uris for the events we care about across all news sources COST: 35 tokens
 const getUris = async() => {
   const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventUris');
   return extractReleventEvents(response.data.data);  
 };
 
-//get detailed event info for any events we have not already saved
+//get detailed event info for any events we have not already saved COST: 10 tokens per 50 events
 const getEventInfo = async(uris) => {
   let unsaved = [];
-  for (const uri in uris) {
-    let saved = await Event.find({where:{uri: event.uri}});
+
+  for (const uri of uris) {
+    let saved = await Event.find({where:{ uri }});
     if (!saved) {
       unsaved.push(uri);
     }
@@ -204,26 +208,33 @@ const getEventInfo = async(uris) => {
 
   const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventInfo', { uris: unsaved });
 
-  for (const event of response.data.events) {
+  for (const event of response.data) {
     await buildSaveEvent(event); 
     await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
     await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
   }
+  console.log("events saved");
 };
 
-//get the articles associated with each event
-const getArticles = async(uris) => {
+//get the articles associated with each event COST: 10 tokens per event
+const getArticlesByEvent = async(uris) => {
   const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/articles', { uris });
   for (const article of response.data.data) {
     await buildSaveArticle(article);  
-  }
+  } 
+  console.log('articles saved');
 };
+
+const getArticlesBySource = async() => {
+  // TODO: deploy new lambda function on AWS and connect here
+  // const response = await axios.post('');
+}
 
 //once every 24 hours, hit all three lambda functions to get our data into the DB
 const dailyFetch = async() => {
   const uris = await getUris();
   await getEventInfo(uris);
-  await getArticles(uris);
+  await getArticlesByEvent(uris);
   console.log('fetched!');
 };
 
@@ -242,7 +253,14 @@ module.exports = {
   calculateBias
 }
 
-//dailyFetch();
+
+
+
+
+
+
+
+
 
 
 

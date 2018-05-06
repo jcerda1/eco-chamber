@@ -1,6 +1,6 @@
 exports.handler = async (event, context) => {
-  const chunked = await getEventsByChunk(uriList, 50);
-  return chunked;
+  const eventInfo = await getEventsByChunk(event.uris);
+  return eventInfo;
 };
 
 //event registry API
@@ -30,3 +30,4 @@ const getEventsByChunk = async(uriList) => {
 
   return returnEvents;
 }
+
