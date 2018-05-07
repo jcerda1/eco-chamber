@@ -1,8 +1,6 @@
 exports.handler = async (event) => {
   const allArticles = await getAllArticles();
   const allUris = extractUris(allArticles);
-  console.log("LARGE FUNCTION: ", allArticles);
-  console.log(allUris);
   return {articles: allArticles, uris: allUris};
 };
 
