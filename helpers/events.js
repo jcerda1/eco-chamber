@@ -18,7 +18,6 @@ const moment = require('moment');
    ********************************************************************* 
    PROCESSING EVENTS - functions that determine which data we care about 
    ********************************************************************* 
-
 */
 
 //get the uris that are shared between news outlets
@@ -62,57 +61,57 @@ const extractReleventEvents = (urisObj) => {
 //TODO: TEST THIS FUNCTION
 
 //check the DB to see if an event meets our criteria of being relevant
-// const isEventRelevant = async(eventUri) => {
-//   const event = await Event.find({where: {uri: eventUri}});
+const isEventRelevant = async(eventUri) => {
+  const event = await Event.find({where: {uri: eventUri}});
   
-//   if (event) {
-//     const sourceUrisRight = ['foxnews.com', 'breitbart.com'];
-//     const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
-//     const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
+  if (event) {
+    const sourceUrisRight = ['foxnews.com', 'breitbart.com'];
+    const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
+    const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
 
-//     const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
-//     const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
-//     const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
+    const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
+    const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
+    const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
 
 
-//     const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
-//     const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
-//     const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
+    const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
+    const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
+    const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
 
-//     const articlesRight = await Article.findAll({
-//       where: {
-//         eventId: event.id,
-//         sourceId: sourceIdsRight,
-//       }
-//     });
+    const articlesRight = await Article.findAll({
+      where: {
+        eventId: event.id,
+        sourceId: sourceIdsRight,
+      }
+    });
 
-//     const articlesCenter = await Article.findAll({
-//       where: {
-//         eventId: event.id,
-//         sourceId: sourceIdsCenter,
-//       }
-//     });
+    const articlesCenter = await Article.findAll({
+      where: {
+        eventId: event.id,
+        sourceId: sourceIdsCenter,
+      }
+    });
 
-//     const articlesLeft = await Article.findAll({
-//       where: {
-//         eventId: event.id,
-//         sourceId: sourceIdsLeft,
-//       }
-//     });
+    const articlesLeft = await Article.findAll({
+      where: {
+        eventId: event.id,
+        sourceId: sourceIdsLeft,
+      }
+    });
 
-//     if (articlesRight.length > 0 && articlesCenter.length > 0 && articlesLeft.length > 0) {
-//       console.log('relevant');
-//       return true;
-//     } else {
-//       console.log('not relevant')
-//       return false;
-//     }
+    if (articlesRight.length > 0 && articlesCenter.length > 0 && articlesLeft.length > 0) {
+      console.log('relevant');
+      return true;
+    } else {
+      console.log('not relevant')
+      return false;
+    }
     
 
-//   } else {
-//     console.log('this event does not exist');
-//   } 
-// }
+  } else {
+    console.log('this event does not exist');
+  } 
+}
 
 /* 
    ********************************************************************* 
@@ -173,7 +172,12 @@ const calculateBias = (sourceTitle) => {
 };
 
 //saving and associating new articles, events, sources, concepts and categories
+//TODO:  deal with retrieving an article that hasn't been given to an event yet - would be null from ER
 const buildSaveArticle = async (article) => {
+  if (article.eventUri === null) {
+    return;
+  }
+
   let formatted = await formatArticle(article);
   let event = await Event.find({where: {uri: article.eventUri}});
   let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
@@ -283,7 +287,6 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
    ********************************************************************* 
    FETCHING DATA - functions that interact with our lambda microservices 
    ********************************************************************* 
-
 */
 
 //get the uris for the events we care about across all news sources for the last 3 days COST: 35 tokens
@@ -326,6 +329,7 @@ const getArticlesByEvent = async(uris) => {
 };
 
 //get the articles associated with each source COST: 7 tokens
+//TODO: fix this function to accept a "days ago" parameter and update lambda function accordingly
 const getArticlesBySource = async() => {
   const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/sourceArticles');
   const { articles, uris } = response.data;
@@ -342,8 +346,9 @@ const getArticlesBySource = async() => {
 
 //once every 24 hours, hit all three lambda functions to get our data into the DB
 const dailyFetch = async() => {
-  //get, format, save, associate the articles that were published by all our sources yesterday
-  // const articles = await getArticlesBySource();
+  //get, format, save, associate the articles that were published by all our sources for the last 3 days
+
+  const articles3 = await getArticlesBySource();
 
   //get the event uris that our sources have reported on over the last three days
   const uris = await getUris();
@@ -374,6 +379,8 @@ module.exports = {
 };
 
 dailyFetch();
+
+
 
 
 
