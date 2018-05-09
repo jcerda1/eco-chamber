@@ -1,5 +1,5 @@
 exports.handler = async (event) => {
-  const allArticles = await getAllArticles();
+  const allArticles = await getAllArticles(event.daysAgo);
   const allUris = extractUris(allArticles);
   return {articles: allArticles, uris: allUris};
 };
@@ -30,10 +30,11 @@ const sourcesURI = {
 };
 
 //helper to retrieve all articles published yesterday by news outlet
-const getArticlesBySource = async(sourceUri) => { 
+const getArticlesBySource = async(sourceUri, daysAgo) => { 
   const q = new QueryArticles({
     lang: ["eng"],
-    dateStart: getDate(1),
+    dateStart: getDate(daysAgo),
+    dateEnd: getDate(daysAgo),
     sourceUri: sourceUri
   });
   const sourceInfo = new SourceInfoFlags({image:true});
@@ -46,16 +47,16 @@ const getArticlesBySource = async(sourceUri) => {
 };
 
 //retrieve articles for all seven news sources
-const getAllArticles = async() => {
+const getAllArticles = async(daysAgo) => {
   let articles = 
   {
-    fox: await getArticlesBySource(sourcesURI.fox),
-    breitbart: await getArticlesBySource(sourcesURI.breitbart),
-    huffington: await getArticlesBySource(sourcesURI.huffington),
-    msnbc: await getArticlesBySource(sourcesURI.msnbc),
-    hill: await getArticlesBySource(sourcesURI.hill),
-    ap: await getArticlesBySource(sourcesURI.ap),
-    times: await getArticlesBySource(sourcesURI.times),
+    fox: await getArticlesBySource(sourcesURI.fox, daysAgo),
+    breitbart: await getArticlesBySource(sourcesURI.breitbart, daysAgo),
+    huffington: await getArticlesBySource(sourcesURI.huffington, daysAgo),
+    msnbc: await getArticlesBySource(sourcesURI.msnbc, daysAgo),
+    hill: await getArticlesBySource(sourcesURI.hill, daysAgo),
+    ap: await getArticlesBySource(sourcesURI.ap, daysAgo),
+    times: await getArticlesBySource(sourcesURI.times, daysAgo),
   };
   return articles;
 };

@@ -60,58 +60,49 @@ const extractReleventEvents = (urisObj) => {
 
 //TODO: TEST THIS FUNCTION
 
-//check the DB to see if an event meets our criteria of being relevant
-const isEventRelevant = async(eventUri) => {
-  const event = await Event.find({where: {uri: eventUri}});
-  
-  if (event) {
-    const sourceUrisRight = ['foxnews.com', 'breitbart.com'];
-    const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
-    const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
+//check the DB to see if an unsaved event meets our criteria of being relevant
+const isEventRelevant = async(eventUri) => { 
+  const sourceUrisRight = ['foxnews.com', 'breitbart.com'];
+  const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
+  const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
 
-    const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
-    const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
-    const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
+  const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
+  const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
+  const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
 
+  const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
+  const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
+  const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
 
-    const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
-    const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
-    const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
-
-    const articlesRight = await Article.findAll({
-      where: {
-        eventId: event.id,
-        sourceId: sourceIdsRight,
-      }
-    });
-
-    const articlesCenter = await Article.findAll({
-      where: {
-        eventId: event.id,
-        sourceId: sourceIdsCenter,
-      }
-    });
-
-    const articlesLeft = await Article.findAll({
-      where: {
-        eventId: event.id,
-        sourceId: sourceIdsLeft,
-      }
-    });
-
-    if (articlesRight.length > 0 && articlesCenter.length > 0 && articlesLeft.length > 0) {
-      console.log('relevant');
-      return true;
-    } else {
-      console.log('not relevant')
-      return false;
+  const articlesRight = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsRight,
     }
-    
+  });
 
+  const articlesCenter = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsCenter,
+    }
+  });
+
+  const articlesLeft = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsLeft,
+    }
+  });
+
+  if (articlesRight.length > 0 && articlesCenter.length > 0 && articlesLeft.length > 0) {
+    console.log('relevant');
+    return true;
   } else {
-    console.log('this event does not exist');
-  } 
-}
+    console.log('not relevant')
+    return false;
+  }
+};
 
 /* 
    ********************************************************************* 
@@ -166,22 +157,23 @@ const extractFormatSource = (article) => {
   });
 };
 
+// a value either between -3 and +3 or -2 and +2 for easy ranking when we have more sources
 const calculateBias = (sourceTitle) => {
   //TO DO: Rank top US news sources with bias
   return null;
 };
 
 //saving and associating new articles, events, sources, concepts and categories
-//TODO:  deal with retrieving an article that hasn't been given to an event yet - would be null from ER
 const buildSaveArticle = async (article) => {
-  if (article.eventUri === null) {
-    return;
-  }
-
+  
   let formatted = await formatArticle(article);
-  let event = await Event.find({where: {uri: article.eventUri}});
+  let event = null;
   let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
   let savedArticle;
+
+  if (article.eventUri) {
+    event = await Event.find({where: {uri: article.eventUri}});
+  } 
 
   if (!source) {
     source = await extractFormatSource(article);
@@ -195,14 +187,14 @@ const buildSaveArticle = async (article) => {
       savedArticle = await formatted.save();
     }  
     if (event) {
-      await event.addArticle(savedArticle).catch(err => console.log(err));
+      await event.addArticle(savedArticle);
     } else {
-      console.log('This event is not yet saved ' + article.eventUri);
+      console.log('This event is not yet saved: in buildSaveArticle ' + article.eventUri);
     }
    
-    await source.addArticle(savedArticle).catch(err => console.log(err));
-  }).catch(err => console.log(err));
-
+    await source.addArticle(savedArticle);
+  });
+  console.log("IN buildSaveArticle: ", savedArticle);
   return savedArticle;
 };
 
@@ -214,7 +206,7 @@ const associateArticlesNewEvent = async (eventUri) => {
   if (event) {
     let articles = await Article.findAll({
       where: {
-        eventId: event.id
+        eventUri: event.uri
       }
     });
 
@@ -265,6 +257,7 @@ const buildSaveConcept = (concept) => {
 // save arrays of either concepts or categories and associate each one with the event
 const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
   const event = await Event.find({where: { uri: eventUri }});
+  console.log(event.dataValues, "in associateConceptsOrSubcategories");
 
   if (event) {
     for (const item of conceptsOrSubcategories) {
@@ -278,6 +271,7 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
         }       
       }
     }
+    console.log(`Finished associating ${type} for event ${eventUri}`);
   } else {
     console.log('We encountered an error retrieving the event: ' + eventUri);
   }  
@@ -299,15 +293,7 @@ const getUris = async() => {
 //get detailed event info for any events we have not already saved COST: 10 tokens per 50 events
 //after saving, checks whether there are any saved unassociated articles in our DB
 const getEventInfo = async(uris) => {
-  let unsaved = [];
-
-  for (const uri of uris) {
-    let saved = await Event.find({where:{ uri }});
-    if (!saved) {
-      unsaved.push(uri);
-    }
-  }
-
+  let unsaved = await findUnsavedEvents(uris);
   const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventInfo', { uris: unsaved });
 
   for (const event of response.data) {
@@ -329,12 +315,9 @@ const getArticlesByEvent = async(uris) => {
 };
 
 //get the articles associated with each source COST: 7 tokens
-//TODO: fix this function to accept a "days ago" parameter and update lambda function accordingly
-const getArticlesBySource = async() => {
-  const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/sourceArticles');
+const getArticlesBySource = async(daysAgo) => {
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/sourceArticles', { daysAgo });
   const { articles, uris } = response.data;
-
-  console.log(response.data);
 
   for (const source in articles) {
     for (const article of articles[source]) {
@@ -342,24 +325,115 @@ const getArticlesBySource = async() => {
     }
   }
   console.log('articles saved');
+  return { articles, uris }
 };
+
+//sometimes when we first fetch an article it hasn't been assigned to an event yet.  Check last several days worth to see if they have since been assigned
+//PROBLEM: we have duplicates in DB
+const updateArticles = async(articles) => {
+  let unsavedEvents = [];
+  let savedEvents = [];
+  let event = null;
+
+  for (const source in articles) {
+    for (const article of articles[source]) {
+      
+      const saved = await Article.findAll({where:{uri:article.uri}});
+
+      //if it's not already saved, save it
+      if (!saved) {
+        console.log('this article had not been saved');
+        saved = await buildSaveArticle(article);
+        console.log('article saved');
+      } 
+
+      if (article.eventUri) {
+        event = await Event.find({where:{uri: article.eventUri}});
+      } else {
+        event = null;
+      }
+
+      //filter by whether we have saved the events or not
+      if (event) {
+        // console.log(event.uri, saved.dataValues.eventUri);
+        savedEvents.push(event.uri);
+      } else {
+        // console.log(saved.dataValues.eventUri);
+        unsavedEvents.push(saved.length === 1 ? saved.dataValues.eventUri : saved.map(x => x.eventUri));
+      }
+      
+      if (saved.length === 1) {
+        if (saved.dataValues.eventUri === null && article.eventUri) {
+          await saved.update({eventUri: article.eventUri});
+          console.log(`updated article ${saved.dataValues.id} to now have uri ${event.dataValues.uri}`);  
+        }
+
+        if (event) {
+          await event.addArticle(saved);
+          console.log(`associated article ${save.dataValues.id} to event ${event.dataValues.id}`);      
+        }
+      } else if (saved.length > 1) {
+        for (const item of saved) {
+          if (item.eventUri === null && article.eventUri) {
+            await saved.update({eventUri: article.eventUri});
+          }
+        }
+      }    
+    }
+  } 
+  console.log('unsaved events from updating articles: ', unsavedEvents.length); 
+  console.log('saved events from updating articles: ', savedEvents.length);
+  let set = new Set(unsavedEvents);
+  return [...set];
+};
+
+const findUnsavedEvents = async(uris) => {
+  let unsaved = [];
+  for (const uri of uris) {
+    let event = await Event.find({where:{ uri }});
+
+    if (!event) {
+      unsaved.push(uri);
+    }
+  }
+  console.log("unsaved events:", unsaved);
+  return unsaved;
+}
 
 //once every 24 hours, hit all three lambda functions to get our data into the DB
 const dailyFetch = async() => {
-  //get, format, save, associate the articles that were published by all our sources for the last 3 days
-
-  const articles3 = await getArticlesBySource();
-
+  const newlyRelevantEvents = [];
   //get the event uris that our sources have reported on over the last three days
   const uris = await getUris();
 
-  //get detailed event info for the events that are relevant to us
-  //this step will also associate any unassociated articles saved in our first lambda call
+  //get detailed event info for the events that are relevant to us and have not yet been saved
   const eventInfo = await getEventInfo(uris);
 
-  //get 100 articles by alternative sources
-  //TODO: perhaps make this the articles with the most social media shares????
-  // await getArticlesByEvent(uris);
+  //get, format, save, associate the articles that were published by all our sources for the last 3 days COST: 21 tokens
+  const articles3 = await getArticlesBySource(3);
+  const articles2 = await getArticlesBySource(2);
+  const articles1 = await getArticlesBySource(1);
+
+  //check to see if any previously unassigned articles have now been assigned to events
+  // const unsaved3 = await updateArticles(articles3.articles);
+  // const unsaved2 = await updateArticles(articles2.articles);
+
+  //check to see if any previously unsaved events are now relevant
+  // let allUris = new Set(unsaved3.concat(unsaved2));
+  // let unique = [...allUris];
+
+  // for (const uri of unique) {
+  //   let relevant = isEventRelevant(uri);
+  //   if (relevant) {
+  //     newlyRelevantEvents.push(uri);
+  //   }
+  // }
+
+  // //fetch additional event info for any newly relevant events
+  // if (newlyRelevantEvents.length > 0) {
+  //   const eventInfo2 = await getEventInfo(array);
+  // }
+   
   console.log('fetched!');
 };
 
@@ -375,10 +449,16 @@ module.exports = {
   extractReleventEvents,
   extractFormatSource,
   buildSaveArticle,
-  calculateBias
+  calculateBias,
+  updateArticles
 };
 
-dailyFetch();
+//dailyFetch();
+
+updateArticles(lambda4.articles);
+
+
+
 
 
 
