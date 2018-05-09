@@ -1,100 +1,24 @@
-const util = require('util');
+//fake data
+const { testEvents, event0Articles, event1Articles } = require('../db/largeTestDataER.js');
+const { lambda1, relevantEvents, lambda2, lambda3, lambda4 } = require('./sampleData.js');
 
-//event registry API
-const { EventRegistry, QueryEventsIter, ReturnInfo, QueryItems, QueryEvents, RequestEventsUriWgtList } = require('eventregistry');
-const er = new EventRegistry({apiKey: process.env.EVENT_REGISTRY_API_KEY});
+//axios
+const axios = require('axios');
 
 //db models
 const { Event, Article, Concept, Source, Category, Subcategory } = require('../db/index.js');
 
-//mock data
-const { sampleUrisObj, sampleUrisObj2 } = require('./sampleUriList.js');
-const { testEvents } = require('../db/largeTestDataER.js');
-let uris = [];
-let uniqueEvents = [];
-
-for (let i = 0; i < testEvents.length; i++) {
-  const event  = testEvents[i];
-  if (!uris.includes(event.uri)) {
-    uniqueEvents.push(event);
-    uris.push(event.uri);
-  }
-}
-
 //lodash
 const _ = require('lodash');
 
-//helper functions to format dates for API
+//moment
 const moment = require('moment');
 
-const getDate = (daysAgo) => {
-  return daysAgo 
-    ? moment().subtract(daysAgo, 'day').format('YYYY-MM-DD') 
-    : moment().format('YYYY-MM-DD');
-};
-
-//our top 10 categories.  Use these URIs to communicated with ER
-const categoriesURI = { 
-  business: 'dmoz/Business',
-  arts: 'dmoz/Arts',
-  computers: 'dmoz/Computers',
-  games: 'dmoz/Games',
-  health: 'dmoz/Health',
-  home: 'dmoz/Home',
-  recreation: 'dmoz/Recreation',
-  reference: 'dmoz/Reference',
-  science: 'dmoz/Science',
-  shopping: 'dmoz/Shopping',
-  society: 'dmoz/Society',
-  sports: 'dmoz/Sports'
-};
-
-//our MVP seven news sources.  Use these URIs to communicate with ER
-const sourcesURI = {
-  fox: new QueryItems.OR(['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com']),
-  breitbart: 'breitbart.com',
-  huffington: 'huffingtonpost.com',
-  msnbc: 'msnbc.com',
-  hill: 'thehill.com',
-  ap: 'hosted.ap.org',
-  times: 'nytimes.com'
-};
-//in list format for certain API calls
-const sourcesAll = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
-const foxAll = ['foxsports.com', 'foxnews.com','foxbusiness.com', 'nation.foxnews.com', 'fox11online.com', 'q13fox.com', 'radio.foxnews.com', 'fox5ny.com'];
-
-//get lists of event uris by individual news sources
-const getEventUrisByNewsSource = (newsUri, date) => {
-  const q = new QueryEvents({
-      sourceUri: newsUri,
-      dateStart: date,
-  });
- 
-  const requestEventsUriList = new RequestEventsUriWgtList();
-  q.setRequestedResult(requestEventsUriList);
-  return er.execQuery(q); // execute the query and return the promise
-};
-
-//get all the uris for all 7 of our MVP news sources
-const getEventUrisByAllSources = async (date) => {
-  let uris = {};
-  let sources = 
-  {
-    fox: await getEventUrisByNewsSource(sourcesURI.fox, date),
-    breitbart: await getEventUrisByNewsSource(sourcesURI.breitbart, date),
-    huffington: await getEventUrisByNewsSource(sourcesURI.huffington, date),
-    msnbc: await getEventUrisByNewsSource(sourcesURI.msnbc, date),
-    hill: await getEventUrisByNewsSource(sourcesURI.hill, date),
-    ap: await getEventUrisByNewsSource(sourcesURI.ap, date),
-    times: await getEventUrisByNewsSource(sourcesURI.times, date),
-  }
-
-  //strip the wgt value and only pass along the events in english
-  for (const item in sources) {
-    uris[item] = sources[item].uriWgtList.results.map(x => x.split(":")[0]).filter(x => x.split("-")[0] === "eng");
-  } 
-  return uris;
-};
+/* 
+   ********************************************************************* 
+   PROCESSING EVENTS - functions that determine which data we care about 
+   ********************************************************************* 
+*/
 
 //get the uris that are shared between news outlets
 const extractReleventEvents = (urisObj) => {
@@ -131,42 +55,61 @@ const extractReleventEvents = (urisObj) => {
   let spectrumSet = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
   let spectrumArray = [...spectrumSet];
 
-  return { rightAll, rightAny, leftAll, leftAny, centerAll, centerAny, allSet, allArray, spectrumSet, spectrumArray };
+  return spectrumArray;
 };
 
-//helper function to retrive detailed event info by event uri list
-const getEventInfo = async(uriList) => {
-  const q = new QueryEventsIter.initWithEventUriList(uriList);
-  er.execQuery(q).then(async (events) => {
-    for (const x of events.events.results) {
-      await buildSaveEvent(x);
-      await associateConceptsOrSubcategories(x.categories, 'subcategory', x.uri);
-      await associateConceptsOrSubcategories(x.concepts, 'concept', x.uri); 
-    }
-  }).catch(err => console.log(err));
-};
+//TODO: TEST THIS FUNCTION
 
-//single function that does all of the retreiving relevant event info by date,
-//saving only the unsaved relevent events to the DB it all into the DB
-//COSTS 35 tokens
-const getUrisAndEventsByDate = async (date) => {
-  let unsavedUris = [];
-  const uriObj = await getEventUrisByAllSources(date);
-  const relevent = extractReleventEvents(uriObj);
-  const releventUris = relevent.spectrumArray;
-  for (var i = 0; i < releventUris.length; i++) {
-    let found = await Event.find({where:{uri: releventUris[i]}});
-    if (!found) {
-      unsavedUris.push(releventUris[i]);
+//check the DB to see if an unsaved event meets our criteria of being relevant
+const isEventRelevant = async(eventUri) => { 
+  const sourceUrisRight = ['foxnews.com', 'breitbart.com'];
+  const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
+  const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
+
+  const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
+  const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
+  const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
+
+  const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
+  const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
+  const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
+
+  const articlesRight = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsRight,
     }
+  });
+
+  const articlesCenter = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsCenter,
+    }
+  });
+
+  const articlesLeft = await Article.findAll({
+    where: {
+      eventUri: eventUri,
+      sourceId: sourceIdsLeft,
+    }
+  });
+
+  if (articlesRight.length > 0 && articlesCenter.length > 0 && articlesLeft.length > 0) {
+    console.log('relevant');
+    return true;
+  } else {
+    console.log('not relevant')
+    return false;
   }
-  
-  let chunks = _.chunk(unsavedUris, 20);  
-  for (const array of chunks) {
-    await getEventInfo(array);
-  } 
-  console.log('fetched all events');
 };
+
+/* 
+   ********************************************************************* 
+   FORMTTING & SAVING - functions that store data in our DB
+   ********************************************************************* 
+
+*/
 
 //format instances to conform to DB models
 const formatEvent = (event) => {
@@ -191,7 +134,88 @@ const formatSubcategory = (subcategory) => {
   }); 
 };
 
-//save events in DB, and send message info to queue to be processed for retrieving articles
+const formatArticle = (article) => {
+  return Article.build({
+    uri: article.uri,
+    url: article.url,
+    title: article.title,
+    body: article.body,
+    date: article.date,
+    sentiment: article.sentiment,
+    image: article.image,
+  });
+};
+
+const extractFormatSource = (article) => {
+  return Source.build({
+    uri: article.source.uri,
+    title: article.source.title,
+    importance: article.source.importance,
+    image: article.source.image,
+    thumbImage: article.source.thumbImage,
+    bias: calculateBias(article.source.title)
+  });
+};
+
+// a value either between -3 and +3 or -2 and +2 for easy ranking when we have more sources
+const calculateBias = (sourceTitle) => {
+  //TO DO: Rank top US news sources with bias
+  return null;
+};
+
+//saving and associating new articles, events, sources, concepts and categories
+const buildSaveArticle = async (article) => {
+
+  if (article.eventUri === null) {
+    return;
+  }
+  
+  let formatted = await formatArticle(article);
+  let event = await Event.find({where:{uri: article.eventUri}});
+  let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
+  let savedArticle;
+
+  if (!source) {
+    source = await extractFormatSource(article);
+    source.save().then(saved => console.log('saved source: ' + saved.dataValues.uri));
+  }
+
+  await Article.find({where: {uri: article.uri}}).then(async result => {
+    if (result) {
+      savedArticle = result;
+    } else {
+      savedArticle = await formatted.save();
+    }  
+    if (event) {
+      await event.addArticle(savedArticle);
+    } else {
+      console.log('This event is not yet saved: in buildSaveArticle ' + article.eventUri);
+    }
+   
+    await source.addArticle(savedArticle);
+  });
+  return savedArticle;
+};
+
+//TODO: TEST THIS FUNCTION, DB MIGRATION TO PUT EVENTURI FIELD ON ARTICLE MODEL
+
+// const associateArticlesNewEvent = async (eventUri) => {
+//   let event = await Event.find({where:{uri: eventUri}});
+//   let articles;
+
+//   if (event) {
+//     articles = await Article.findAll({where:{ eventUri }});
+//     console.log(articles.dataValues);
+
+//     for (const article in articles.dataValues) {
+//       await event.addArticle(article);
+//       console.log('added article');
+//     }
+//   } else {
+//     console.log('this event is not in our system');
+//   }
+// };
+
 const buildSaveEvent = async (event) => {
   const formatted = await formatEvent(event);
 
@@ -244,24 +268,98 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
         }       
       }
     }
+    console.log(`Finished associating ${type} for event ${eventUri}`);
   } else {
     console.log('We encountered an error retrieving the event: ' + eventUri);
   }  
 };
 
-//test function to save many events from mock data
-const testDataSaving = async () => {
-  for (const event of uniqueEvents) {
-    await buildSaveEvent(event); 
-    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
-    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri);
-  }
+/* 
+   ********************************************************************* 
+   FETCHING DATA - functions that interact with our lambda microservices 
+   ********************************************************************* 
+*/
 
-  console.log('done');
+//get the uris for the events we care about across all news sources for the last 3 days COST: 35 tokens
+const getUris = async() => {
+  const response = await axios.get('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventUris');
+  console.log('uris fetched');
+  return extractReleventEvents(response.data.data);  
+};
+
+//get detailed event info for any events we have not already saved COST: 10 tokens per 50 events
+//after saving, checks whether there are any saved unassociated articles in our DB
+const getEventInfo = async(uris) => {
+  let unsaved = await findUnsavedEvents(uris);
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/eventInfo', { uris: unsaved });
+
+  for (const event of response.data) {
+    let current = await buildSaveEvent(event); 
+    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
+    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
+    // await associateArticlesNewEvent(event.uri);
+  }
+  console.log("events saved");
+};
+
+//get the articles associated with each event COST: 10 tokens per event
+const getArticlesByEvent = async(uris) => {
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/articles', { uris });
+  for (const article of response.data.data) {
+    await buildSaveArticle(article);  
+  } 
+  console.log('articles saved');
+};
+
+//get the articles associated with each source COST: 7 tokens
+const getArticlesBySource = async(daysAgo) => {
+  const response = await axios.post('https://6ytsqbsj8c.execute-api.us-east-2.amazonaws.com/test/sourceArticles', { daysAgo });
+  const { articles, uris } = response.data;
+
+  for (const source in articles) {
+    for (const article of articles[source]) {
+      await buildSaveArticle(article);
+    }
+  }
+  console.log('articles saved');
+  return { articles, uris }
+};
+
+const findUnsavedEvents = async(uris) => {
+  let unsaved = [];
+  for (const uri of uris) {
+    let event = await Event.find({where:{ uri }});
+
+    if (!event) {
+      unsaved.push(uri);
+    }
+  }
+  console.log("unsaved events:", unsaved);
+  return unsaved;
 }
 
+//once every 24 hours, hit all three lambda functions to get our data into the DB
+const dailyFetch = async() => {
+  const newlyRelevantEvents = [];
+  //get the event uris that our sources have reported on over the last three days
+  const uris = await getUris();
+
+  //get detailed event info for the events that are relevant to us and have not yet been saved
+  const eventInfo = await getEventInfo(uris);
+
+  //get, format, save, associate the articles that were published by all our sources for the last 3 days COST: 21 tokens
+  const articles3 = await getArticlesBySource(3);
+  const articles2 = await getArticlesBySource(2);
+  const articles1 = await getArticlesBySource(1);
+
+  //TODO: check to see if any previously unsaved events are now relevant
+
+  //TODO: fetch additional event info for any newly relevant events
+   
+  console.log('fetched!');
+};
+
 module.exports = {
-  testDataSaving,
   associateConceptsOrSubcategories,
   buildSaveConcept,
   buildSaveSubcategory,
@@ -269,9 +367,34 @@ module.exports = {
   formatSubcategory,
   formatConcept,
   formatEvent,
+  formatArticle,
   extractReleventEvents,
-}
+  extractFormatSource,
+  buildSaveArticle,
+  calculateBias
+};
 
-//getUrisAndEventsByDate(getDate(1));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

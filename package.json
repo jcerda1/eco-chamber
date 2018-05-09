@@ -20,7 +20,7 @@
   "homepage": "https://github.com/CapedWonders/eco-chamber#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "eventregistry": "^1.0.91",
+    "eventregistry": "^1.2.1",
     "express": "^4.16.2",
     "lodash": "^4.17.10",
     "moment": "^2.22.0",
