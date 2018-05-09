@@ -165,15 +165,15 @@ const calculateBias = (sourceTitle) => {
 
 //saving and associating new articles, events, sources, concepts and categories
 const buildSaveArticle = async (article) => {
+
+  if (article.eventUri === null) {
+    return;
+  }
   
   let formatted = await formatArticle(article);
-  let event = null;
+  let event = await Event.find({where:{uri: article.eventUri}});
   let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
   let savedArticle;
-
-  if (article.eventUri) {
-    event = await Event.find({where: {uri: article.eventUri}});
-  } 
 
   if (!source) {
     source = await extractFormatSource(article);
@@ -194,29 +194,27 @@ const buildSaveArticle = async (article) => {
    
     await source.addArticle(savedArticle);
   });
-  console.log("IN buildSaveArticle: ", savedArticle);
   return savedArticle;
 };
 
-//TODO: TEST THIS FUNCTION
+//TODO: TEST THIS FUNCTION, DB MIGRATION TO PUT EVENTURI FIELD ON ARTICLE MODEL
 
-const associateArticlesNewEvent = async (eventUri) => {
-  let event = await Event.find({where:{uri: eventUri}});
+// const associateArticlesNewEvent = async (eventUri) => {
+//   let event = await Event.find({where:{uri: eventUri}});
+//   let articles;
 
-  if (event) {
-    let articles = await Article.findAll({
-      where: {
-        eventUri: event.uri
-      }
-    });
+//   if (event) {
+//     articles = await Article.findAll({where:{ eventUri }});
+//     console.log(articles.dataValues);
 
-    for (const article of articles) {
-      await event.addArticle(article);
-    }
-  } else {
-    console.log('this event is not in our system');
-  }
-};
+//     for (const article in articles.dataValues) {
+//       await event.addArticle(article);
+//       console.log('added article');
+//     }
+//   } else {
+//     console.log('this event is not in our system');
+//   }
+// };
 
 const buildSaveEvent = async (event) => {
   const formatted = await formatEvent(event);
@@ -257,7 +255,6 @@ const buildSaveConcept = (concept) => {
 // save arrays of either concepts or categories and associate each one with the event
 const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
   const event = await Event.find({where: { uri: eventUri }});
-  console.log(event.dataValues, "in associateConceptsOrSubcategories");
 
   if (event) {
     for (const item of conceptsOrSubcategories) {
@@ -300,7 +297,7 @@ const getEventInfo = async(uris) => {
     let current = await buildSaveEvent(event); 
     await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
     await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
-    await associateArticlesNewEvent(event.uri);
+    // await associateArticlesNewEvent(event.uri);
   }
   console.log("events saved");
 };
@@ -326,65 +323,6 @@ const getArticlesBySource = async(daysAgo) => {
   }
   console.log('articles saved');
   return { articles, uris }
-};
-
-//sometimes when we first fetch an article it hasn't been assigned to an event yet.  Check last several days worth to see if they have since been assigned
-//PROBLEM: we have duplicates in DB
-const updateArticles = async(articles) => {
-  let unsavedEvents = [];
-  let savedEvents = [];
-  let event = null;
-
-  for (const source in articles) {
-    for (const article of articles[source]) {
-      
-      const saved = await Article.findAll({where:{uri:article.uri}});
-
-      //if it's not already saved, save it
-      if (!saved) {
-        console.log('this article had not been saved');
-        saved = await buildSaveArticle(article);
-        console.log('article saved');
-      } 
-
-      if (article.eventUri) {
-        event = await Event.find({where:{uri: article.eventUri}});
-      } else {
-        event = null;
-      }
-
-      //filter by whether we have saved the events or not
-      if (event) {
-        // console.log(event.uri, saved.dataValues.eventUri);
-        savedEvents.push(event.uri);
-      } else {
-        // console.log(saved.dataValues.eventUri);
-        unsavedEvents.push(saved.length === 1 ? saved.dataValues.eventUri : saved.map(x => x.eventUri));
-      }
-      
-      if (saved.length === 1) {
-        if (saved.dataValues.eventUri === null && article.eventUri) {
-          await saved.update({eventUri: article.eventUri});
-          console.log(`updated article ${saved.dataValues.id} to now have uri ${event.dataValues.uri}`);  
-        }
-
-        if (event) {
-          await event.addArticle(saved);
-          console.log(`associated article ${save.dataValues.id} to event ${event.dataValues.id}`);      
-        }
-      } else if (saved.length > 1) {
-        for (const item of saved) {
-          if (item.eventUri === null && article.eventUri) {
-            await saved.update({eventUri: article.eventUri});
-          }
-        }
-      }    
-    }
-  } 
-  console.log('unsaved events from updating articles: ', unsavedEvents.length); 
-  console.log('saved events from updating articles: ', savedEvents.length);
-  let set = new Set(unsavedEvents);
-  return [...set];
 };
 
 const findUnsavedEvents = async(uris) => {
@@ -414,25 +352,9 @@ const dailyFetch = async() => {
   const articles2 = await getArticlesBySource(2);
   const articles1 = await getArticlesBySource(1);
 
-  //check to see if any previously unassigned articles have now been assigned to events
-  // const unsaved3 = await updateArticles(articles3.articles);
-  // const unsaved2 = await updateArticles(articles2.articles);
+  //TODO: check to see if any previously unsaved events are now relevant
 
-  //check to see if any previously unsaved events are now relevant
-  // let allUris = new Set(unsaved3.concat(unsaved2));
-  // let unique = [...allUris];
-
-  // for (const uri of unique) {
-  //   let relevant = isEventRelevant(uri);
-  //   if (relevant) {
-  //     newlyRelevantEvents.push(uri);
-  //   }
-  // }
-
-  // //fetch additional event info for any newly relevant events
-  // if (newlyRelevantEvents.length > 0) {
-  //   const eventInfo2 = await getEventInfo(array);
-  // }
+  //TODO: fetch additional event info for any newly relevant events
    
   console.log('fetched!');
 };
@@ -449,13 +371,12 @@ module.exports = {
   extractReleventEvents,
   extractFormatSource,
   buildSaveArticle,
-  calculateBias,
-  updateArticles
+  calculateBias
 };
 
-//dailyFetch();
 
-updateArticles(lambda4.articles);
+
+
 
 
 
