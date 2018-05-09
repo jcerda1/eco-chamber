@@ -34,21 +34,21 @@ app.get('/events', wrap(async (req, res) => {
   res.json(events);
 }));
 
-// articles
-app.get('/articles', wrap(async (req, res) => {
+// sources
+app.get('/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
-
-  const sourceUris = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
-  const sources = await db.Source.findAll({ where: { uri: sourceUris } });
-  const sourceIds = sources.map(source => source.dataValues.id);
-
-  const articles = await db.Article.findAll({
+  const sourceUris = ['huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 'thehill.com', 'foxnews.com', 'breitbart.com'];
+  const sources = await db.Source.findAll({
     where: {
-      eventId,
-      sourceId: sourceIds,
-    }
+      uri: sourceUris,
+    },
+    include: [{
+      model: db.Article,
+      where: { eventId },
+      required: false,
+    }],
   });
-  res.json(articles);
+  res.json(sources);
 }));
 
 app.listen(3000, () => console.log('Listening on port 3000!'));
