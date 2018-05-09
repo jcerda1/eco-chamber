@@ -97,7 +97,6 @@ app.get('/events', wrap(async (req, res) => {
 }));
 >>>>>>> 52e83c0... removed force true from db file
 
-<<<<<<< HEAD
 // sources
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
@@ -113,24 +112,6 @@ app.get('/api/sources', wrap(async (req, res) => {
     }],
   });
   res.json(sources);
-=======
-// articles
-app.get('/articles', wrap(async (req, res) => {
-  const { eventId } = req.query;
-
-  const sourceUris = ['foxnews.com', 'breitbart.com', 'huffingtonpost.com', 'msnbc.com', 'thehill.com', 'hosted.ap.org', 'nytimes.com'];
-  const sources = await db.Source.findAll({ where: { uri: sourceUris } });
-  const sourceIds = sources.map(source => source.dataValues.id);
-
-  const articles = await db.Article.findAll({
-    where: {
-      eventId,
-      sourceId: sourceIds,
-    }, 
-    include: db.Source
-  });
-  res.json(articles);
->>>>>>> d601c5f... removed force true from db file
 }));
 
 // serve index.html

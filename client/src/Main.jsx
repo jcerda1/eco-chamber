@@ -12,7 +12,7 @@ import Signin from './Signin.jsx';
 const Main = (props) => {
 
 let currentCat = props.state.currentCat;
-let outlets = props.state.outlets
+let outlets = props.state.outlets;
  
 let categories = props.state.categories.map((cat, index) => {
   return <Link to='/'style={{"text-decoration": "none", "color": "black"}}><div key={index}>{cat.name}</div></Link>
@@ -25,13 +25,14 @@ let events = props.state.events.map((event, index) => {
            </li>
 });
 
-let articles = props.state.articles.map((article, index) => { 
-  	return <li key={index}>
-             <ul className="article-body">
-               <a style={{"textDecoration": "none", "color": "black"}} href={article.url}>{article.title}</a> 
-             </ul> 
-           </li>
-});
+let articles = props.state.articles
+// .map((article, index) => { 
+//   	return <li key={index}>
+//              <ul className="article-body">
+//                <a style={{"textDecoration": "none", "color": "black"}} href={article.url}>{article.title}</a> 
+//              </ul> 
+//            </li> 
+// });
 
   return (
     <main> 

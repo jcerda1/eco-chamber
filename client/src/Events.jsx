@@ -5,7 +5,7 @@ const Events = (props) => {
   return (
     <ul className="events-container">
       {props.events}
-    </ul>
+    </ul> 
   )
 }
  
