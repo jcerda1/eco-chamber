@@ -18,7 +18,7 @@ class App extends Component {
   componentDidMount() {
     // get('/categories').then(categories => console.log(categories));
     // get('/events', { categoryId: 1 }).then(events => console.log(events));
-    // get('/articles', { eventId: 1 }).then(articles => console.log(articles));
+    // get('/sources', { eventId: 1 }).then(sources => console.log(sources));
   }
 
   render() {  
