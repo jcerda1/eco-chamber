@@ -9,7 +9,7 @@ const NYT = (props) => {
   //   return <li>{event.title}</li>
   // }) :  <div> There is Nothing to Report </div>
   return (
-    <div>This is NYT</div>
+    <li>{props.nyt}</li>
   )
 }
 

@@ -9,7 +9,7 @@ const Breitbart = (props) => {
   //   return <li>{event.title}</li>
   // }) :  <div> There is Nothing to Report </div>
   return (
-    <div>This is Breitbart</div>
+    <li>{props.breitbart}</li>
   )
 }
 

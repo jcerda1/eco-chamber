@@ -17,19 +17,18 @@ const Articles = (props) => {
   	<h1 className="articles-event">{props.currentCat}</h1>
     <ul className="articles-container">
       <Outlets outlets={props.outlets}/>
-      <HuffPost articles={props.articles} />
-      <MSNBC articles={props.articles} />
-      <AP articles={props.articles} />
-      <NYT articles={props.articles} />
-      <Hill articles={props.articles} />
-      <Fox articles={props.articles} />
-      <Breitbart articles={props.articles} />
+      <HuffPost hp={props.hp}  />
+      <MSNBC msnbc={props.msnbc}  />
+      <AP ap={props.ap}  />
+      <NYT nyt={props.nyt}  />
+      <Hill hill={props.hill}  />
+      <Fox fox={props.fox}  />
+      <Breitbart breitbart={props.breitbart}  />
     </ul> 
     </div>
   )
-  
 }
- 
+  
 
 
   

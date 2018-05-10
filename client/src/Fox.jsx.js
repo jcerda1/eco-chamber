@@ -9,7 +9,7 @@ const Fox = (props) => {
   //   return <li>{event.title}</li>
   // }) :  <div> There is Nothing to Report </div>
   return (
-    <div>This is FOx</div>
+    <li>{props.fox}</li>
   )
 }
 

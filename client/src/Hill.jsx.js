@@ -9,7 +9,7 @@ const Hill = (props) => {
   //   return <li>{event.title}</li>
   // }) :  <div> There is Nothing to Report </div>
   return (
-    <div>This is Hill</div>
+    <li>{props.hill}</li>
   )
 }
 

@@ -7,7 +7,7 @@ import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';  
 
  
-  
+   
  
 const Main = (props) => {
 
@@ -24,22 +24,42 @@ let events = props.state.events.map((event, index) => {
              <div value={event.id} className="body"><p>{event.summary}</p></div>
            </li>
 });
+ 
 
-let articles = props.state.articles
-// .map((article, index) => { 
-//   	return <li key={index}>
-//              <ul className="article-body">
-//                <a style={{"textDecoration": "none", "color": "black"}} href={article.url}>{article.title}</a> 
-//              </ul> 
-//            </li> 
-// });
+let hp = props.state.articles[3] ? props.state.articles[3].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let msnbc = props.state.articles[4] ? props.state.articles[4].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let ap = props.state.articles[0] ? props.state.articles[0].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let nyt = props.state.articles[6] ? props.state.articles[6].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let hill = props.state.articles[5] ? props.state.articles[5].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let fox = props.state.articles[1] ? props.state.articles[1].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <div> There is Nothing to Report </div>
+
+let breitbart = props.state.articles[2] ? props.state.articles[2].Articles.map((event, index) => {
+    return <li key={index}>{event.title}</li>
+}) :   <li> There is Nothing to Report </li>
 
   return (
     <main> 
       <Switch> 
         <Route exact path='/' render={props => <Events {...props} events={events} />}></Route> 
         <Route path='/events' render={props => <Events {...props} events={events}/>}></Route> 
-        <Route path='/articles' render={props => <Articles {...props} currentCat={currentCat} outlets={outlets} articles={articles}/>}></Route> 
+        <Route path='/articles' render={props => <Articles {...props} hp={hp} msnbc={msnbc} ap={ap} nyt={nyt} hill={hill} fox={fox} breitbart={breitbart} currentCat={currentCat} outlets={outlets} />}></Route> 
         <Route path='/signup' render={props => <Signup {...props} />}></Route> 
         <Route path='/signin' render={props => <Signin {...props} />}></Route> 
       </Switch>

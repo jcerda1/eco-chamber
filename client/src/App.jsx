@@ -45,13 +45,12 @@ class App extends Component {
   this.handleClickCat = this.handleClickCat.bind(this);
   this.updateEvents = this.updateEvents.bind(this);
   this.handleEvent = this.handleEvent.bind(this);
-  console.log(this.state)
 } 
  
 componentDidMount() {
   get('/categories').then(categories => this.setState({categories: categories}));
   get('/events', { categoryId: 1 }).then(events => this.setState({events: events}));
-  get('/articles', { eventId: 1}).then(articles => this.setState({articles: articles}));
+  get('/articles', { eventId: 33}).then(articles => this.setState({articles: articles}));
 }
 handleClickCat(e, id) {
   let temp = this.state.currentCat;
@@ -65,9 +64,7 @@ updateEvents(id) {
 }
 
 handleEvent(id) {
-  console.log(id);
-  console.log(this.state)
-  get('/articles', { eventId: `${id}` }).then(articles => this.setState({articles: articles}));
+  get('/articles', { eventId: `${id}` }).then(articles => console.log(articles));
 }
 
   render() {  

@@ -9,7 +9,7 @@ const MSNBC = (props) => {
   //   return <li>{event.title}</li>
   // }) :  <div> There is Nothing to Report </div>
   return (
-    <div>This is MSNBC</div>
+    <li>{props.msnbc}</li>
   )
 }
 
