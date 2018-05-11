@@ -1,0 +1,43 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Eco-Chamber",
+    "description": "",
+    "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "paths": {
+    "/categories": {
+      "get": {
+        "tags": ["categories"],
+        "responses": {}
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": ["events"],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/sources": {
+      "get": {
+        "tags": ["sources"],
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
