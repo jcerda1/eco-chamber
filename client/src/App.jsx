@@ -38,7 +38,7 @@ class App extends Component {
       events: [],
       outlets: sampleSources.Outlets,
       sources: sampleSources.sampleSources,
-      categories: [],
+      categories: [], 
       currentCat: "Arts"
 >>>>>>> a27d39a... cleaned up app file
   } 
@@ -50,7 +50,7 @@ class App extends Component {
 componentDidMount() {
   get('/categories').then(categories => this.setState({categories: categories}));
   get('/events', { categoryId: 1 }).then(events => this.setState({events: events}));
-  get('/articles', { eventId: 33}).then(articles => this.setState({articles: articles}));
+  get('/articles', { eventId: 1}).then(articles => this.setState({articles: articles}));
 }
 handleClickCat(e, id) {
   let temp = this.state.currentCat;

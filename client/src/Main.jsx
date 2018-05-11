@@ -27,7 +27,7 @@ let events = props.state.events.map((event, index) => {
  
 
 let hp = props.state.articles[3] ? props.state.articles[3].Articles.map((event, index) => {
-    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}}href={event.url}>{`${event.title}  ${event.date}`}</a></li>
+    return <li style={{"border": "dotted black"}} className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}}href={event.url}>{`${event.title}`}</a><div style={{"border": "solid black"}}>{event.date}</div></li>
 }) :   <div> There is Nothing to Report </div>
 
 let msnbc = props.state.articles[4] ? props.state.articles[4].Articles.map((event, index) => {
