@@ -2,6 +2,8 @@ const db = require('../db/index');
 
 const bodyParser = require('body-parser');
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+
 const app = express();
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -9,6 +11,9 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../client/dist'));
+
+// swagger
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../swagger.json')));
 
 // categories
 app.get('/categories', wrap(async (req, res) => {
