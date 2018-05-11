@@ -14,7 +14,7 @@ import Breitbart from './Breitbart.jsx'
 const Articles = (props) => {
   return (
   	<div>
-  	<h1 className="articles-event">{props.currentCat}</h1>
+  	<h1 className="articles-event">{props.currentCat}</h1> 
     <ul className="articles-container">
       <Outlets outlets={props.outlets}/>
       <HuffPost hp={props.hp}  />

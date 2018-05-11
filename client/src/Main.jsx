@@ -10,7 +10,7 @@ import Signin from './Signin.jsx';
    
  
 const Main = (props) => {
-
+ 
 let currentCat = props.state.currentCat;
 let outlets = props.state.outlets;
  
@@ -27,31 +27,31 @@ let events = props.state.events.map((event, index) => {
  
 
 let hp = props.state.articles[3] ? props.state.articles[3].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}}href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let msnbc = props.state.articles[4] ? props.state.articles[4].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let ap = props.state.articles[0] ? props.state.articles[0].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let nyt = props.state.articles[6] ? props.state.articles[6].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let hill = props.state.articles[5] ? props.state.articles[5].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let fox = props.state.articles[1] ? props.state.articles[1].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
 let breitbart = props.state.articles[2] ? props.state.articles[2].Articles.map((event, index) => {
-    return <li key={index}>{event.title}</li>
+    return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <li> There is Nothing to Report </li>
 
   return (

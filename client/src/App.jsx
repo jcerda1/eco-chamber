@@ -64,7 +64,7 @@ updateEvents(id) {
 }
 
 handleEvent(id) {
-  get('/articles', { eventId: `${id}` }).then(articles => console.log(articles));
+  get('/articles', { eventId: `${id}` }).then(articles => this.setState({articles: articles}));
 }
 
   render() {  
