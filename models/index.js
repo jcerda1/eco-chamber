@@ -34,13 +34,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.clearDB = () => {
-  return sequelize
-  .query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
-    return sequelize.sync({force: true}).then(async () => {
-        await Category.bulkCreate(seed.sampleCategories);
-    }).catch(err => console.log("sync err: ", err));
-  }).catch(err => console.log("query err: ", err));
-};
-
 module.exports = db;
