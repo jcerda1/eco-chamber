@@ -4,15 +4,15 @@ var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const { db_name, db_user, db_password, db_host } = process.env;
+const sequelize = new Sequelize(db_name, db_user, db_password, {
+  dialect: 'mysql',
+  host: db_host,
+  logging: false,
+  operatorsAliases: false,
+});
 
 fs
   .readdirSync(__dirname)
@@ -33,5 +33,14 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.clearDB = () => {
+  return sequelize
+  .query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+    return sequelize.sync({force: true}).then(async () => {
+        await Category.bulkCreate(seed.sampleCategories);
+    }).catch(err => console.log("sync err: ", err));
+  }).catch(err => console.log("query err: ", err));
+};
 
 module.exports = db;
