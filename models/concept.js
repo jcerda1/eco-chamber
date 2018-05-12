@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
   Concept.associate = function(models) {
     Concept.belongsToMany(models.Event, {through: 'EventConcept'});
     Concept.belongsToMany(models.Article, {through: 'ArticleConcept'});
-    Subcategory.belongsTo(models.Category);
   };
   return Concept;
 };

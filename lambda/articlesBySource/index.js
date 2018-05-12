@@ -1,7 +1,10 @@
 exports.handler = async (event) => {
   const allArticles = await getAllArticles(event.daysAgo);
+  console.log(allArticles);
   const allUris = extractUris(allArticles);
+  console.log(allUris);
   return {articles: allArticles, uris: allUris};
+  
 };
 
 //event registry API

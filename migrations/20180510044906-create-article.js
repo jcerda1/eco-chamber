@@ -16,9 +16,7 @@ module.exports = {
       url: Sequelize.STRING,
       title: Sequelize.STRING,
       body: Sequelize.STRING,
-      description: Sequelize.STRING,
       date: Sequelize.STRING,
-      sentiment: Sequelize.STRING,
       image: Sequelize.STRING,
       eventUri: Sequelize.STRING,
       eventId: {

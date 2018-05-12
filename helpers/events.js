@@ -6,7 +6,7 @@ const { lambda1, relevantEvents, lambda2, lambda3, lambda4 } = require('./sample
 const axios = require('axios');
 
 //db models
-const { Event, Article, Concept, Source, Category, Subcategory } = require('../db/index.js');
+const db = require('../models/index.js');
 
 //lodash
 const _ = require('lodash');
@@ -54,7 +54,7 @@ const extractReleventEvents = (urisObj) => {
   //at least one of left, right and center have reported
   let spectrumSet = new Set([...rightAny].filter(x => leftAny.has(x) && centerAny.has(x)));
   let spectrumArray = [...spectrumSet];
-
+  
   return spectrumArray;
 };
 
@@ -66,29 +66,29 @@ const isEventRelevant = async(eventUri) => {
   const sourceUrisCenter = ['hosted.ap.org', 'nytimes.com', 'thehill.com'];
   const sourceUrisLeft = ['msnbc.com', 'huffingtonpost.com'];
 
-  const sourcesRight = await Source.findAll({ where: { uri: sourceUrisRight } });
-  const sourcesCenter = await Source.findAll({ where: { uri: sourceUrisCenter } });
-  const sourcesLeft = await Source.findAll({ where: { uri: sourceUrisLeft } });
+  const sourcesRight = await db.Source.findAll({ where: { uri: sourceUrisRight } });
+  const sourcesCenter = await db.Source.findAll({ where: { uri: sourceUrisCenter } });
+  const sourcesLeft = await db.Source.findAll({ where: { uri: sourceUrisLeft } });
 
   const sourceIdsRight = sourcesRight.map(source => source.dataValues.id);
   const sourceIdsCenter = sourcesCenter.map(source => source.dataValues.id);
   const sourceIdsLeft = sourcesLeft.map(source => source.dataValues.id);
 
-  const articlesRight = await Article.findAll({
+  const articlesRight = await db.Article.findAll({
     where: {
       eventUri: eventUri,
       sourceId: sourceIdsRight,
     }
   });
 
-  const articlesCenter = await Article.findAll({
+  const articlesCenter = await db.Article.findAll({
     where: {
       eventUri: eventUri,
       sourceId: sourceIdsCenter,
     }
   });
 
-  const articlesLeft = await Article.findAll({
+  const articlesLeft = await db.Article.findAll({
     where: {
       eventUri: eventUri,
       sourceId: sourceIdsLeft,
@@ -113,7 +113,7 @@ const isEventRelevant = async(eventUri) => {
 
 //format instances to conform to DB models
 const formatEvent = (event) => {
-  return Event.build({
+  return db.Event.build({
     uri: event.uri,
     date: moment(event.eventDate, "YYYY-MM-DD"),
     title: event.title.eng || event.title || "",
@@ -122,32 +122,32 @@ const formatEvent = (event) => {
 };
 
 const formatConcept = (concept) => {
-  return Concept.build({
+  return db.Concept.build({
     uri: concept.uri,
     type: concept.type
   }); 
 };
 
 const formatSubcategory = (subcategory) => {
-  return Subcategory.build({
+  return db.Subcategory.build({
     uri: subcategory.uri,
   }); 
 };
 
 const formatArticle = (article) => {
-  return Article.build({
+  return db.Article.build({
     uri: article.uri,
     url: article.url,
     title: article.title,
     body: article.body,
     date: article.date,
-    sentiment: article.sentiment,
+    eventUri: article.eventUri,
     image: article.image,
   });
 };
 
 const extractFormatSource = (article) => {
-  return Source.build({
+  return db.Source.build({
     uri: article.source.uri,
     title: article.source.title,
     importance: article.source.importance,
@@ -171,8 +171,8 @@ const buildSaveArticle = async (article) => {
   }
   
   let formatted = await formatArticle(article);
-  let event = await Event.find({where:{uri: article.eventUri}});
-  let source = await Source.find({where: {uri: article.source.uri}}).then(result => result);
+  let event = await db.Event.find({where:{uri: article.eventUri}});
+  let source = await db.Source.find({where: {uri: article.source.uri}}).then(result => result);
   let savedArticle;
 
   if (!source) {
@@ -180,7 +180,7 @@ const buildSaveArticle = async (article) => {
     source.save().then(saved => console.log('saved source: ' + saved.dataValues.uri));
   }
 
-  await Article.find({where: {uri: article.uri}}).then(async result => {
+  await db.Article.find({where: {uri: article.uri}}).then(async result => {
     if (result) {
       savedArticle = result;
     } else {
@@ -197,29 +197,29 @@ const buildSaveArticle = async (article) => {
   return savedArticle;
 };
 
-//TODO: TEST THIS FUNCTION, DB MIGRATION TO PUT EVENTURI FIELD ON ARTICLE MODEL
+//TODO: TEST THIS FUNCTION,
 
-// const associateArticlesNewEvent = async (eventUri) => {
-//   let event = await Event.find({where:{uri: eventUri}});
-//   let articles;
+const associateArticlesNewEvent = async (eventUri) => {
+  let event = await db.Event.find({where:{uri: eventUri}});
+  let articles;
 
-//   if (event) {
-//     articles = await Article.findAll({where:{ eventUri }});
-//     console.log(articles.dataValues);
+  if (event) {
+    articles = await db.Article.findAll({where:{ eventUri: eventUri }});
+    console.log(articles)
 
-//     for (const article in articles.dataValues) {
-//       await event.addArticle(article);
-//       console.log('added article');
-//     }
-//   } else {
-//     console.log('this event is not in our system');
-//   }
-// };
+    for (const article of articles) {
+      await event.addArticle(article);
+      console.log('added article');
+    }
+  } else {
+    console.log('this event is not in our system');
+  }
+};
 
 const buildSaveEvent = async (event) => {
   const formatted = await formatEvent(event);
 
-  return Event.find({where: {uri: event.uri}}).then(result => {
+  return db.Event.find({where: {uri: event.uri}}).then(result => {
     if (result === null) {
       formatted.save().then(savedEvent => {
         //send this saved event info in a message through AWS queue to articles service
@@ -234,11 +234,11 @@ const buildSaveEvent = async (event) => {
 };
 
 const buildSaveSubcategory = ({ uri }) => {
-  return Subcategory.findOrCreate({ where: { uri } })
+  return db.Subcategory.findOrCreate({ where: { uri } })
     .spread((newSubcategory, created) => {
       if (created) {
         const name = newSubcategory.uri.split('/')[1];
-        Category.findOne({ where: { name } })
+        db.Category.findOne({ where: { name } })
           .then(category => category.addSubcategory(newSubcategory));
       }
 
@@ -248,13 +248,13 @@ const buildSaveSubcategory = ({ uri }) => {
 
 //helper function to save concept or category in DB
 const buildSaveConcept = (concept) => {
-  return Concept.findOrCreate({ where: { uri: concept.uri } })
+  return db.Concept.findOrCreate({ where: { uri: concept.uri } })
     .spread((newConcept, created) => newConcept);
 };
 
 // save arrays of either concepts or categories and associate each one with the event
 const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
-  const event = await Event.find({where: { uri: eventUri }});
+  const event = await db.Event.find({where: { uri: eventUri }});
 
   if (event) {
     for (const item of conceptsOrSubcategories) {
@@ -297,7 +297,7 @@ const getEventInfo = async(uris) => {
     let current = await buildSaveEvent(event); 
     await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
     await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
-    // await associateArticlesNewEvent(event.uri);
+    await associateArticlesNewEvent(event.uri);
   }
   console.log("events saved");
 };
@@ -328,7 +328,7 @@ const getArticlesBySource = async(daysAgo) => {
 const findUnsavedEvents = async(uris) => {
   let unsaved = [];
   for (const uri of uris) {
-    let event = await Event.find({where:{ uri }});
+    let event = await db.Event.find({where:{ uri }});
 
     if (!event) {
       unsaved.push(uri);
@@ -339,6 +339,7 @@ const findUnsavedEvents = async(uris) => {
 }
 
 //once every 24 hours, hit all three lambda functions to get our data into the DB
+//const ~75 tokens
 const dailyFetch = async() => {
   const newlyRelevantEvents = [];
   //get the event uris that our sources have reported on over the last three days
@@ -374,7 +375,13 @@ module.exports = {
   calculateBias
 };
 
-console.log(process.env.NODE_ENV);
+
+dailyFetch()
+
+
+
+
+
 
 
 
