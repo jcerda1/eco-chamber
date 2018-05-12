@@ -253,7 +253,7 @@ const buildSaveConcept = (concept) => {
 };
 
 // save arrays of either concepts or categories and associate each one with the event
-const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
+const associateEventConceptsOrSubcategories = async (conceptsOrSubcategories, type, eventUri) => {
   const event = await db.Event.find({where: { uri: eventUri }});
 
   if (event) {
@@ -269,6 +269,29 @@ const associateConceptsOrSubcategories = async (conceptsOrSubcategories, type, e
       }
     }
     console.log(`Finished associating ${type} for event ${eventUri}`);
+  } else {
+    console.log('We encountered an error retrieving the event: ' + eventUri);
+  }  
+};
+//TODO:  change lambda function to request concepts and categories
+//TODO:  merge this function into the other one
+// save arrays of either concepts or categories and associate each one with the event
+const associateArticleConceptsOrSubcategories = async (conceptsOrSubcategories, type, articleUri) => {
+  const article = await db.Article.find({where: { uri: articleUri }});
+
+  if (article) {
+    for (const item of conceptsOrSubcategories) {
+      if (type === 'concept') {
+        const saved = await buildSaveConcept(item);
+        await article.addConcept(saved).catch(err => console.log(err));
+      } else if (type === 'subcategory') {
+        const saved = await buildSaveSubcategory(item);
+        if (item.wgt > 50) {
+          await article.addSubcategory(saved).catch(err => console.log(err));
+        }       
+      }
+    }
+    console.log(`Finished associating ${type} for event ${articleUri}`);
   } else {
     console.log('We encountered an error retrieving the event: ' + eventUri);
   }  
@@ -295,8 +318,8 @@ const getEventInfo = async(uris) => {
 
   for (const event of response.data) {
     let current = await buildSaveEvent(event); 
-    await associateConceptsOrSubcategories(event.concepts, 'concept', event.uri);
-    await associateConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
+    await associateEventConceptsOrSubcategories(event.concepts, 'concept', event.uri);
+    await associateEventConceptsOrSubcategories(event.categories, 'subcategory', event.uri); 
     await associateArticlesNewEvent(event.uri);
   }
   console.log("events saved");
@@ -352,12 +375,16 @@ const dailyFetch = async() => {
   const articles3 = await getArticlesBySource(3);
   const articles2 = await getArticlesBySource(2);
   const articles1 = await getArticlesBySource(1);
+   
+  console.log('fetched!');
+};
+
+const relvanceCheck = async() => {
 
   //TODO: check to see if any previously unsaved events are now relevant
 
+
   //TODO: fetch additional event info for any newly relevant events
-   
-  console.log('fetched!');
 };
 
 module.exports = {
