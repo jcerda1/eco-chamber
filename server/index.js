@@ -33,9 +33,16 @@ app.get('/events', wrap(async (req, res) => {
   });
 
   let events = [];
-  for (let i = 0; i < Subcategories.length; i++) {
-    events = events.concat(Subcategories[i].Events);
+  let ids = {};
+  for (const subcategory of Subcategories) {
+    for (const event of subcategory.Events) {
+      if (!ids[event.id]) {
+        events.push(event);
+        ids[event.id] = true;
+      }
+    }
   }
+
   res.json(events);
 }));
 
