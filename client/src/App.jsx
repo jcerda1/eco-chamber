@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
-import sampleSources from '../../db/testData.js';
+// import sampleSources from '../../db/testData.js';
 import { get } from './helpers/api';
 
 class App extends Component {
   constructor(props) { 
     super(props);
     this.state = { 
-      articles: sampleSources.sampleArticles, 
-      events: sampleSources.sampleEvents,
-      sources: sampleSources.sampleSources 
+      // articles: sampleSources.sampleArticles, 
+      // events: sampleSources.sampleEvents,
+      // sources: sampleSources.sampleSources 
     };
   }
 
