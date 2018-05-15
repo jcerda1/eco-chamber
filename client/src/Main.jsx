@@ -24,33 +24,32 @@ let events = props.state.events.map((event, index) => {
              <div value={event.id} className="body"><p>{event.summary}</p></div>
            </li>
 });
- 
 
-let hp = props.state.articles[3] ? props.state.articles[3].Articles.map((event, index) => {
+let hp = props.state.sources[3] ? props.state.sources[3].Articles.map((event, index) => {
     return <li style={{"border": "dotted black"}} className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}}href={event.url}>{`${event.title}`}</a><div style={{"border": "solid black"}}>{event.date}</div></li>
 }) :   <div> There is Nothing to Report </div>
 
-let msnbc = props.state.articles[4] ? props.state.articles[4].Articles.map((event, index) => {
+let msnbc = props.state.sources[4] ? props.state.sources[4].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
-let ap = props.state.articles[0] ? props.state.articles[0].Articles.map((event, index) => {
+let ap = props.state.sources[0] ? props.state.sources[0].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
-let nyt = props.state.articles[6] ? props.state.articles[6].Articles.map((event, index) => {
+let nyt = props.state.sources[6] ? props.state.sources[6].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
-let hill = props.state.articles[5] ? props.state.articles[5].Articles.map((event, index) => {
+let hill = props.state.sources[5] ? props.state.sources[5].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
-let fox = props.state.articles[1] ? props.state.articles[1].Articles.map((event, index) => {
+let fox = props.state.sources[1] ? props.state.sources[1].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <div> There is Nothing to Report </div>
 
-let breitbart = props.state.articles[2] ? props.state.articles[2].Articles.map((event, index) => {
+let breitbart = props.state.sources[2] ? props.state.sources[2].Articles.map((event, index) => {
     return <li className="article-body" key={index}><a style={{"text-decoration": "none", "color": "black"}} href={event.url}>{`${event.title}  ${event.date}`}</a></li>
 }) :   <li> There is Nothing to Report </li>
 

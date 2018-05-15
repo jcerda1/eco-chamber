@@ -11,6 +11,7 @@ class App extends Component {
     this.state = { 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       // articles: sampleSources.sampleArticles, 
       // events: sampleSources.sampleEvents,
       // sources: sampleSources.sampleSources 
@@ -35,9 +36,11 @@ class App extends Component {
 =======
       articles: [], 
 >>>>>>> 2d1538c... made changes to server endpoint added components for each news outlet
+=======
+      sources: [], 
+>>>>>>> 926d25f... added sources to state
       events: [],
       outlets: sampleSources.Outlets,
-      sources: sampleSources.sampleSources,
       categories: [], 
       currentCat: "Arts"
 >>>>>>> a27d39a... cleaned up app file
@@ -50,8 +53,8 @@ class App extends Component {
 componentDidMount() {
   get('/categories').then(categories => this.setState({categories: categories}));
   get('/events', { categoryId: 1 }).then(events => this.setState({events: events}));
-  get('/articles', { eventId: 1}).then(articles => this.setState({articles: articles}));
 }
+
 handleClickCat(e, id) {
   let temp = this.state.currentCat;
   temp = e.target.id
@@ -64,13 +67,13 @@ updateEvents(id) {
 }
 
 handleEvent(id) {
-  get('/articles', { eventId: `${id}` }).then(articles => this.setState({articles: articles}));
+  get('/sources', { eventId: `${id}` }).then(sources => this.setState({sources: sources}));
 }
 
   render() {  
     return (
       <div className="onboarding">
-        <Header state={this.state} catClick={this.handleClickCat}/>
+        <Header categories={this.state.categories} catClick={this.handleClickCat}/>
         <Main state={this.state} handleEvent={this.handleEvent}/>
       </div>
     )  
