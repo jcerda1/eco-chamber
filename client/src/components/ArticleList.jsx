@@ -9,13 +9,13 @@ class ArticleList extends Component {
     const articles = this.props.articles.map(({ id, title, url }) => {
       return (
         <li key={id}>
-          <a href={url} target="_blank">{title}</a>
+          <a style={{"text-decoration": "none", "color": "black"}} href={url} target="_blank">{title}</a>
         </li>
       );
     });
 
     return (
-      <ul>
+      <ul className="article-body" >
         {articles}
       </ul>
     );

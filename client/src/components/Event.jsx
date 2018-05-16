@@ -14,7 +14,7 @@ class Event extends Component {
 
   componentDidMount() {
     this.updateSources();
-  }
+  } 
 
   componentWillReceiveProps(props) {
     this.updateSources(props);
@@ -36,7 +36,7 @@ class Event extends Component {
     });
   
     return (
-      <ul>
+      <ul  className="articles-container">
         {sources}
       </ul>
     );
