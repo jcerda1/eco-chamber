@@ -17,8 +17,6 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../swagger.json')));
 
 // categories
-<<<<<<< HEAD
-<<<<<<< HEAD
 app.get('/api/categories', wrap(async (req, res) => {
   const categories = await db.Category.findAll();
   res.json(categories);
@@ -48,54 +46,6 @@ app.get('/api/events', wrap(async (req, res) => {
 
   res.json(events);
 }));
-=======
-// app.get('/categories', wrap(async (req, res) => {
-//   const categories = await db.Category.findAll();
-//   res.json(categories);
-// }));
-
-// events
-// app.get('/events', wrap(async (req, res) => {
-//   const { categoryId } = req.query;
-//   // TODO: limit events to last X days
-//   const { Subcategories } = await db.Category.findById(categoryId, {
-//     include: [{
-//       model: db.Subcategory,
-//       include: db.Event,
-//     }],
-//   });
-
-//   let events = [];
-//   for (let i = 0; i < Subcategories.length; i++) {
-//     events = events.concat(Subcategories[i].Events);
-//   }
-//   res.json(events);
-// }));
->>>>>>> 43f58e4... will render categories
-=======
-app.get('/categories', wrap(async (req, res) => {
-  const categories = await db.Category.findAll();
-  res.json(categories);
-}));
-
-// events
-app.get('/events', wrap(async (req, res) => {
-  const { categoryId } = req.query;
-  // TODO: limit events to last X days
-  const { Subcategories } = await db.Category.findById(categoryId, {
-    include: [{
-      model: db.Subcategory,
-      include: db.Event,
-    }],
-  });
-
-  let events = [];
-  for (let i = 0; i < Subcategories.length; i++) {
-    events = events.concat(Subcategories[i].Events);
-  }
-  res.json(events);
-}));
->>>>>>> 52e83c0... removed force true from db file
 
 // sources
 app.get('/api/sources', wrap(async (req, res) => {
