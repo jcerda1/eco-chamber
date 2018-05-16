@@ -13,7 +13,7 @@ class Events extends Component {
   componentDidMount() {
     this.updateEvents();
   }
-
+ 
   componentWillReceiveProps(props) {
     this.updateEvents(props);
   }
@@ -24,18 +24,25 @@ class Events extends Component {
   }
 
   render() {
-    const events = this.state.events.map(({ id, title }) => {
+    const events = this.state.events.map(({ id, title, summary }) => {
       return (
         <li key={id}>
-          <Link to={`/event/${id}/articles`}>
-            {title}
+          <Link style={{"text-decoration": "none", "color": "black", "padding": "10px"}} to={`/event/${id}/articles`}>
+            <h2  className="li-header">
+              {title}
+            </h2>
           </Link>
+          <div value={id} className="body">
+            <p>
+              {summary}
+            </p>
+          </div>
         </li>
       );
     });
   
     return (
-      <ul>
+      <ul className="events-container">
         {events}
       </ul>
     );
@@ -43,20 +50,3 @@ class Events extends Component {
 }
 
 export default Events;
-
-
-
-
-// import React from 'react';
-
-
-// const Events = (props) => {
-//   return (
-//     <ul className="events-container">
-//       {props.events}
-//     </ul> 
-//   )
-// }
- 
-
-// export default Events;    

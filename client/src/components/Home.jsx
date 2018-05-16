@@ -9,7 +9,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        Home
+        Welcome to Eco-Chamber. Select a Category...
       </div>
     );
   }
