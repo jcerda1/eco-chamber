@@ -7,10 +7,11 @@ class Source extends Component {
 
   render() {
     const { title } = this.props.source;
+    const { image } = this.props.source;
 
     return (
       <div className="source-image-title">
-        <img src='https://seeklogo.com/vector-logo/6715/all-news'></img>
+        <img src={image}></img>
         <hr></hr>
         {title}
       </div>

@@ -1,6 +1,6 @@
 
 body {
-  background-color: #F8F8F8;
+  background-color: white;
   margin: 0;
   padding-top: 200px;
 }
@@ -85,13 +85,15 @@ body {
   padding-right: 150px;
   margin: 2em;
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 10px;
   overflow: scroll;
 }
 
 .events-container li {
   display: flex;
   flex-direction: row;
+  padding: 10px;
+  margin: 2em;
 }
 
 .li-header {
@@ -121,26 +123,28 @@ body {
 }
 
 .articles-container {
-  border-top: 10px solid transparent;
-  border-image: linear-gradient(to right,blue, red);
+  border-top: 20px solid transparent;
+  border-image: linear-gradient(to right,darkblue, red);
   border-image-slice: 1;
   list-style-type: none;
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 2em;
+  margin-right: 2em;
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   padding-top: 20px;
-  justify-content: stretch;
+  /*justify-content: space-evenly;*/
 } 
 
 .articles-container > li {
-  border: 1px solid grey;
-  border-radius: 5px;
+  background-color: lightgrey;
+  /*border: 1px solid grey;*/
+  /*border-radius: 5px;*/
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  align-items: center;
+  justify-content: flex-start;
+  /*align-items: center;*/
 }
 
 .article-body {
@@ -148,20 +152,23 @@ body {
   /*border: 1px solid grey;
   padding: 10px;
   margin: 5px;*/
-  background-color: pink;
+
   font-weight: normal;
 }
 
 .article {
-  padding: 10px;
-  margin: 5px;
+  padding:10px;
+  margin-top: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 1px solid grey;
+  border-top: 1px solid grey;
+  border-radius: 5px;
 }
 
-.article-img {
+/*.article-img {
   margin-top: 5px;
   border: 1px solid;
   background-color: #C0C0C0;
@@ -170,7 +177,7 @@ body {
   border: 1px solid grey;
   border-radius: 5px;
 
-}
+}*/
 
 img {
   width: 150px;
@@ -180,6 +187,7 @@ img {
   border-color: white;
   border-width: 2px;
   margin-top: 10px;
+  border-radius: 50%;
 }
 
 .source-image-title {
