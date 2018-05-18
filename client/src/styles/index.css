@@ -116,16 +116,22 @@ body {
   text-align: center;
 }
 
+.event-title {
+  text-align: center;
+}
+
 .articles-container {
   border-top: 10px solid transparent;
   border-image: linear-gradient(to right,blue, red);
   border-image-slice: 1;
   list-style: none;
-  margin: 2em;
+  margin-left: 3em;
+  margin-right: 3em;
   display: grid;
-  grid-gap: 5px;
-  grid-template-columns: repeat(auto-fill,minmax(175px, 1fr));
-  padding: 0;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 20px;
+  justify-content: stretch;
 }
 
 .articles-container > li {
