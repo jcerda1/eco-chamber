@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     image: DataTypes.STRING,
-    thumbImage: DataTypes.STRING
+    thumbImage: DataTypes.STRING,
+    bias: DataTypes.INTEGER
   }, {});
   Source.associate = function(models) {
     Source.hasMany(models.Article);
