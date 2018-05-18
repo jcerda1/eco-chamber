@@ -9,7 +9,9 @@ class Source extends Component {
     const { title } = this.props.source;
 
     return (
-      <div>
+      <div className="source-image-title">
+        <img src='https://seeklogo.com/vector-logo/6715/all-news'></img>
+        <hr></hr>
         {title}
       </div>
     );

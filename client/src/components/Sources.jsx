@@ -11,17 +11,19 @@ class Sources extends Component {
   render() {
     const sourcesAll = this.props.sources.map(({ Articles, ...source }) => {
       return (
-        <li key={source.id}>
+        <div>
           <Source source={source}/>
-          <ArticleList articles={Articles}/>
-        </li>
+          <li key={source.id}>          
+            <ArticleList articles={Articles}/>
+          </li>
+        </div>
       );
     });
   
     return (
-      <ul>
+      <div className="sources-list">
         {sourcesAll}
-      </ul>
+      </div>
     )
   }
 }
