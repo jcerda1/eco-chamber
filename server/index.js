@@ -54,12 +54,12 @@ app.get('/api/events', wrap(async (req, res) => {
     }
   }
 
-  console.log(events.length);
-
   res.json(events);
 }));
 
-// sources
+// sources, returned in order of bias from far left to far right
+// TODO: add additional sourceUris
+// Only send back sources that have articles for that event
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
   const sourceUris = ['huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 'thehill.com', 'foxnews.com', 'breitbart.com'];
@@ -72,6 +72,7 @@ app.get('/api/sources', wrap(async (req, res) => {
       where: { eventId },
       required: false
     }],
+    order:  ['bias'],
   });
   res.json(sources);
 }));
