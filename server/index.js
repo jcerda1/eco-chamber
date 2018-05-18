@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const Op = db.Sequelize.Op;
 
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -25,11 +26,20 @@ app.get('/api/categories', wrap(async (req, res) => {
 // events
 app.get('/api/events', wrap(async (req, res) => {
   const { categoryId } = req.query;
-  // TODO: limit events to last X days
+  // limit initial events to ones created by our system in the last 3 days
+  const daysAgo = new Date(new Date() - (24*3) * 60 * 60 * 1000);
+
   const { Subcategories } = await db.Category.findById(categoryId, {
     include: [{
       model: db.Subcategory,
-      include: db.Event,
+      include: [{
+        model: db.Event,
+        where: {
+          createdAt: {
+            [Op.gt]: daysAgo
+          }
+        }
+      }]
     }],
   });
 
@@ -43,6 +53,8 @@ app.get('/api/events', wrap(async (req, res) => {
       }
     }
   }
+
+  console.log(events.length);
 
   res.json(events);
 }));
