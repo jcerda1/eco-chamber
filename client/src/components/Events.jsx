@@ -27,11 +27,15 @@ class Events extends Component {
     const events = this.state.events.map(({ id, title, summary }) => {
       return (
         <li key={id}>
-          <Link style={{"text-decoration": "none", "color": "black", "padding": "10px"}} to={`/event/${id}/articles`}>
-            <h2  className="li-header">
-              {title}
-            </h2>
+          <Link style={{"text-decoration": "none", "color": "black", "padding": "10px"}} to={{
+            pathname: `/event/${id}/articles`,
+            state: { title }}}>
+
+          <h2  className="li-header">
+            {title}
+          </h2>
           </Link>
+        
           <div value={id} className="body">
             <p>
               {summary}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Article from './Article.jsx';
 
 class ArticleList extends Component {
   constructor(props) {
@@ -6,20 +7,19 @@ class ArticleList extends Component {
   }
 
   render() {
-    const articles = this.props.articles.length ? this.props.articles.map(({ id, title, url }) => {
+    console.log(this.props.articles)
+    const articles = this.props.articles.length ? this.props.articles.map(article => {
       return (
-        <li key={id}>
-          <a style={{"text-decoration": "none", "color": "black"}} href={url} target="_blank">{title}</a>
-        </li>
+        <Article article={article}/>
       )
     }) : 
     <h2 style={{"fontStyle": "italic"}}> This news source has not reported on this topic </h2>
       
 
     return (
-      <ul className="article-body" >
+      <div className="article-body" >
         {articles}
-      </ul>
+      </div>
     );
   }
 }
