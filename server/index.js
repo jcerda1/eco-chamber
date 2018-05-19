@@ -57,6 +57,14 @@ app.get('/api/events', wrap(async (req, res) => {
       }
     }
   }
+  //sort results to come back newest first
+  events = events.sort((a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a>b ? -1 : a<b ? 1 : 0;
+  });
+
+  //TODO:  only send back events that have been appropriately reported on across the spectrum
 
   res.json(events);
 }));
@@ -66,9 +74,14 @@ app.get('/api/events', wrap(async (req, res) => {
 // Only send back sources that have articles for that event
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
-  const sourceUris = ['huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 'thehill.com', 'foxnews.com', 'breitbart.com'];
+  const sourceUris = [
+    'motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 
+    'thehill.com', 'foxnews.com', 'breitbart.com', 'npr.org', 'washingtontimesreporter.com', 
+    'theguardian.com', 'latimes.com', 'ijr.com', 'theblaze.com', 'wnd.com'
+  ];
+
   const sources = await db.Source.findAll({
-    where: {
+    where: {  
       uri: sourceUris,
     },
     include: [{
