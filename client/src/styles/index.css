@@ -158,7 +158,8 @@ body {
 
 .article {
   padding:10px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   margin-right: 5px;
   margin-left: 5px;
   display: flex;
@@ -180,8 +181,8 @@ body {
 }*/
 
 img {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   align-self: center;
   border-style: solid;
   border-color: white;
@@ -194,7 +195,7 @@ img {
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
 }
 
 .sources-list {

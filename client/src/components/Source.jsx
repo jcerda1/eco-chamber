@@ -12,8 +12,7 @@ class Source extends Component {
     return (
       <div className="source-image-title">
         <img src={image}></img>
-        <hr></hr>
-        {title}
+        <h2>{title}</h2>
       </div>
     );
   }
