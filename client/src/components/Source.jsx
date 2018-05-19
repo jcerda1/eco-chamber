@@ -7,10 +7,12 @@ class Source extends Component {
 
   render() {
     const { title } = this.props.source;
+    const { image } = this.props.source;
 
     return (
-      <div>
-        {title}
+      <div className="source-image-title">
+        <img src={image}></img>
+        <h2>{title}</h2>
       </div>
     );
   }
