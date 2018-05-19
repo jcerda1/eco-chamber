@@ -30,6 +30,7 @@ app.get('/api/categories', wrap(async (req, res) => {
 // events
 app.get('/api/events', wrap(async (req, res) => {
   const { categoryId } = req.query;
+  
   // limit initial events to ones created by our system in the last 3 days
   const daysAgo = new Date(new Date() - (24*3) * 60 * 60 * 1000);
 
@@ -47,6 +48,7 @@ app.get('/api/events', wrap(async (req, res) => {
       }
     }
   });
+
   //only return events that have associated articles
   let filtered = events.filter(event => event.Articles.length > 0);
 

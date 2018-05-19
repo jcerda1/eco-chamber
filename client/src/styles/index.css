@@ -151,7 +151,8 @@ body {
   text-decoration: none;
   color: black;
   padding:10px;
-  margin: 5px;
+  margin: 10px;
+  margin-bottom: 15px;
   display: flex;
   /*flex-direction: column;*/
   background-color: white;
