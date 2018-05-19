@@ -1,7 +1,25 @@
 import axios from 'axios';
+import Auth from './Auth';
 
-const get = (route, params) => axios.get('/api' + route, { params }).then(res => res.data);
+const baseURL = '/api';
+const headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+};
 
-module.exports = {
-  get,
+const jwt = Auth.getJWT();
+
+if (jwt) {
+  headers['authorization'] = `bearer ${jwt}`;
 }
+
+const Api = {
+  get: (url, params = {}) => {
+    return axios.get(baseURL + url, { headers, params }).then(({ data }) => data);
+  },
+  post: (url, data = {}, params = {}) => {
+    return axios.post(baseURL + url, data, { headers, params }).then(({ data }) => data);
+  },
+};
+
+export default Api;
