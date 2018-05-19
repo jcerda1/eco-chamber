@@ -33,40 +33,32 @@ app.get('/api/events', wrap(async (req, res) => {
   // limit initial events to ones created by our system in the last 3 days
   const daysAgo = new Date(new Date() - (24*3) * 60 * 60 * 1000);
 
-  const { Subcategories } = await db.Category.findById(categoryId, {
+  const events = await db.Event.findAll({
     include: [{
       model: db.Subcategory,
-      include: [{
-        model: db.Event,
-        where: {
-          createdAt: {
-            [Op.gt]: daysAgo
-          }
-        }
-      }]
+      where: { categoryId }
+    },
+    {
+      model: db.Article
     }],
-  });
-
-  let events = [];
-  let ids = {};
-  for (const subcategory of Subcategories) {
-    for (const event of subcategory.Events) {
-      if (!ids[event.id]) {
-        events.push(event);
-        ids[event.id] = true;
+    where: {
+      createdAt: {
+        [Op.gt]: daysAgo
       }
     }
-  }
+  });
+
+  let filtered = events.filter(event => event.Articles.length > 0);
+
   //sort results to come back newest first
-  events = events.sort((a, b) => {
+  const sorted = filtered.sort((a, b) => {
     a = new Date(a.date);
     b = new Date(b.date);
     return a>b ? -1 : a<b ? 1 : 0;
   });
 
   //TODO:  only send back events that have been appropriately reported on across the spectrum
-
-  res.json(events);
+  res.json(sorted);
 }));
 
 // sources, returned in order of bias from far left to far right
