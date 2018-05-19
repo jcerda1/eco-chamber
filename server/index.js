@@ -2,7 +2,11 @@ const db = require('../models/index');
 const Op = db.Sequelize.Op;
 
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const boom = require('boom');
+const exjwt = require('express-jwt');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 
@@ -77,9 +81,45 @@ app.get('/api/sources', wrap(async (req, res) => {
   res.json(sources);
 }));
 
+// users
+app.post('/api/users', wrap(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await db.User.findOne({ where: { email } });
+  if (user) throw boom.badRequest('Email already exists');
+
+  const hash = await bcrypt.hash(password, 10);
+  const newUser = await db.User.create({ email, password: hash });
+  res.json(newUser);
+}));
+
+// auth
+app.get('/api/auth/login', wrap(async (req, res) => {
+  const { email, password } = req.query;
+  const user = await db.User.findOne({ where: { email } });
+  if (!user) throw boom.badRequest('User does not exist');
+
+  const authorized = await bcrypt.compare(password, user.password);
+  if (!authorized) throw boom.unauthorized('Email/password incorrect');
+
+  const token = jwt.sign({ id: user.id }, 'secret');
+  res.json(token);
+}));
+
 // serve index.html
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
+}); 
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  if (err.isBoom) {
+    const { payload } = err.output;
+    res.status(payload.statusCode).json(payload);
+  } else if (err.name === 'UnauthorizedError') {
+    if (!req.user) res.status(401).json('Invalid jwt');
+  } else {
+    res.status(500).json('Whoops! Something went wrong. Check the server logs.');
+  }
 });
 
 app.listen(3000, () => console.log('Listening on port 3000!'));
