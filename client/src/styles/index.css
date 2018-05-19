@@ -85,15 +85,13 @@ body {
   padding-right: 150px;
   margin: 2em;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 20px;
   overflow: scroll;
 }
 
 .events-container li {
   display: flex;
   flex-direction: row;
-  padding: 10px;
-  margin: 2em;
 }
 
 .li-header {
@@ -111,6 +109,7 @@ body {
   border-top: 1px solid;
   padding: 10px;
   text-align: justify;
+  font-size: 18px;
 }
 
 /* articles */
