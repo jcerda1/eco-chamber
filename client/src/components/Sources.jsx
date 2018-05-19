@@ -11,11 +11,9 @@ class Sources extends Component {
   render() {
     const sourcesAll = this.props.sources.map(({ Articles, ...source }) => {
       return (
-        <div>
+        <div key={source.id}>
           <Source source={source}/>
-          <li key={source.id}>          
-            <ArticleList articles={Articles}/>
-          </li>
+          <ArticleList articles={Articles}/>        
         </div>
       );
     });

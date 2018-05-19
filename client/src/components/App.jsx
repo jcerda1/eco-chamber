@@ -25,12 +25,12 @@ class App extends Component {
             </Link>
           <ul >
             <li className="signup">
-              <Link style={{"text-decoration": "none", "color": "black"}} to="/signup">
+              <Link style={{"textDecoration": "none", "color": "black"}} to="/signup">
                 Sign Up
               </Link>  
             </li>
             <li className="login">
-              <Link style={{"text-decoration": "none", "color": "black"}} to="/signin">
+              <Link style={{"textDecoration": "none", "color": "black"}} to="/signin">
                 Log in
               </Link>
             </li>

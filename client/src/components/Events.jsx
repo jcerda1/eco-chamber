@@ -27,7 +27,7 @@ class Events extends Component {
     const events = this.state.events.map(({ id, title, summary }) => {
       return (
         <li key={id}>
-          <Link style={{"text-decoration": "none", "color": "black", "padding": "10px"}} to={{
+          <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
             pathname: `/event/${id}/articles`,
             state: { title }}}>
 

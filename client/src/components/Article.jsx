@@ -6,12 +6,11 @@ class Article extends Component {
   }
 
   render() {
-    console.log('article props', this.props)
-    return (
-      <a style={{"text-decoration": "none", "color": "black", "padding": "10px"}} href={this.props.article.url} target="_blank" className="article">
-        {this.props.article.title}
-      </a>
 
+    return ( 
+      <a href={this.props.article.url} target="_blank" className="article">
+        <p>{this.props.article.title}</p>
+      </a>
     )
   }
 }

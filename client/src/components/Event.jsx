@@ -17,45 +17,26 @@ class Event extends Component {
     Api.get('/sources', { eventId }).then(sources => {
       this.orderSources(sources);
     });
-    // let allSources = await Api.get('/sources', { eventId });
-    // await this.setState({"sources": allSosurces});
-    // console.log(this.state);
   } 
 
-
-  // componentWillReceiveProps(props) {
-  //   this.updateSources(props);
-  // }
-
   orderSources (allSources) {
-    let farLeft = allSources.filter(source => source.bias === -2);
-    let left = allSources.filter(source => source.bias === -1);
-    let center = allSources.filter(source => source.bias === 0);
-    let right = allSources.filter(source => source.bias === 1);
-    let farRight = allSources.filter(source => source.bias === 2);
+    let farLeft = allSources.filter(source => source.bias === -2).sort((a, b) => a.Articles.length < b.Articles.length);
+    let left = allSources.filter(source => source.bias === -1).sort((a, b) => a.Articles.length < b.Articles.length);
+    let center = allSources.filter(source => source.bias === 0).sort((a, b) => a.Articles.length < b.Articles.length);
+    let right = allSources.filter(source => source.bias === 1).sort((a, b) => a.Articles.length < b.Articles.length);
+    let farRight = allSources.filter(source => source.bias === 2).sort((a, b) => a.Articles.length < b.Articles.length);
     
     this.setState({ "orderedSources": [ farLeft, left, center, right, farRight] }, () => console.log('sources ordered', this.state));
   }
 
-  updateSources = (props = this.props) => {
-    const { eventId } = props.match.params;
-    Api.get('/sources', { eventId }).then(sources => {
-      this.setState({ sources }, () => { 
-        console.log('retrieved sources');
-        this.orderSources();
-      });
-    });
-  }
-
   render() {
-    console.log(this.props)
     const sources = this.state.orderedSources.map(x => {
       return (
-        <li>
+        <li key={x[0].bias}>
           <Sources sources={x}/>
         </li>
       )
-    })
+    });
 
     return (
       <div>

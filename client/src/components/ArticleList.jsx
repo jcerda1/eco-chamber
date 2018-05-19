@@ -7,17 +7,16 @@ class ArticleList extends Component {
   }
 
   render() {
-    console.log(this.props.articles)
+   
     const articles = this.props.articles.length ? this.props.articles.map(article => {
       return (
-        <Article article={article}/>
+        <Article key={article.id} article={article}/>
       )
     }) : 
-    <h2 style={{"fontStyle": "italic"}}> This news source has not reported on this topic </h2>
-      
-
+    <div></div>
+     
     return (
-      <div className="article-body" >
+      <div className="article-body">
         {articles}
       </div>
     );

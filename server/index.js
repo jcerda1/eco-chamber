@@ -47,7 +47,7 @@ app.get('/api/events', wrap(async (req, res) => {
       }
     }
   });
-
+  //only return events that have associated articles
   let filtered = events.filter(event => event.Articles.length > 0);
 
   //sort results to come back newest first
@@ -57,8 +57,19 @@ app.get('/api/events', wrap(async (req, res) => {
     return a>b ? -1 : a<b ? 1 : 0;
   });
 
+  //only send back the info client cares about
+  let results = sorted.map(x => {
+    return {
+      id: x.id,
+      uri: x.uri,
+      title: x.title,
+      summary: x.summary,
+      date: x.date
+    }
+  });
+
   //TODO:  only send back events that have been appropriately reported on across the spectrum
-  res.json(sorted);
+  res.json(results);
 }));
 
 // sources, returned in order of bias from far left to far right
