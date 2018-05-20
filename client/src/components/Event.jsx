@@ -35,7 +35,7 @@ class Event extends Component {
   }
 
   analyzeArticleTitles(articles) {
-    let ignoredWords = ['of', 'the', 'a', 'an', 'he', 'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'];
+    let ignoredWords = ['after', 'of', 'the', 'a', 'an', 'he', 'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'];
     let words = {};
     let weighted = [];
 
@@ -64,7 +64,7 @@ class Event extends Component {
       }
 
     }
-    this.setState({ titleWords: words, weightedWords: weighted }, () => console.log(this.state));
+    this.setState({ titleWords: words, weightedWords: weighted });
   }
 
   orderSources (allSources) {

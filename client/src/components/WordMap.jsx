@@ -17,7 +17,6 @@ class EventWordCloud extends React.Component {
         height={300}
         data={this.props.data}
         fontSizeMapper={fontSizeMapper}
-        rotate={rotate}
         padding={2}
       />
     );
