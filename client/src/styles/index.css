@@ -117,7 +117,7 @@ body {
   text-align: center;
 }
 
-.event-title {
+.event-title, .event-date {
   text-align: center;
 }
 
@@ -150,13 +150,14 @@ body {
 .article {
   text-decoration: none;
   color: black;
-  padding:10px;
-  margin: 10px;
+  padding:5px;
+  margin: 5px;
   margin-bottom: 15px;
   display: flex;
-  /*flex-direction: column;*/
+  flex-direction: column;
   background-color: white;
   border-radius: 5px;
+  border: solid lightgrey 1px;
 }
 
 /*.article-img {

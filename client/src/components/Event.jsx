@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
 import Sources from './Sources.jsx';
 import ArticleList from './ArticleList.jsx';
+import moment from 'moment';
 
 class Event extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Event extends Component {
   }
 
   render() {
+    const formattedDate = moment(this.props.location.state.date).fromNow();
     const sources = this.state.orderedSources.map(x => {
       return (
         <li key={x[0].bias}>
@@ -41,6 +43,7 @@ class Event extends Component {
     return (
       <div>
         <h1 className="event-title">{this.props.location.state.title}</h1>
+        <h3 className="event-date">{formattedDate}</h3>
         <ul  className="articles-container">
           {sources}
         </ul>
