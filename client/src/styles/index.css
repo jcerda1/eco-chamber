@@ -140,6 +140,7 @@ body {
   background-color: lightgrey;
   display: flex;
   flex-direction: column; 
+  min-height: 800px;
 }
 
 .article-body {
@@ -182,15 +183,33 @@ img {
   border-radius: 50%;
 }
 
-.source-image-title {
+.fa-caret-left, .fa-caret-right{
+  color: #3c3c3d;
+  font-size: 4em;
+}
+
+.fa-caret-left:hover, .fa-caret-right:hover{
+  color: white;
+}
+
+.source-image {
   display: flex;
-  flex-direction: column;
-  text-align: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   /*margin-bottom: 10px;*/
+}
+
+.source-title {
+  text-align: center;
 }
 
 .sources-list {
   list-style-type: none;
+}
+
+.hideSource {
+  display:none;
 }
 
 
