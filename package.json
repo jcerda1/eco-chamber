@@ -30,6 +30,7 @@
     "moment": "^2.22.0",
     "mysql2": "^1.5.2",
     "react": "^16.2.0",
+    "react-d3-cloud": "^0.6.0",
     "react-dom": "^16.2.0",
     "react-icons": "^2.2.7",
     "react-router-dom": "^4.2.2",

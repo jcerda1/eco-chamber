@@ -113,11 +113,15 @@ body {
 }
 
 /* articles */
-.articles-event {
-  text-align: center;
+
+.word-map {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.event-title, .event-date {
+.articles-event {
   text-align: center;
 }
 
