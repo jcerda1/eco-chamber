@@ -145,6 +145,7 @@ body {
   display: flex;
   flex-direction: column; 
   min-height: 800px;
+  box-shadow: 3px 3px #888888;
 }
 
 .article-body {
@@ -163,6 +164,7 @@ body {
   background-color: white;
   border-radius: 5px;
   border: solid lightgrey 1px;
+  box-shadow: 3px 3px #888888;
 }
 
 /*.article-img {

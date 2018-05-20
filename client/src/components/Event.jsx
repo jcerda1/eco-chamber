@@ -35,7 +35,7 @@ class Event extends Component {
   }
 
   analyzeArticleTitles(articles) {
-    let ignoredWords = ['after', 'of', 'the', 'a', 'an', 'he', 'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'];
+    let ignoredWords = ['at','after', 'of', 'the', 'a', 'an', 'he', 'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'];
     let words = {};
     let weighted = [];
 
