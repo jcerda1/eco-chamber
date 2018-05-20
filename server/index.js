@@ -31,7 +31,7 @@ app.get('/api/categories', wrap(async (req, res) => {
 app.get('/api/events', wrap(async (req, res) => {
   const { categoryId } = req.query;
   
-  // limit initial events to ones created by our system in the last 3 days
+  // limit initial events to ones created by our system in the last 5 days
   const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);
 
   const events = await db.Event.findAll({
@@ -60,7 +60,7 @@ app.get('/api/events', wrap(async (req, res) => {
     return sources;
   }
 
-  //only return events that have associated articles
+  //only return events that have associated articles and have been reported by at least 4 sources
   let filteredByArticles = events.filter(event => event.Articles.length > 0);
   let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 3);
 
