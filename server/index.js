@@ -40,7 +40,8 @@ app.get('/api/events', wrap(async (req, res) => {
       where: { categoryId }
     },
     {
-      model: db.Article
+      model: db.Article,
+      include: db.Source
     }],
     where: {
       createdAt: {
@@ -49,11 +50,23 @@ app.get('/api/events', wrap(async (req, res) => {
     }
   });
 
+  const countValidSources = articles => {
+    let sources = [];
+    for (const article of articles) {
+      if (!sources.includes(article.Source.uri)) {
+        sources.push(article.Source.uri);
+      }
+    }
+    return sources;
+  }
+
   //only return events that have associated articles
-  let filtered = events.filter(event => event.Articles.length > 0);
+  let filteredByArticles = events.filter(event => event.Articles.length > 0);
+  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 3);
+
 
   //sort results to come back newest first
-  const sorted = filtered.sort((a, b) => {
+  const sorted = filteredBySources.sort((a, b) => {
     a = new Date(a.date);
     b = new Date(b.date);
     return a>b ? -1 : a<b ? 1 : 0;
