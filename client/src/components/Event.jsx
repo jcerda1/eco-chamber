@@ -5,7 +5,8 @@ import Sources from './Sources.jsx';
 import ArticleList from './ArticleList.jsx';
 import moment from 'moment';
 import WordMap from './WordMap.jsx';
-import { analyzeArticleTitles } from '../helpers/WordMap.js';
+import analyzeArticleTitles from '../helpers/WordMap.js';
+console.log (analyzeArticleTitles)
 
 class Event extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Event extends Component {
       titleWords:{},
       weightedWords: []
     };
+
   }
 
   componentDidMount() {

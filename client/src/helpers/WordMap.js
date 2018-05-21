@@ -1,4 +1,4 @@
-export default analyzeArticleTitles(articles) {
+const analyzeArticleTitles = (articles) => {
   let ignoredWords = [
     'is','at','after', 'of', 'the', 'a', 'an', 'he', 
     'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'
@@ -32,4 +32,6 @@ export default analyzeArticleTitles(articles) {
 
   }
   return { words, weighted }
-}
+};
+
+export default analyzeArticleTitles;
