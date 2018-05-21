@@ -5,6 +5,7 @@ import Sources from './Sources.jsx';
 import ArticleList from './ArticleList.jsx';
 import moment from 'moment';
 import WordMap from './WordMap.jsx';
+import { analyzeArticleTitles } from '../helpers/WordMap.js';
 
 class Event extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Event extends Component {
     Api.get('/sources', { eventId }).then(sources => {
       this.orderSources(sources);
       this.getAllArticles(sources);
-      this.analyzeArticleTitles(this.state.articles);   
+      this.getWordMapData(this.state.articles);   
     }); 
   } 
 
@@ -34,37 +35,9 @@ class Event extends Component {
     this.setState({articles: allArticles});
   }
 
-  analyzeArticleTitles(articles) {
-    let ignoredWords = ['at','after', 'of', 'the', 'a', 'an', 'he', 'she', 'and', 'for', 'in', 'on', 'to', 'with', 'over', 'it', 'as', '|'];
-    let words = {};
-    let weighted = [];
-
-    //get word frequency
-    for (const article of articles) {
-    
-      let title = 
-        article.title
-          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
-          .replace(/\s{2,}/g," ")
-          .split(' ').map(x => x.toLowerCase());
-
-      for (const word of title) {
-        if (!words[word] && !ignoredWords.includes(word)) {
-          words[word] = 1;
-        } else if (!ignoredWords.includes(word)) {
-          words[word] ++;
-        }
-      }
-    }
-
-    //extract meaningful words
-    for (const item in words) {
-      if (words[item] > 1) {
-        weighted.push({"text": item, "value": words[item] * 125});
-      }
-
-    }
-    this.setState({ titleWords: words, weightedWords: weighted });
+  getWordMapData(articles) {
+    const data = analyzeArticleTitles(articles);
+    this.setState({ titleWords: data.words, weightedWords: data.weighted });
   }
 
   orderSources (allSources) {
