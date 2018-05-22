@@ -4,20 +4,22 @@ import moment from 'moment';
 class Article extends Component {
   constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
       selected: false
     }
     this.toggleSelected = this.toggleSelected.bind(this);
   }
 
   toggleSelected(e) {
-    let currentState = this.state.selected;
-    this.setState({ selected: !currentState }, ()=> this.props.toggleArticle(this.state.selected, this.props.article));  
+    this.props.toggleArticle(this.props.article);
   }
 
   render() {
+    let isSelected = this.props.selected.filter(x=> x.id === this.props.article.id).length > 0;
+
+
     return ( 
-      <div onClick={this.toggleSelected} className={this.state.selected ? 'article article-selected' : 'article'}>
+      <div onClick={this.toggleSelected} className={isSelected ? 'article article-selected' : 'article'}>
         <div className="article-title">
           <p>{this.props.article.title}</p>
         </div>

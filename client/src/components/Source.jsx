@@ -10,6 +10,7 @@ class Source extends Component {
   }
 
   render() {
+   
     const { title } = this.props.source;
     const { image } = this.props.source;
 
@@ -23,7 +24,7 @@ class Source extends Component {
         <div className="source-title">       
           <h2>{title}</h2>
         </div>
-        <ArticleList toggleArticle={this.props.toggleArticle} articles={this.props.articles}/> 
+        <ArticleList selected={this.props.selected} toggleArticle={this.props.toggleArticle} articles={this.props.articles}/> 
       </div>
     );
   }

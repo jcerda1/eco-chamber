@@ -10,6 +10,7 @@ class CompareArticles extends Component {
   }
 
   handleClick() {
+    this.props.clear();
     this.props.close();
   }
 

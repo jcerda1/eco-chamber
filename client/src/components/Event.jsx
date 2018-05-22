@@ -18,12 +18,13 @@ class Event extends Component {
       weightedWords: [],
       selectedArticles: [],
       showModal: false,
-
     };
+
     this.toggleSelectedArticle = this.toggleSelectedArticle.bind(this);
     this.compareArticles = this.compareArticles.bind(this);
     this.getMatchingSource = this.getMatchingSource.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.clearSelectedArticles = this.clearSelectedArticles.bind(this);
   }
 
   componentDidMount() {
@@ -69,8 +70,11 @@ class Event extends Component {
     }  
   }
 
-  toggleSelectedArticle(selected, article) { 
-    if (!selected) {
+  toggleSelectedArticle(article) { 
+
+    let wasSelected = this.state.selectedArticles.filter(x => x.id === article.id);
+
+    if (wasSelected.length > 0) {
       let current = this.state.selectedArticles;
       this.setState({selectedArticles: current.filter(x => x.id !== article.id) });
     } else {  
@@ -80,10 +84,17 @@ class Event extends Component {
         let state = this.state.selectedArticles;
         let matchingSource = this.getMatchingSource(article.SourceId);
         article.sourceImage = matchingSource.image;
+        article.bias = matchingSource.bias;
         state.push(article);
+        state.sort((a, b) => a.bias > b.bias);
+
         this.setState({selectedArticles: state}); 
       }   
     }
+  }
+
+  clearSelectedArticles() {
+    this.setState({selectedArticles:[]});
   }
 
   compareArticles(e) {
@@ -101,15 +112,15 @@ class Event extends Component {
     const sources = this.state.orderedSources.map(x => {
       return (
         <li key={x[0].bias}>
-          <Sources toggleArticle={this.toggleSelectedArticle} sources={x}/>
+          <Sources selected={this.state.selectedArticles} toggleArticle={this.toggleSelectedArticle} sources={x}/>
         </li>
       )
     });
   
     const articleDetails = 
     this.state.selectedArticles.length === 2 
-      ? <CompareArticles close={this.closeModal} show={this.state.showModal} articles={this.state.selectedArticles}/>
-      : <CompareArticles show={this.state.showModal} articles={[{id: 1, title: '', body: '', sourceImage: '' }, {id: 1, title: '', body: '', sourceImage: '' }]}/>
+      ? <CompareArticles clear= {this.clearSelectedArticles} close={this.closeModal} show={this.state.showModal} articles={this.state.selectedArticles}/>
+      : <CompareArticles clear={this.clearSelectedArticles} show={this.state.showModal} articles={[{id: 1, title: '', body: '', sourceImage: '' }, {id: 1, title: '', body: '', sourceImage: '' }]}/>
 
     return (
       <div>
