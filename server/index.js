@@ -30,35 +30,48 @@ app.get('/api/categories', wrap(async (req, res) => {
 // events
 app.get('/api/events', wrap(async (req, res) => {
   const { categoryId } = req.query;
+  
   // limit initial events to ones created by our system in the last 3 days
   const daysAgo = new Date(new Date() - (24*3) * 60 * 60 * 1000);
 
-  const { Subcategories } = await db.Category.findById(categoryId, {
+  const events = await db.Event.findAll({
     include: [{
       model: db.Subcategory,
-      include: [{
-        model: db.Event,
-        where: {
-          createdAt: {
-            [Op.gt]: daysAgo
-          }
-        }
-      }]
+      where: { categoryId }
+    },
+    {
+      model: db.Article
     }],
-  });
-
-  let events = [];
-  let ids = {};
-  for (const subcategory of Subcategories) {
-    for (const event of subcategory.Events) {
-      if (!ids[event.id]) {
-        events.push(event);
-        ids[event.id] = true;
+    where: {
+      createdAt: {
+        [Op.gt]: daysAgo
       }
     }
-  }
+  });
 
-  res.json(events);
+  //only return events that have associated articles
+  let filtered = events.filter(event => event.Articles.length > 0);
+
+  //sort results to come back newest first
+  const sorted = filtered.sort((a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a>b ? -1 : a<b ? 1 : 0;
+  });
+
+  //only send back the info client cares about
+  let results = sorted.map(x => {
+    return {
+      id: x.id,
+      uri: x.uri,
+      title: x.title,
+      summary: x.summary,
+      date: x.date
+    }
+  });
+
+  //TODO:  only send back events that have been appropriately reported on across the spectrum
+  res.json(results);
 }));
 
 // sources, returned in order of bias from far left to far right
@@ -66,9 +79,14 @@ app.get('/api/events', wrap(async (req, res) => {
 // Only send back sources that have articles for that event
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
-  const sourceUris = ['huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 'thehill.com', 'foxnews.com', 'breitbart.com'];
+  const sourceUris = [
+    'motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'hosted.ap.org', 
+    'thehill.com', 'foxnews.com', 'breitbart.com', 'npr.org', 'washingtontimesreporter.com', 
+    'theguardian.com', 'latimes.com', 'ijr.com', 'theblaze.com', 'wnd.com'
+  ];
+
   const sources = await db.Source.findAll({
-    where: {
+    where: {  
       uri: sourceUris,
     },
     include: [{

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
+import moment from 'moment';
 
 class Events extends Component {
   constructor(props) {
@@ -24,17 +25,21 @@ class Events extends Component {
   }
 
   render() {
-    const events = this.state.events.map(({ id, title, summary }) => {
+    const events = this.state.events.map(({ id, title, summary, date }) => {
+      let formatted = moment(date).fromNow();
+     
       return (
         <li key={id}>
-          <Link style={{"text-decoration": "none", "color": "black", "padding": "10px"}} to={{
+          <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
             pathname: `/event/${id}/articles`,
-            state: { title }}}>
+            state: { title, date }}}>
 
           <h2  className="li-header">
             {title}
           </h2>
+          <p>{formatted}</p>
           </Link>
+          
         
           <div value={id} className="body">
             <p>

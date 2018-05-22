@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 class Article extends Component {
   constructor(props) {
@@ -6,10 +7,15 @@ class Article extends Component {
   }
 
   render() {
-    console.log('article props', this.props)
-    return (
-      <a style={{"text-decoration": "none", "color": "black", "padding": "10px"}} href={this.props.article.url} target="_blank" className="article">
-        {this.props.article.title}
+
+    return ( 
+      <a href={this.props.article.url} target="_blank" className="article">
+        <div className="article-title">
+          <p>{this.props.article.title}</p>
+        </div>
+        <div className="article-date">
+          <p>{moment(this.props.article.date).fromNow()}</p>
+        </div>
       </a>
 
     )
