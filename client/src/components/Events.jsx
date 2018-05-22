@@ -25,7 +25,7 @@ class Events extends Component {
   }
 
   render() {
-    const events = this.state.events.map(({ id, title, summary, date }) => {
+    const events = this.state.events.map(({ id, title, summary, date, Articles }) => {
       let formatted = moment(date).fromNow();
      
       return (
