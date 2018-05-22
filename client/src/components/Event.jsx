@@ -129,7 +129,7 @@ class Event extends Component {
           <WordMap className="word-map" data={this.state.weightedWords}/>
       
           <div className="compare-articles">
-            <h3>Select two articles to compare side by side</h3>
+            <h1>Select two articles to compare side by side</h1>
             <button onClick={this.compareArticles}>Compare</button>
             {articleDetails}
           </div>
