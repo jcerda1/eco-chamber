@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import ArticleList from './ArticleList.jsx';
+var FaCaretLeft = require('react-icons/lib/fa/caret-left');
+var FaCaretRight = require('react-icons/lib/fa/caret-right');
+
 
 class Source extends Component {
   constructor(props) {
@@ -10,9 +14,16 @@ class Source extends Component {
     const { image } = this.props.source;
 
     return (
-      <div className="source-image-title">
-        <img src={image}></img>
-        <h2>{title}</h2>
+      <div className={this.props.show ? "showSource" : "hideSource"}>
+        <div className="source-image">       
+            <FaCaretLeft onClick={(e) => this.props.toggle(e, 'left')} className="fa-caret-left"/>
+            <img src={image}></img>
+            <FaCaretRight onClick={(e) => this.props.toggle(e, 'right')} className="fa-caret-right"/>
+        </div>
+        <div className="source-title">       
+          <h2>{title}</h2>
+        </div>
+        <ArticleList articles={this.props.articles}/> 
       </div>
     );
   }

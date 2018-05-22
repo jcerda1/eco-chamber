@@ -38,6 +38,54 @@
         ],
         "responses": {}
       }
+    },
+    "/api/users": {
+      "post": {
+        "tags": ["users"],
+        "parameters": [
+          {
+            "name": "UserData",
+            "in": "body",
+            "required": "true",
+            "schema": {
+              "$ref": "#/definitions/UserData"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/auth/login": {
+      "get": {
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "UserData": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "required": "true"
+        },
+        "password": {
+          "type": "string",
+          "required": "true"
+        }
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ class Categories extends Component {
   render() {
     const categories = this.state.categories.map(({ id, name }) => {
       return (
-        <Link to={`/category/${id}/events`} style={{"text-decoration": "none", "color": "black"}} className="CategoryLink" key={id}>
+        <Link to={`/category/${id}/events`} style={{"textDecoration": "none", "color": "black"}} className="CategoryLink" key={id}>
           {name}
         </Link>
       );
