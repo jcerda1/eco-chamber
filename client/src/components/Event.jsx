@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
 import Sources from './Sources.jsx';
 import ArticleList from './ArticleList.jsx';
+import CompareArticles from './CompareArticles.jsx';
 import moment from 'moment';
 import WordMap from './WordMap.jsx';
 import analyzeArticleTitles from '../helpers/WordMap.js';
@@ -14,9 +15,15 @@ class Event extends Component {
       orderedSources: [],
       articles: [],
       titleWords:{},
-      weightedWords: []
-    };
+      weightedWords: [],
+      selectedArticles: [],
+      showModal: false,
 
+    };
+    this.toggleSelectedArticle = this.toggleSelectedArticle.bind(this);
+    this.compareArticles = this.compareArticles.bind(this);
+    this.getMatchingSource = this.getMatchingSource.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -51,25 +58,81 @@ class Event extends Component {
     this.setState({ "orderedSources": [ farLeft, left, center, right, farRight] });
   }
 
+  getMatchingSource(sourceId) {
+    let sources = this.state.orderedSources;
+    for (const bias of sources) {
+      for (const source of bias) {
+        if (source.id === sourceId) {
+          return source;
+        }
+      }
+    }  
+  }
+
+  toggleSelectedArticle(selected, article) { 
+    if (!selected) {
+      let current = this.state.selectedArticles;
+      this.setState({selectedArticles: current.filter(x => x.id !== article.id) });
+    } else {  
+      if (this.state.selectedArticles.length === 2) {
+        alert('please select two articles to compare');
+      } else {
+        let state = this.state.selectedArticles;
+        let matchingSource = this.getMatchingSource(article.SourceId);
+        article.sourceImage = matchingSource.image;
+        state.push(article);
+        this.setState({selectedArticles: state}); 
+      }   
+    }
+  }
+
+  compareArticles(e) {
+    e.preventDefault();
+    if (this.state.selectedArticles.length === 2) {
+      this.setState({showModal: true});
+    }
+  }
+
+  closeModal() {
+    this.setState({showModal: false});
+  }
+
   render() {
     const sources = this.state.orderedSources.map(x => {
       return (
         <li key={x[0].bias}>
-          <Sources sources={x}/>
+          <Sources toggleArticle={this.toggleSelectedArticle} sources={x}/>
         </li>
       )
     });
+  
+    const articleDetails = 
+    this.state.selectedArticles.length === 2 
+      ? <CompareArticles close={this.closeModal} show={this.state.showModal} articles={this.state.selectedArticles}/>
+      : <CompareArticles show={this.state.showModal} articles={[{id: 1, title: '', body: '', sourceImage: '' }, {id: 1, title: '', body: '', sourceImage: '' }]}/>
 
     return (
       <div>
-        <div className="word-map">
-          <WordMap data={this.state.weightedWords}/>
+        <div className="event-top">
+         
+          <WordMap className="word-map" data={this.state.weightedWords}/>
+      
+          <div className="compare-articles">
+            <h3>Select two articles to compare side by side</h3>
+            <button onClick={this.compareArticles}>Compare</button>
+            {articleDetails}
+          </div>
+
+          <div className="sentiment-chart">
+          SENTIMENT CHART FOR EVENT WILL GO HERE
+          </div>      
+
         </div>
-        
+
         <ul  className="articles-container">
           {sources}
         </ul>
-      </div>
+    </div>  
     );
   }
 }

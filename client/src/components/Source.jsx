@@ -23,7 +23,7 @@ class Source extends Component {
         <div className="source-title">       
           <h2>{title}</h2>
         </div>
-        <ArticleList articles={this.props.articles}/> 
+        <ArticleList toggleArticle={this.props.toggleArticle} articles={this.props.articles}/> 
       </div>
     );
   }

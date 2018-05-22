@@ -35,12 +35,11 @@ class Sources extends Component {
     }
   }
 
-
   render() {
     const sourcesAll = this.props.sources.map(({ Articles, ...source }) => {
       return (
         <div key={source.id}>
-          <Source toggle={this.toggleSelected} articles={Articles} show={this.state.selected.id === source.id ? true: false} source={source}/>       
+          <Source toggleArticle={this.props.toggleArticle} toggle={this.toggleSelected} articles={Articles} show={this.state.selected.id === source.id ? true: false} source={source}/>       
         </div>
       );
     });
