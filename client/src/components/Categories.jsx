@@ -5,7 +5,7 @@ import Api from '../helpers/Api';
 class Categories extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       categories: [], 
     };
   } 
@@ -24,8 +24,11 @@ class Categories extends Component {
     });
   
     return (
-      <div className="categories-container">
-        {categories}
+      <div>
+        <div className="categories-container">
+          {categories}
+        </div>
+        <hr/>
       </div>
     );
   }
