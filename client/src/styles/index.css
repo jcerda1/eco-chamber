@@ -2,7 +2,7 @@
 body {
   background-color: white;
   margin: 0;
-  padding-top: 200px;
+  padding-top: 75px;
 }
 
 /* Nav */
@@ -12,7 +12,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #b3b3b3;
+  background-color: #008080;
 } 
 
 .navbar a {
@@ -29,7 +29,7 @@ body {
   padding-bottom: 10px; 
   padding-top: 20px;
   padding: 10px;
-  height: 100px;
+  height: 75px;
 } 
 
 .title {
@@ -67,13 +67,13 @@ body {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  border-style: solid;
-  border-width: 1px;
+  /*border-style: solid;
+  border-width: 1px;*/
   list-style-type: none;
   margin: 5px;
   padding: 10px;
-  background-color: #D3D3D3;
-  box-shadow: 5px 5px #888888;
+  /*background-color: #D3D3D3;
+  box-shadow: 5px 5px #888888;*/
 }
 
 /* Events container */
@@ -126,9 +126,10 @@ body {
 }
 
 .articles-container {
-  border-top: 20px solid transparent;
-  border-image: linear-gradient(to right,darkblue, red);
-  border-image-slice: 1;
+  border-top: 5px solid green;
+ /* border-image: linear-gradient(to right,darkblue, red);
+  border-image-slice: 1;*/
+
   list-style-type: none;
   margin-left: 2em;
   margin-right: 2em;
@@ -297,12 +298,6 @@ a {
 
 
 /* sign in */
-
-
-
-body {
-  background: #eee !important;  
-}
 
 .wrapper {  
   margin-top: 80px;
