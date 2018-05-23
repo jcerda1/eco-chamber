@@ -13,12 +13,12 @@ const Navbar = () => (
       </Link>
         <ul >
           <li className="signup">
-            <Link style={{"textDecoration": "none", "color": "black"}} to="/signup">
+            <Link style={{"textDecoration": "none", "color": "white"}} to="/signup">
               Sign Up
             </Link>  
           </li>
           <li className="login">
-            <Link style={{"textDecoration": "none", "color": "black"}} to="/signin">
+            <Link style={{"textDecoration": "none", "color": "white"}} to="/signin">
               Log in
             </Link>
           </li>

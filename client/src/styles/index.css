@@ -35,10 +35,10 @@ body {
 .title {
   grid-column-start: 1;
   text-decoration: none;
-  color: black;
+  color: white;
   grid-column: 2 / 3;
   align-self: center;
-  font-size: 25px;
+  
 }
 
 .login {
@@ -48,6 +48,7 @@ body {
   grid-column: 3;
   list-style-type: none;
   padding: 10px;
+  color: white;
 }
 
 .signup {
@@ -58,6 +59,7 @@ body {
   grid-column: 3;
   list-style-type: none;
   padding: 10px;
+  color: white;
   
 }
 
@@ -90,23 +92,22 @@ body {
 }
 
 .events-container li {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 3fr; 
+  grid-gap: 40px;
 }
 
 .li-header {
   border: 1px solid grey;
-  width: 300px;
-  height: auto;
-  background-color: #D3D3D3;
-  padding: 10px;
-  text-align: center;
-  margin-top: -10px;
-  box-shadow: 5px 5px #888888;
+  width: 400px;
+  height: 150px;
+  background-color: #F8F8F8;
+  padding: 30px;
+  text-align: justify;
+  border-radius: 10px;
 }
 
-.body {
-  border-top: 1px solid;
+.event-text {
   padding: 10px;
   text-align: justify;
   font-size: 18px;
@@ -126,7 +127,7 @@ body {
 }
 
 .articles-container {
-  border-top: 5px solid green;
+  border-top: 5px solid #008080;
  /* border-image: linear-gradient(to right,darkblue, red);
   border-image-slice: 1;*/
 
