@@ -88,7 +88,7 @@ class Event extends Component {
         state.push(article);
         state.sort((a, b) => a.bias > b.bias);
 
-        this.setState({selectedArticles: state}); 
+        this.setState({selectedArticles: state}, () => this.compareArticles());
       }   
     }
   }
@@ -98,7 +98,6 @@ class Event extends Component {
   }
 
   compareArticles(e) {
-    e.preventDefault();
     if (this.state.selectedArticles.length === 2) {
       this.setState({showModal: true});
     }
@@ -124,25 +123,19 @@ class Event extends Component {
 
     return (
       <div>
-        <div className="event-top">
-         
-          <WordMap className="word-map" data={this.state.weightedWords}/>
-      
-          <div className="compare-articles">
-            <h1>Select two articles to compare side by side</h1>
-            <button onClick={this.compareArticles}>Compare</button>
-            {articleDetails}
-          </div>
-
-          <div className="sentiment-chart">
-          SENTIMENT CHART FOR EVENT WILL GO HERE
-          </div>      
-
+        <div className="event-top">        
+          <WordMap className="word-map" data={this.state.weightedWords}/>    
         </div>
 
-        <ul  className="articles-container">
-          {sources}
-        </ul>
+        <div className="event-bottom">
+          <div className="compare-articles">
+            {articleDetails}
+          </div> 
+
+          <ul  className="articles-container">
+            {sources}
+          </ul>
+        </div>
     </div>  
     );
   }
