@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
 import moment from 'moment';
+var FaHeartO = require('react-icons/lib/fa/heart-o');
+var FaHeartC = require('react-icons/lib/fa/heart');
 
 class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
+      events: []
     };
   }
 
@@ -29,24 +31,29 @@ class Events extends Component {
       let formatted = moment(date).fromNow();
      
       return (
-        <li key={id}>
-          <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
-            pathname: `/event/${id}/articles`,
-            state: { title, date }}}>
+        <div>
+          <li key={id}>
+            <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
+              pathname: `/event/${id}/articles`,
+              state: { title, date }}}>
 
-          <h2  className="li-header">
-            {title}
-          </h2>
-          <p>{formatted}</p>
-          </Link>
+            <h2  className="li-header">
+              {title}
+              <FaHeartO style={{"height": "15px", "position": "auto"}}/> 
+            </h2>
+            <p>{formatted}</p>
+            </Link>
+            
           
-        
-          <div value={id} className="body">
-            <p>
-              {summary}
-            </p>
-          </div>
-        </li>
+            <div value={id} className="event-text">
+              <p>
+                {summary}
+              </p>
+            </div>
+          </li>
+        <hr/>
+      </div>
+
       );
     });
   
