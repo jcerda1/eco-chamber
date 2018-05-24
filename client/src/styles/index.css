@@ -247,6 +247,10 @@ body {
   box-shadow: 3px 3px #888888;
 }
 
+.article-title p {
+  font-weight: bold;
+}
+
 .article-selected {
   background-color: #e5e6e8;
 }
