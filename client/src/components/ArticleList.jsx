@@ -7,10 +7,10 @@ class ArticleList extends Component {
   }
 
   render() {
-   
+  
     const articles = this.props.articles.length ? this.props.articles.map(article => {
       return (
-        <Article key={article.id} article={article}/>
+        <Article selected={this.props.selected} toggleArticle={this.props.toggleArticle} key={article.id} article={article}/>
       )
     }) : 
     <div></div>
