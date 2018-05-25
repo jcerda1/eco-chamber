@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
 import moment from 'moment';
-var FaHeartO = require('react-icons/lib/fa/heart-o');
-var FaHeartC = require('react-icons/lib/fa/heart');
+var FaStarO = require('react-icons/lib/fa/star-o');
+var FaHeartC = require('react-icons/lib/fa/star');
+var FaLineChart = require('react-icons/lib/fa/line-chart');
 
 class Events extends Component {
   constructor(props) {
@@ -32,24 +33,29 @@ class Events extends Component {
      
       return (
         <div>
-          <li key={id}>
+          <li className="event-item" key={id}>
             <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
               pathname: `/event/${id}/articles`,
               state: { title, date }}}>
 
             <h2  className="li-header">
               {title}
-              <FaHeartO style={{"height": "15px", "position": "auto"}}/> 
             </h2>
             <p>{formatted}</p>
             </Link>
             
-          
-            <div value={id} className="event-text">
-              <p>
-                {summary}
-              </p>
-            </div>
+            <div className="event-list-item-right">      
+              <div value={id} className="event-text">
+                <p>
+                  {summary}
+                </p>
+              </div>
+
+              <div className = "event-icons">
+                <FaLineChart className="event-chart-icon"/>
+                <FaStarO className="event-star-icon"/>
+              </div>
+            </div>    
           </li>
         <hr/>
       </div>
