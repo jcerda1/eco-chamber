@@ -62,7 +62,7 @@ app.get('/api/events', wrap(async (req, res) => {
 
   //only return events that have associated articles and have been reported by at least 4 sources
   let filteredByArticles = events.filter(event => event.Articles.length > 0);
-  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 3);
+  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 2);
 
 
   //sort results to come back newest first
