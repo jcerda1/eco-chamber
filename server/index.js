@@ -123,6 +123,45 @@ app.post('/api/users', wrap(async (req, res) => {
   res.json(newUser);
 }));
 
+app.get('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const { id } = req.user;
+  const user = await db.User.findById(id);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${id}`);
+
+  const events = await user.getEvents();
+  res.json(events);
+}));
+
+app.post('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.body;
+
+  const user = await db.User.findById(userId);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${userId}`);
+
+  const event = await db.Event.findById(eventId);
+  if (!event) throw boom.notFound(`Cannot find event with id: ${eventId}`);
+
+  await user.addEvent(event);
+  res.json(user);
+}));
+
+app.delete('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.query;
+
+  const user = await db.User.findById(userId);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${userId}`);
+
+  const event = await db.Event.findById(eventId);
+  if (!event) throw boom.notFound(`Cannot find event with id: ${eventId}`);
+
+  await user.removeEvent(event);
+
+  const events = await user.getEvents();
+  res.json(events);
+}));
+
 // auth
 app.get('/api/auth/login', wrap(async (req, res) => {
   const { email, password } = req.query;
@@ -139,7 +178,7 @@ app.get('/api/auth/login', wrap(async (req, res) => {
 // serve index.html
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
-}); 
+});
 
 app.use((err, req, res, next) => {
   console.log(err);

@@ -41,7 +41,7 @@ body {
   
 }
 
-.login, .signup, .logout {
+.nav-right > li {
   justify-self: right;
   align-self: right;
   display: inline-flex;
