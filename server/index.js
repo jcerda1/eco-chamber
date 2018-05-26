@@ -105,7 +105,8 @@ app.get('/api/sources', wrap(async (req, res) => {
     include: [{
       model: db.Article,
       where: { eventId },
-      required: false
+      required: false,
+      include: db.Sentiment
     }],
     order:  ['bias'],
   });
