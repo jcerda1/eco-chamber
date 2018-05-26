@@ -106,10 +106,11 @@ app.get('/api/sources', wrap(async (req, res) => {
       model: db.Article,
       where: { eventId },
       required: false,
-      include: db.Sentiment
+      include: db.Sentiment,
     }],
     order:  ['bias'],
   });
+
   res.json(sources);
 }));
 
