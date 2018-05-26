@@ -8,7 +8,7 @@ class Home extends Component {
 
   render() {
     return (
-      <h1 style={{"text-align": "center"}}>
+      <h1 style={{"textAlign": "center"}}>
         Welcome to Eco-Chamber. Select a Category...
       </h1>
     );
