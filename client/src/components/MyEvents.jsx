@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Api from '../helpers/Api';
@@ -34,8 +33,6 @@ class MyEvents extends Component {
 
   render() {
     const events = this.state.events.map(({ id, title, date }, i) => {
-      const formattedDate = moment(date).fromNow();
-
       const deleteButton = this.state.hoverIndex === i
         ? <button onClick={(e) => { this.onClick(e, id) }} style={{ "height":"16px", "width":"50px" }}>delete</button>
         : null;
