@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Api from '../helpers/Api';
 import Categories from './Categories.jsx';
-import Navbar from './Navbar.jsx'
+import Navbar from './Navbar.jsx';
 import Events from './Events.jsx';
 import Event from './Event.jsx';
 import Home from './Home.jsx';
 import Signup from './Signup.jsx';
-import Signin from './Signin.jsx'
+import Signin from './Signin.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -32,9 +32,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-
-
