@@ -23,7 +23,7 @@ class TopEvents extends Component {
   }
 
   updateEvents = (props = this.props) => {
-    Api.get('/topevents').then(events => this.setState({ events }));
+    Api.get('/topEvents').then(events => this.setState({ events }));
   }
 
   onClick = (e, eventId) => {

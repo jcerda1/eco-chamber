@@ -87,7 +87,7 @@ app.get('/api/events', wrap(async (req, res) => {
 }));
 
 //top events
-app.get('/api/topevents', wrap(async (req, res) => {
+app.get('/api/topEvents', wrap(async (req, res) => {
   
   // limit top events to ones created by our system in the last 5 days
   const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);

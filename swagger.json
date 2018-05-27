@@ -26,6 +26,12 @@
         "responses": {}
       }
     },
+    "/api/topEvents": {
+      "get": {
+        "tags": ["topEvents"],
+        "responses": {}
+      }
+    },
     "/api/sources": {
       "get": {
         "tags": ["sources"],
