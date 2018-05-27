@@ -20,9 +20,8 @@ class Article extends Component {
   }
 
   showModal() {
-    console.log('clicked')
     this.toggleSelected();
-    this.setState({showModal: true}, () => console.log(this.state));
+    this.setState({showModal: true});
   }
 
   closeModal() {
@@ -36,7 +35,7 @@ class Article extends Component {
       <div>
         <div className="modal" style={{ display: this.state.showModal ? 'block' : 'none' }}>
           <div className="modal-content">
-            <FaClose style={{"color":"darkgrey", "font-size": 60}}onClick={this.closeModal}/>
+            <FaClose style={{"color":"darkgrey", "fontSize": 60}}onClick={this.closeModal}/>
             <ArticleDetail article={this.props.article}/>
           </div>
         </div>

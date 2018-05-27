@@ -4,25 +4,12 @@ import Article from './Article.jsx';
 class ArticleList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      articles: this.props.articles
-    }
-    this.sortArticles = this.sortArticles.bind(this);
-  }
-
-  componentDidMount() {
-    this.sortArticles();
-  }
-
-  sortArticles() {
-    let articles = this.state.articles;
-    let sorted = articles.sort((a, b) => a.date < b.date);
-    this.setState({articles: sorted});
   }
 
   render() {
+    const sorted = this.props.articles.sort((a, b) => a.date < b.date);
   
-    const articles = this.state.articles.length ? this.state.articles.map(article => {
+    const articles = this.props.articles.length ? sorted.map(article => {
       return (
         <Article selected={this.props.selected} toggleArticle={this.props.toggleArticle} key={article.id} article={article}/>
       )

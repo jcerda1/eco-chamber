@@ -62,7 +62,7 @@ app.get('/api/events', wrap(async (req, res) => {
 
   //only return events that have associated articles and have been reported by at least 4 sources
   let filteredByArticles = events.filter(event => event.Articles.length > 0);
-  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 2);
+  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 3);
 
 
   //sort results to come back newest first
@@ -83,13 +83,11 @@ app.get('/api/events', wrap(async (req, res) => {
     }
   });
 
-  //TODO:  only send back events that have been appropriately reported on across the spectrum
   res.json(results);
 }));
 
-// sources, returned in order of bias from far left to far right
-// TODO: add additional sourceUris
-// Only send back sources that have articles for that event
+// sources, for a given event, returned in order of bias from far left to far right
+// includes Articles and Sentiments
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
   const sourceUris = [

@@ -165,11 +165,6 @@ body {
   justify-content: center;
 }
 
-.sentiment-chart {
-  justify-self: end;
-  margin-right: 40px;
-}
-
 .compare-articles {
   justify-self: center;
 }
@@ -214,12 +209,8 @@ body {
 
 .article-detail-top {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
-}
-
-.article-sentiment {
-  justify-self: end;
 }
 
 /* The Close Button */
