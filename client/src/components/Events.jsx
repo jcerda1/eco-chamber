@@ -27,10 +27,14 @@ class Events extends Component {
     Api.get('/events', { categoryId }).then(events => this.setState({ events }));
   }
 
+  onClick = (e, eventId) => {
+    Api.post('/users/user-events', { eventId });
+  }
+
   render() {
     const events = this.state.events.map(({ id, title, summary, date, Articles }) => {
       let formatted = moment(date).fromNow();
-     
+
       return (
         <div>
           <li className="event-item" key={id}>
@@ -53,7 +57,7 @@ class Events extends Component {
 
               <div className = "event-icons">
                 <FaLineChart className="event-chart-icon"/>
-                <FaStarO className="event-star-icon"/>
+                <FaStarO className="event-star-icon" onClick={(e) => { this.onClick(e, id) }}/>
               </div>
             </div>    
           </li>

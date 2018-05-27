@@ -20,19 +20,24 @@ class Navbar extends Component {
     }
 
     const loggedInComponents = (
-      <ul>
+      <ul className="nav-right">
+        <li>
+          <Link style={liStyle} to="/myEvents">
+            My Events
+          </Link>
+        </li>
         <li className="logout" onClick={this.onClick} style={liStyle}>Logout</li>
       </ul>
     );
 
     const loggedOutComponents = (
-      <ul>
-        <li className="signup">
+      <ul className="nav-right">
+        <li>
           <Link style={liStyle} to="/signup">
             Sign Up
           </Link>  
         </li>
-        <li className="login">
+        <li>
           <Link style={liStyle} to="/signin">
             Log in
           </Link>

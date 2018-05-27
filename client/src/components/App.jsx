@@ -8,6 +8,7 @@ import Event from './Event.jsx';
 import Home from './Home.jsx';
 import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';
+import MyEvents from './MyEvents.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path="/event/:eventId/articles" component={Event}/>
           <Route path="/signup" component={Signup}/>
           <Route path="/signin" component={Signin}/>
+          <Route path="/myEvents" component={MyEvents}/>
         </Switch>
       </div>
     );
