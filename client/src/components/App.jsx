@@ -9,6 +9,7 @@ import Home from './Home.jsx';
 import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';
 import MyEvents from './MyEvents.jsx';
+import TopEvents from './TopEvents.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path="/signup" component={Signup}/>
           <Route path="/signin" component={Signin}/>
           <Route path="/myEvents" component={MyEvents}/>
+          <Route path="/topEvents" component={TopEvents}/>
         </Switch>
       </div>
     );
