@@ -18,7 +18,7 @@ class CompareArticles extends Component {
     return ( 
       <div className="modal" style={{ display: this.props.show ? 'block' : 'none' }}>
         <div className="modal-content">
-        <FaClose style={{"color":"darkgrey", "font-size": 60}}onClick={this.handleClick}/>
+        <FaClose style={{"color":"darkgrey", "fontSize": 60}}onClick={this.handleClick}/>
           <div className="article-cols">
             <ArticleDetail article={this.props.articles[0]}/>
             <ArticleDetail article={this.props.articles[1]}/>

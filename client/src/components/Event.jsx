@@ -119,7 +119,7 @@ class Event extends Component {
     const articleDetails = 
     this.state.selectedArticles.length === 2 
       ? <CompareArticles clear= {this.clearSelectedArticles} close={this.closeModal} show={this.state.showModal} articles={this.state.selectedArticles}/>
-      : <CompareArticles clear={this.clearSelectedArticles} show={this.state.showModal} articles={[{id: 1, title: '', body: '', sourceImage: '' }, {id: 1, title: '', body: '', sourceImage: '' }]}/>
+      : <CompareArticles clear={this.clearSelectedArticles} show={this.state.showModal} articles={[{id: 1, title: '', body: '', sourceImage: '', Sentiments: [] }, {id: 1, title: '', body: '', sourceImage: '', Sentiments: [] }]}/>
 
     return (
       <div>
