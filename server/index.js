@@ -86,6 +86,52 @@ app.get('/api/events', wrap(async (req, res) => {
   res.json(results);
 }));
 
+//top events
+app.get('/api/topevents', wrap(async (req, res) => {
+  
+  // limit top events to ones created by our system in the last 5 days
+  const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);
+
+  const events = await db.Event.findAll({
+    include: [{
+      model: db.Article,
+      include: db.Source
+    }],
+    where: {
+      createdAt: {
+        [Op.gt]: daysAgo
+      }
+    }
+  });
+
+  const countValidSources = articles => {
+    let sources = [];
+    for (const article of articles) {
+      if (!sources.includes(article.Source.uri)) {
+        sources.push(article.Source.uri);
+      }
+    }
+    return sources;
+  }
+
+  //only consider events that have associated articles and have been reported by at least 8 sources
+  let filteredBySources = events.filter(event => countValidSources(event.Articles).length > 7);
+  
+  //only send back the info client cares about
+  let results = filteredBySources.map(x => {
+    return {
+      id: x.id,
+      uri: x.uri,
+      title: x.title,
+      summary: x.summary,
+      date: x.date
+    }
+  });
+  
+  res.json(results);
+}));
+
+
 // sources, for a given event, returned in order of bias from far left to far right
 // includes Articles and Sentiments
 app.get('/api/sources', wrap(async (req, res) => {
