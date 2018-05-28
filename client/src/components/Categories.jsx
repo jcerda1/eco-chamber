@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import Api from '../helpers/Api';
 
 class Categories extends Component {
@@ -17,9 +17,7 @@ class Categories extends Component {
   render() {
     const categories = this.state.categories.map(({ id, name }) => {
       return (
-        <Link to={`/category/${id}/events`} style={{"textDecoration": "none", "color": "black"}} className="CategoryLink" key={id}>
-          {name}
-        </Link>
+        <NavLink className= 'category' to={`/category/${id}/events`} activeClassName='selected-category'>{name}</NavLink>       
       );
     });
   
