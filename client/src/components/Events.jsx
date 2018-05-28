@@ -13,7 +13,8 @@ class Events extends Component {
     super(props);
     this.state = {
       events: [],
-      showModal: false
+      showModal: false,
+      selected: null
     };
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -36,13 +37,12 @@ class Events extends Component {
     Api.post('/users/user-events', { eventId });
   }
 
-
-  showModal() {
-    this.setState({showModal: true});
+  closeModal() {
+    this.setState({ selected: null})
   }
 
-  closeModal() {
-    this.setState({showModal: false})
+  showModal(id) {
+    this.setState({ selected: id});
   }
 
   render() {
@@ -70,11 +70,11 @@ class Events extends Component {
               </div>
 
               <div className = "event-icons">
-                <FaLineChart onClick={this.showModal} className="event-chart-icon"/>
+                <FaLineChart onClick={() => this.showModal(id)} className="event-chart-icon"/>
                 <FaStarO className="event-star-icon" onClick={(e) => { this.onClick(e, id) }}/>
               </div>
 
-               <div className="modal" style={{ display: this.state.showModal ? 'block' : 'none' }}>
+               <div className="modal" style={{ display: this.state.selected === id ? 'block' : 'none' }}>
                 <div className="modal-content">
                   <FaClose style={{"color":"darkgrey", "fontSize": 60}} onClick={this.closeModal}/>
                   <EventDetail eventId={id}/>
