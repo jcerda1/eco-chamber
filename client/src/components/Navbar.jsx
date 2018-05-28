@@ -26,6 +26,11 @@ class Navbar extends Component {
             My Events
           </Link>
         </li>
+        <li>
+          <Link style={liStyle} to="/topEvents">
+            Top Events
+          </Link>
+        </li>
         <li className="logout" onClick={this.onClick} style={liStyle}>Logout</li>
       </ul>
     );
@@ -40,6 +45,11 @@ class Navbar extends Component {
         <li>
           <Link style={liStyle} to="/signin">
             Log in
+          </Link>
+        </li>
+        <li>
+          <Link style={liStyle} to="/topEvents">
+            Top Events
           </Link>
         </li>
       </ul>
