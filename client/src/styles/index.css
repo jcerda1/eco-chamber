@@ -66,6 +66,17 @@ body {
   box-shadow: 5px 5px #888888;*/
 }
 
+.category {
+  text-decoration: none;
+  color: black;
+  font-size: 17px;
+}
+
+.selected-category {
+  color: #008080;
+  font-size: 20px;
+}
+
 /* Events container */
 
 .events-container {

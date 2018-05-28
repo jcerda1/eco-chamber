@@ -86,6 +86,68 @@ app.get('/api/events', wrap(async (req, res) => {
   res.json(results);
 }));
 
+// events
+app.get('/api/eventSentiment', wrap(async (req, res) => {
+  const { eventId } = req.query;
+  
+  const event = await db.Event.find({
+    include: [
+    {
+      model: db.Article,
+      include: [db.Source, db.Sentiment]
+    }],
+    where: { id: eventId }
+  });
+
+  const averageSentiment = sentiments => {
+    let totals = {};
+    let numSentiments = 0;
+    for (const sentiment of sentiments) {
+      for (const item of sentiment) {
+        numSentiments += 1;
+        totals['sentiment'] = totals['sentiment'] ? totals['sentiment'] += item.sentiment : item.sentiment;
+        totals['fear'] = totals['fear'] ? totals['fear'] += item.fear : item.fear;
+        totals['disgust'] = totals['disgust'] ? totals['disgust'] += item.disgust : item.disgust;
+        totals['anger'] = totals['anger'] ? totals['anger'] += item.anger : item.anger;
+        totals['joy'] = totals['joy'] ? totals['joy'] += item.joy : item.joy;
+        totals['sadness'] = totals['sadness'] ? totals['sadness'] += item.sadness : item.sadness;
+      } 
+    }
+    //average all values
+    for (let  item in totals) {
+      totals[item] = totals[item] / numSentiments;
+    }
+
+    return totals;
+  }
+
+  const calculateSentiment = event => {
+    const leftSources = ['motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'theguardian.com'];
+    const rightSources = ['breitbart.com', 'foxnews.com', 'ijr.com', 'theblaze.com', 'wnd.com', 'washingtontimesreporter.com'];
+    const centerSources = ['hosted.ap.org', 'npr.org', 'thehill.com'];
+
+    const leftArticles = event.Articles.filter(article => leftSources.includes(article.Source.uri));
+    const rightArticles = event.Articles.filter(article => rightSources.includes(article.Source.uri));
+    const centerArticles = event.Articles.filter(article => centerSources.includes(article.Source.uri));
+
+    const leftSentiments = leftArticles.map(article => article.Sentiments);
+    const rightSentiments = rightArticles.map(article => article.Sentiments);
+    const centerSentiments = centerArticles.map(article => article.Sentiments);
+
+    const result = {
+      left: averageSentiment(leftSentiments),
+      right: averageSentiment(rightSentiments),
+      center: averageSentiment(centerSentiments)
+    }
+
+    return result
+  };
+
+  const result = calculateSentiment(event);
+
+  res.json(result);
+}));
+
 // sources, for a given event, returned in order of bias from far left to far right
 // includes Articles and Sentiments
 app.get('/api/sources', wrap(async (req, res) => {
