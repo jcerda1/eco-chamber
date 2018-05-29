@@ -41,13 +41,19 @@ body {
   
 }
 
+.nav-right {
+  display: flex;
+  flex-direction: row;
+}
+
 .nav-right > li {
-  justify-self: right;
-  align-self: right;
-  display: inline-flex;
-  grid-column: 3;
+ justify-self: center;
+  align-self: center;
   list-style-type: none;
-  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
   color: white;
 }
 

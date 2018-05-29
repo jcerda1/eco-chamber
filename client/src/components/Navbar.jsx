@@ -21,6 +21,11 @@ class Navbar extends Component {
 
     const loggedInComponents = (
       <ul className="nav-right">
+         <li>
+          <Link style={liStyle} to="/game">
+            Play Game
+          </Link>
+        </li>
         <li>
           <Link style={liStyle} to="/myEvents">
             My Events
@@ -31,6 +36,7 @@ class Navbar extends Component {
             Top Events
           </Link>
         </li>
+        
         <li className="logout" onClick={this.onClick} style={liStyle}>Logout</li>
       </ul>
     );
