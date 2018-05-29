@@ -62,7 +62,7 @@ app.get('/api/events', wrap(async (req, res) => {
 
   //only return events that have associated articles and have been reported by at least 4 sources
   let filteredByArticles = events.filter(event => event.Articles.length > 0);
-  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 2);
+  let filteredBySources = filteredByArticles.filter(event => countValidSources(event.Articles).length > 3);
 
 
   //sort results to come back newest first
@@ -83,13 +83,118 @@ app.get('/api/events', wrap(async (req, res) => {
     }
   });
 
-  //TODO:  only send back events that have been appropriately reported on across the spectrum
   res.json(results);
 }));
 
-// sources, returned in order of bias from far left to far right
-// TODO: add additional sourceUris
-// Only send back sources that have articles for that event
+//top events
+app.get('/api/topEvents', wrap(async (req, res) => {
+  
+  // limit top events to ones created by our system in the last 5 days
+  const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);
+
+  const events = await db.Event.findAll({
+    include: [{
+      model: db.Article,
+      include: db.Source
+    }],
+    where: {
+      createdAt: {
+        [Op.gt]: daysAgo
+      }
+    }
+  });
+
+  const countValidSources = articles => {
+    let sources = [];
+    for (const article of articles) {
+      if (!sources.includes(article.Source.uri)) {
+        sources.push(article.Source.uri);
+      }
+    }
+    return sources;
+  }
+
+  //only consider events that have associated articles and have been reported by at least 8 sources
+  let filteredBySources = events.filter(event => countValidSources(event.Articles).length > 7);
+  
+  //only send back the info client cares about
+  let results = filteredBySources.map(x => {
+    return {
+      id: x.id,
+      uri: x.uri,
+      title: x.title,
+      summary: x.summary,
+      date: x.date
+    }
+  });
+  
+  res.json(results);
+}));
+
+// events
+app.get('/api/eventSentiment', wrap(async (req, res) => {
+  const { eventId } = req.query;
+  
+  const event = await db.Event.find({
+    include: [
+    {
+      model: db.Article,
+      include: [db.Source, db.Sentiment]
+    }],
+    where: { id: eventId }
+  });
+
+  const averageSentiment = sentiments => {
+    let totals = {};
+    let numSentiments = 0;
+    for (const sentiment of sentiments) {
+      for (const item of sentiment) {
+        numSentiments += 1;
+        totals['sentiment'] = totals['sentiment'] ? totals['sentiment'] += item.sentiment : item.sentiment;
+        totals['fear'] = totals['fear'] ? totals['fear'] += item.fear : item.fear;
+        totals['disgust'] = totals['disgust'] ? totals['disgust'] += item.disgust : item.disgust;
+        totals['anger'] = totals['anger'] ? totals['anger'] += item.anger : item.anger;
+        totals['joy'] = totals['joy'] ? totals['joy'] += item.joy : item.joy;
+        totals['sadness'] = totals['sadness'] ? totals['sadness'] += item.sadness : item.sadness;
+      } 
+    }
+    //average all values
+    for (let  item in totals) {
+      totals[item] = totals[item] / numSentiments;
+    }
+
+    return totals;
+  }
+
+  const calculateSentiment = event => {
+    const leftSources = ['motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'theguardian.com'];
+    const rightSources = ['breitbart.com', 'foxnews.com', 'ijr.com', 'theblaze.com', 'wnd.com', 'washingtontimesreporter.com'];
+    const centerSources = ['hosted.ap.org', 'npr.org', 'thehill.com'];
+
+    const leftArticles = event.Articles.filter(article => leftSources.includes(article.Source.uri));
+    const rightArticles = event.Articles.filter(article => rightSources.includes(article.Source.uri));
+    const centerArticles = event.Articles.filter(article => centerSources.includes(article.Source.uri));
+
+    const leftSentiments = leftArticles.map(article => article.Sentiments);
+    const rightSentiments = rightArticles.map(article => article.Sentiments);
+    const centerSentiments = centerArticles.map(article => article.Sentiments);
+
+    const result = {
+      left: averageSentiment(leftSentiments),
+      right: averageSentiment(rightSentiments),
+      center: averageSentiment(centerSentiments)
+    }
+
+    return result
+  };
+
+  const result = calculateSentiment(event);
+
+  res.json(result);
+}));
+
+// sources, for a given event, returned in order of bias from far left to far right
+// includes Articles and Sentiments
 app.get('/api/sources', wrap(async (req, res) => {
   const { eventId } = req.query;
   const sourceUris = [
@@ -105,10 +210,12 @@ app.get('/api/sources', wrap(async (req, res) => {
     include: [{
       model: db.Article,
       where: { eventId },
-      required: false
+      required: false,
+      include: db.Sentiment,
     }],
     order:  ['bias'],
   });
+
   res.json(sources);
 }));
 
@@ -121,6 +228,45 @@ app.post('/api/users', wrap(async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
   const newUser = await db.User.create({ email, password: hash });
   res.json(newUser);
+}));
+
+app.get('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const { id } = req.user;
+  const user = await db.User.findById(id);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${id}`);
+
+  const events = await user.getEvents();
+  res.json(events);
+}));
+
+app.post('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.body;
+
+  const user = await db.User.findById(userId);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${userId}`);
+
+  const event = await db.Event.findById(eventId);
+  if (!event) throw boom.notFound(`Cannot find event with id: ${eventId}`);
+
+  await user.addEvent(event);
+  res.json(user);
+}));
+
+app.delete('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.query;
+
+  const user = await db.User.findById(userId);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${userId}`);
+
+  const event = await db.Event.findById(eventId);
+  if (!event) throw boom.notFound(`Cannot find event with id: ${eventId}`);
+
+  await user.removeEvent(event);
+
+  const events = await user.getEvents();
+  res.json(events);
 }));
 
 // auth
@@ -139,7 +285,7 @@ app.get('/api/auth/login', wrap(async (req, res) => {
 // serve index.html
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
-}); 
+});
 
 app.use((err, req, res, next) => {
   console.log(err);

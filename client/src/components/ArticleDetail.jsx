@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import ArticleSentimentRadarChart from './ArticleSentimentRadarChart.jsx';
 
 class ArticleDetail extends Component {
   constructor(props) {
@@ -8,24 +9,24 @@ class ArticleDetail extends Component {
 
   render() {
 
-    return ( 
+    const Sentiments = this.props.article.Sentiments;
+
+    const chart = this.props.article.Sentiments.length === 0 
+        ? (<div></div>)
+        : (<ArticleSentimentRadarChart sentiments={this.props.article.Sentiments}/>);
+
+    return (  
+
       <div className="article-detail">
         <div className="article-detail-top">
           <div className="article-source">
             <img src={this.props.article.sourceImage}></img>
+            <h2>{this.props.article.title}</h2>
+            <div className="article-date">
+              <p>{moment(this.props.article.date).fromNow()}</p>
+            </div>             
           </div>
-
-          <div className="article-sentiment">
-            SENTIMENT CHART HERE
-          </div>
-        </div>
-
-        <div className="article-title">
-          <h1>{this.props.article.title}</h1>
-        </div>
-
-        <div className="article-date">
-          <p>{moment(this.props.article.date).fromNow()}</p>
+          {chart}
         </div>
 
         <div className="article-body">

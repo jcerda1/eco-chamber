@@ -7,8 +7,9 @@ class ArticleList extends Component {
   }
 
   render() {
+    const sorted = this.props.articles.sort((a, b) => a.date < b.date);
   
-    const articles = this.props.articles.length ? this.props.articles.map(article => {
+    const articles = this.props.articles.length ? sorted.map(article => {
       return (
         <Article selected={this.props.selected} toggleArticle={this.props.toggleArticle} key={article.id} article={article}/>
       )

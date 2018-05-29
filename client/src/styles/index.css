@@ -41,7 +41,7 @@ body {
   
 }
 
-.login {
+.nav-right > li {
   justify-self: right;
   align-self: right;
   display: inline-flex;
@@ -49,18 +49,6 @@ body {
   list-style-type: none;
   padding: 10px;
   color: white;
-}
-
-.signup {
-  justify-self: right;
-  align-self: right;
-  grid-area: login;
-  display: inline-flex;
-  grid-column: 3;
-  list-style-type: none;
-  padding: 10px;
-  color: white;
-  
 }
 
 /* categories container */
@@ -76,6 +64,17 @@ body {
   padding: 10px;
   /*background-color: #D3D3D3;
   box-shadow: 5px 5px #888888;*/
+}
+
+.category {
+  text-decoration: none;
+  color: black;
+  font-size: 17px;
+}
+
+.selected-category {
+  color: #008080;
+  font-size: 20px;
 }
 
 /* Events container */
@@ -165,11 +164,6 @@ body {
   justify-content: center;
 }
 
-.sentiment-chart {
-  justify-self: end;
-  margin-right: 40px;
-}
-
 .compare-articles {
   justify-self: center;
 }
@@ -214,12 +208,8 @@ body {
 
 .article-detail-top {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
-}
-
-.article-sentiment {
-  justify-self: end;
 }
 
 /* The Close Button */

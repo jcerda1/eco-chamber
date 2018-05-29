@@ -26,6 +26,25 @@
         "responses": {}
       }
     },
+    "/api/topEvents": {
+      "get": {
+        "tags": ["topEvents"],
+        "responses": {}
+      }
+    },
+    "/api/eventSentiment": {
+      "get": {
+        "tags": ["eventSentiment"],
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/api/sources": {
       "get": {
         "tags": ["sources"],
