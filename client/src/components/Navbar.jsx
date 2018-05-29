@@ -23,6 +23,7 @@ const Navbar = () => {
     </div>
   );
 
+
   const rightNavComponents = Auth.getJWT() ? loggedInComponents : loggedOutComponents;
 
   return (
