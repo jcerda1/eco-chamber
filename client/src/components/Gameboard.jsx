@@ -14,7 +14,8 @@ class Gameboard extends Component {
       weightedWords: [],
       selected: [],
       eventIndex: 0,
-      articleIndex: 0
+      articleIndex: 0,
+      correct: false
     }
 
     this.setSources = this.setSources.bind(this);
@@ -23,6 +24,7 @@ class Gameboard extends Component {
     this.getWordMapData = this.getWordMapData.bind(this);
     this.newEvent = this.newEvent.bind(this);
     this.newArticle = this.newArticle.bind(this);
+    this.randomizeArticles = this.randomizeArticles.bind(this);
   }
 
  componentDidMount() {
@@ -44,7 +46,7 @@ class Gameboard extends Component {
   newArticle() {
     let current = this.state.articleIndex;
     let newIndex = current === this.state.articles.length -1 ? 0 : current + 1;
-    this.setState({articleIndex: newIndex, selected: this.state.articles[newIndex]});
+    this.setState({articleIndex: newIndex, selected: this.state.articles[newIndex], correct: false});
   }
 
   setEvent(index) {
@@ -63,7 +65,7 @@ class Gameboard extends Component {
 
   setArticles(articleIndex) {
     let event = this.state.events[this.state.eventIndex];
-    let articles = event.Articles;
+    let articles = this.randomizeArticles(event.Articles);
     this.setState({ articles, selected: articles[articleIndex] });
   }
 
@@ -72,7 +74,47 @@ class Gameboard extends Component {
     this.setState({ titleWords: data.words, weightedWords: data.weighted });
   }
 
+  randomizeArticles(articles) {
+    
+    var currentIndex = articles.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = articles[currentIndex];
+      articles[currentIndex] = articles[randomIndex];
+      articles[randomIndex] = temporaryValue;
+    }
+
+    return articles;
+  }
+
+  calculateBias(spectrum) {
+
+    let sources = {
+      left: [-1, -2],
+      right: [1, 2],
+      center: [0]
+    };
+
+    if (sources[spectrum].includes(this.state.articles[this.state.articleIndex].Source.bias)) {
+      this.setState({correct: true});
+    } else {
+      alert (`try again`);
+    }
+  }
+
   render() {
+
+    const correct = this.state.correct
+      ? (
+        <div className="correct">
+          <h3>Correct!</h3>
+          <img src={this.state.selected.Source.image}></img>
+          <p>{this.state.selected.Source.title}</p>
+        </div>
+        )
+      : (<div></div>)
 
     return this.state.events.length === 0 
       ? (<div className="loading"><div className="loading-spinner"></div></div>) 
@@ -85,17 +127,20 @@ class Gameboard extends Component {
              </div>
              <div className="game-title">
               <h1>ARTICLE</h1>
-              <button onClick={this.newArticle}>Next Adticle</button>
+              <button onClick={this.newArticle}>Next Article</button>
              </div>
           </div>
           <div className="game-top">
             <WordMap className="word-map" data={this.state.weightedWords}/>             
-            <div className="game-article">{this.state.selected.title}</div>             
+            <div className="game-article">
+              {this.state.selected.title}
+              {correct}
+            </div>             
           </div> 
           <div className="game-bottom">
-            <div className="game-bias left">LEFT</div>
-            <div className="game-bias center">CENTER</div>
-            <div className="game-bias right">RIGHT</div>
+            <div onClick={() => this.calculateBias('left')} className="game-bias left">LEFT</div>
+            <div onClick={() => this.calculateBias('center')} className="game-bias center">CENTER</div>
+            <div onClick={() => this.calculateBias('right')} className="game-bias right">RIGHT</div>
           </div>
         </div>
       )  

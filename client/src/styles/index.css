@@ -310,14 +310,22 @@ body {
 }
 
 .game-article {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
   border: 1px solid lightgrey;
   padding: 20px;
-  height: 200px;
-  width: 400px;
+  min-height: 200px;
+  min-width: 400px;
   margin: 20px;
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
+}
+
+.correct {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .game-bottom {
