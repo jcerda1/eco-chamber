@@ -7,51 +7,70 @@ class Gameboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      value: '',
       events: [],
       sources: [],
       articles: [],
-      event: {},
       weightedWords: [],
+      selectedEvent: {},
       selected: [],
-      eventIndex: 0,
+      eventId: 0,
       articleIndex: 0,
-      correct: false
-    }
+      correct: false,
+      score: {
+        left: {
+          correct: 0,
+          incorrect: 0
+        },
+        right: {
+          correct: 0,
+          incorrect: 0
+        },
+        center:{
+          correct: 0,
+          incorrect: 0
+        } 
+      }      
+    };
 
     this.setSources = this.setSources.bind(this);
     this.setEvent = this.setEvent.bind(this);
     this.setArticles = this.setArticles.bind(this);
     this.getWordMapData = this.getWordMapData.bind(this);
-    this.newEvent = this.newEvent.bind(this);
     this.newArticle = this.newArticle.bind(this);
     this.randomizeArticles = this.randomizeArticles.bind(this);
+    this.finishedGame = this.finishedGame.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
  componentDidMount() {
    Api.get('/gameEvents').then(events => {
-     this.setState({ events }, () => {
-      this.setEvent(0);
+     this.setState({ events, selectedEvent: events[0] }, () => {
+      this.setEvent(events[0].id);
       this.setSources(0);
-      this.setArticles(0);
     });
    }); 
   } 
 
-  newEvent() {
-    let current = this.state.eventIndex;
-    let newIndex = current === this.state.events.length -1 ? 0 : current + 1;
-    this.setEvent(newIndex);
-  }
-
   newArticle() {
     let current = this.state.articleIndex;
     let newIndex = current === this.state.articles.length -1 ? 0 : current + 1;
-    this.setState({articleIndex: newIndex, selected: this.state.articles[newIndex], correct: false});
+    if (newIndex === 0) {
+      this.finishedGame();
+    } else {
+       this.setState({articleIndex: newIndex, selected: this.state.articles[newIndex], correct: false});
+    }  
   }
 
-  setEvent(index) {
-    let event = this.state.events[index];
-    this.setState({ event, eventIndex: index }, () =>  {
+  finishedGame() {
+    console.log("FINISHED GAME: ", this.state.score)
+  }
+
+  setEvent(eventId) {
+    let event = this.state.events.filter(event => event.id === eventId)[0];
+   
+    let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
+    this.setState({ selectedEvent: event, score, eventId: event.id }, () =>  {
       this.getWordMapData(event.Articles);
       this.setArticles(0);
     });
@@ -64,9 +83,9 @@ class Gameboard extends Component {
   }
 
   setArticles(articleIndex) {
-    let event = this.state.events[this.state.eventIndex];
+    let event = this.state.selectedEvent;
     let articles = this.randomizeArticles(event.Articles);
-    this.setState({ articles, selected: articles[articleIndex] });
+    this.setState({ articles, selected: articles[articleIndex] }); 
   }
 
   getWordMapData(articles) {
@@ -97,14 +116,25 @@ class Gameboard extends Component {
       center: [0]
     };
 
+    let currentScore = this.state.score;
+
     if (sources[spectrum].includes(this.state.articles[this.state.articleIndex].Source.bias)) {
-      this.setState({correct: true});
+      currentScore[spectrum].correct = currentScore[spectrum].correct + 1;
+      this.setState({correct: true, score: currentScore}, () => console.log(this.state.score));
     } else {
+      currentScore[spectrum].incorrect = currentScore[spectrum].incorrect + 1;
+      this.setState({correct: false, score: currentScore}, () => console.log(this.state.score));
       alert (`try again`);
     }
   }
 
+  handleChange(event) {
+    let newEvent = this.state.events.filter(x => x.title === event.target.value)[0];
+    this.setState({value: event.target.value}, () => this.setEvent(newEvent.id));
+  }
+
   render() {
+    const eventOptions = this.state.events.map((event) => <option key={event.id} value={event.title}>{event.title}</option>);
 
     const correct = this.state.correct
       ? (
@@ -114,7 +144,7 @@ class Gameboard extends Component {
           <p>{this.state.selected.Source.title}</p>
         </div>
         )
-      : (<div></div>)
+      : (<div id="try-again"></div>)
 
     return this.state.events.length === 0 
       ? (<div className="loading"><div className="loading-spinner"></div></div>) 
@@ -123,19 +153,40 @@ class Gameboard extends Component {
           <div className ="game-titles">
              <div className="game-title">
                <h1>EVENT</h1>
-               <button onClick={this.newEvent}>Change Event</button>
+               <br/>
+               <form>
+                  <label>
+                    Select Event:
+                    <select value={this.state.value} onChange={(e) => this.handleChange(e)}>
+                      {eventOptions}
+                    </select>
+                  </label>
+                </form>
              </div>
              <div className="game-title">
               <h1>ARTICLE</h1>
-              <button onClick={this.newArticle}>Next Article</button>
+              <br/> 
+              <form>
+                  <label>
+                    Select Game Length:
+                    <select value={this.state.numArticles} onChange={this.changeArticleNum}>
+                      <option value="5 articles">5 articles</option>
+                      <option value="10 articles">10 articles</option>
+                      <option value="15 articles">15 articles</option>
+                      <option value="All articles">All articles ({this.state.selectedEvent.Articles.length})</option>                     
+                    </select>
+                  </label>
+                </form>            
              </div>
           </div>
           <div className="game-top">
             <WordMap className="word-map" data={this.state.weightedWords}/>             
             <div className="game-article">
               {this.state.selected.title}
+              <button onClick={this.newArticle}>Next Article</button>  
               {correct}
-            </div>             
+            </div>    
+
           </div> 
           <div className="game-bottom">
             <div onClick={() => this.calculateBias('left')} className="game-bias left">LEFT</div>
