@@ -4,7 +4,7 @@ import Api from '../helpers/Api';
 import moment from 'moment';
 import EventDetail from './EventDetail.jsx';
 var FaStarO = require('react-icons/lib/fa/star-o');
-var FaHeartC = require('react-icons/lib/fa/star');
+var FaStarC = require('react-icons/lib/fa/star');
 var FaLineChart = require('react-icons/lib/fa/line-chart');
 var FaClose = require('react-icons/lib/fa/close');
 
@@ -50,7 +50,7 @@ class Events extends Component {
       let formatted = moment(date).fromNow();
 
       return (
-        <div key = {id}>
+        <div className="event-list" key = {id}>
           <li className="event-item">
             <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
               pathname: `/event/${id}/articles`,
