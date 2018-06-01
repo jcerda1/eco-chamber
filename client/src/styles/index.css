@@ -210,6 +210,7 @@ body {
     cursor: pointer;
 }
 
+/* articles */
 .articles-container {
   list-style-type: none;
   margin-left: 2em;
@@ -260,6 +261,140 @@ body {
 .article-card-bottom button {
   justify-self: end;
 }
+
+/* gameboard */
+
+.game-board {
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
+}
+
+.game-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.game-title {
+  display: grid;
+  align-items: center;
+  justify-content: start;
+  grid-template-columns: 1fr 10fr;
+  text-align: center;
+}
+
+.game-title h1 {
+  border: 1px solid black;
+  background-color: #008080;
+  height: 40px;
+  width: 40px;
+  color: white;
+  border-radius: 5px;
+}
+
+.game-bias {
+  display: grid;
+  grid-gap: 20px;
+  justify-content: center;
+}
+
+.game-bias img {
+  height: 40px;
+  width: 40px;
+}
+
+.game-article {
+  display: grid;
+  grid-template-rows: 1fr 1fr 2fr;
+  border: 1px solid lightgrey;
+  padding: 20px;
+  height: 300px;
+  width: 450px;
+  border-radius: 5px;
+  font-size: 20px;
+  text-align: center;
+  justify-content: start;
+  align-items: start;
+  margin-top: 50px;
+}
+
+svg {
+  margin-top: 50px;
+}
+
+select {
+  margin-top: 20px;
+  padding: 10px 20px;
+  box-shadow: none;
+  border: 1px solid #008080;
+  background-image: none;
+  -webkit-appearance: none;
+}
+
+.game-results {
+  display: grid;
+  height: 300px;
+  width: 450px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+.correct {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.left, .right, .center {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 300px;
+}
+
+.left {
+  color: blue;
+}
+
+.center {
+  color: grey;
+}
+
+.right {
+  color: red;
+}
+
+.source-image {
+  display: grid;
+}
+
+.loading {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.loading-spinner {   
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #008080; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 
 img {
   width: 100px;

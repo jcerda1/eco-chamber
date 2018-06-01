@@ -10,6 +10,7 @@ import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';
 import MyEvents from './MyEvents.jsx';
 import TopEvents from './TopEvents.jsx';
+import Gameboard from './Gameboard.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class App extends Component {
           <Route path="/signin" component={Signin}/>
           <Route path="/myEvents" component={MyEvents}/>
           <Route path="/topEvents" component={TopEvents}/>
+          <Route path="/game" component={Gameboard}/>
         </Switch>
       </div>
     );
