@@ -29,7 +29,7 @@ class TopEvents extends Component {
   }
 
   updateEvents = (props = this.props) => {
-    Api.get('/topEvents').then(events => this.setState({ events }, () => console.log(this.state)));
+    Api.get('/topEvents').then(events => this.setState({ events }));
   }
 
   getSavedEvents() {
