@@ -3,8 +3,6 @@ import Api from '../helpers/Api';
 import WordMap from './WordMap.jsx';
 import analyzeArticleTitles from '../helpers/WordMap.js';
 
-//TODO 1, 2, 3
-
 class Gameboard extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +14,6 @@ class Gameboard extends Component {
       weightedWords: [],
       selectedEvent: {Articles: []},
       selectedArticle: [],
-      eventId: 0,
       articleIndex: 0,
       completed: false,
       correct: null,
