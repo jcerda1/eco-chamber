@@ -20,8 +20,10 @@ class App extends Component {
   render() {
     return ( 
       <div>
-        <Navbar/>
-        <Categories />
+        <div className="header">
+          <Navbar/>
+          <Categories/>
+        </div>
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path="/category/:categoryId/events" component={Events}/>
