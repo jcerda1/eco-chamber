@@ -288,42 +288,79 @@ body {
 /* gameboard */
 
 .game-board {
-  margin-left: 150px;
-  margin-right: 150px;
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
 }
 
-.game-titles {
+.game-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: start;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
 }
 
 .game-title {
   display: grid;
-  justify-items: center;
   align-items: center;
+  justify-content: start;
+  grid-template-columns: 1fr 10fr;
+  text-align: center;
 }
 
-.game-top {
-  margin-top: 50px;
+.game-title h1 {
+  border: 1px solid black;
+  background-color: #008080;
+  height: 40px;
+  width: 40px;
+  color: white;
+  border-radius: 5px;
+}
+
+.game-bias {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: end;
+  grid-gap: 20px;
+  justify-content: center;
+}
+
+.game-bias img {
+  height: 40px;
+  width: 40px;
 }
 
 .game-article {
   display: grid;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 1fr 1fr 2fr;
   border: 1px solid lightgrey;
   padding: 20px;
   height: 300px;
   width: 450px;
-  margin: 20px;
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
+  justify-content: start;
+  align-items: start;
+  margin-top: 50px;
+}
+
+svg {
+  margin-top: 50px;
+}
+
+select {
+  margin-top: 20px;
+  padding: 10px 20px;
+  box-shadow: none;
+  border: 1px solid #008080;
+  background-image: none;
+  -webkit-appearance: none;
+}
+
+.game-results {
+  display: grid;
+  height: 300px;
+  width: 450px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 }
 
 .correct {
@@ -332,32 +369,30 @@ body {
   justify-content: space-around;
 }
 
-.game-bottom {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.game-bias {
+.left, .right, .center {
   border: 1px solid lightgrey;
   border-radius: 5px;
-  padding: 50px;
+  padding: 10px;
   font-size: 30px;
   font-weight: bold;
+  text-align: center;
+  min-width: 300px;
 }
 
-.game-bottom .left {
+.left {
   color: blue;
 }
 
-.game-bottom .center {
+.center {
   color: grey;
 }
 
-.game-bottom .right {
+.right {
   color: red;
+}
+
+.source-image {
+  display: grid;
 }
 
 .loading {

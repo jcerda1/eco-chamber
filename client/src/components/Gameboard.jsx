@@ -3,16 +3,18 @@ import Api from '../helpers/Api';
 import WordMap from './WordMap.jsx';
 import analyzeArticleTitles from '../helpers/WordMap.js';
 
+//TODO 1, 2, 3
+
 class Gameboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentEventId: '',
       events: [],
-      sources: [],
+      sources: {right:[], center: [], left:[]},
       articles: [],
       weightedWords: [],
-      selectedEvent: {},
+      selectedEvent: {Articles: []},
       selectedArticle: [],
       eventId: 0,
       articleIndex: 0,
@@ -49,7 +51,7 @@ class Gameboard extends Component {
    Api.get('/gameEvents').then(events => {
      this.setState({ events, selectedEvent: events[0] }, () => {
       this.setEvent(events[0].id);
-      this.setSources(0);
+      this.setSources();
     });
    }); 
   } 
@@ -72,15 +74,20 @@ class Gameboard extends Component {
     let event = this.state.events.filter(event => event.id === eventId)[0];
    
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
-    this.setState({ finished: false, selectedEvent: event, score, eventId: event.id }, () =>  {
+    this.setState({ correct: null, finished: false, selectedEvent: event, score, eventId: event.id }, () =>  {
       this.getWordMapData(event.Articles);
       this.setArticles("all");
+      this.setSources();
     });
   }
 
-  setSources(index) {
-    let event = this.state.events[index];
-    let sources = [... new Set(event.Articles.map(article => article.Source.image))];
+  setSources() {
+    let event = this.state.selectedEvent;
+    let sources = {
+      right: event.Articles.filter(article => article.Source.bias === 1 || article.Source.bias === 2).map(article => article.Source),
+      center: event.Articles.filter(article => article.Source.bias === 0).map(article => article.Source),
+      left: event.Articles.filter(article => article.Source.bias === -1 || article.Source.bias === -2).map(article => article.Source),
+    }
     this.setState({ sources: sources });
   }
 
@@ -98,8 +105,7 @@ class Gameboard extends Component {
     this.setState({ titleWords: data.words, weightedWords: data.weighted });
   }
 
-  randomizeArticles(articles) {
-    
+  randomizeArticles(articles) { 
     var currentIndex = articles.length, temporaryValue, randomIndex;
 
     while (0 !== currentIndex) {
@@ -141,8 +147,15 @@ class Gameboard extends Component {
   }
 
   render() {
-   
-    const eventOptions = this.state.events.map((event) => <option key={event.id} value={event.id}>{event.title}</option>);
+    const sources = this.state.sources;
+    const rightSources = [... new Set(sources.right.map(source => source.image))].map(image => <img key={image} src={image}></img>);
+    const centerSources = [... new Set(sources.center.map(source => source.image))].map(image => <img key={image} src={image}></img>);
+    const leftSources = [... new Set(sources.left.map(source => source.image))].map(image => <img key={image} src={image}></img>);
+    
+    const eventOptions = this.state.events.map((event) => {
+      let truncated = event.title.split(' ').slice(0, 8).join(' ');
+      return (<option key={event.id} value={event.id}>{truncated + "..."}</option>);
+    });
 
     const correct = this.state.correct === true
       ? (
@@ -156,57 +169,80 @@ class Gameboard extends Component {
       : (<div></div>)
 
      const finished = this.state.finished 
-      ? (<h1>YOU ARE FINISHED! Data on your score here</h1>)
+      ? (<div className="game-results">
+          <h1>YOU ARE FINISHED! Data on your score here</h1>
+        </div>)
       : (<div className="game-article">
           {this.state.selectedArticle.title}
           <button onClick={this.newArticle}>Next Article</button>  
           {correct}
-          </div>) 
+        </div>) 
 
     return this.state.events.length === 0 
       ? (<div className="loading"><div className="loading-spinner"></div></div>) 
       : (
         <div className="game-board">
-          <div className ="game-titles">
-             <div className="game-title">
-               <h1>EVENT</h1>
-               <form>
-                  <label>
-                    Select Event:
-                    <select value={this.state.value} onChange={(e) => this.handleChange(e)}>
-                      {eventOptions}
-                    </select>
-                  </label>
-                </form>
-             </div>
-             <div className="game-title">
-              <h1>ARTICLE</h1>
+          <h2>Is the article title from the left, center, or right side of the political spectrum?</h2>
+          <hr/>
+          <div className="game-cols">
+
+            <div className ="game-event-col">
+              <div className="game-title"> 
+                <h1 className="game-number">1</h1>
+                <h3>SELECT EVENT</h3>
+              </div>
               <form>
-                  <label>
-                    Select Game Length:
-                    <select value={this.state.numArticles} onChange={this.handleChangeArticle}>
-                      <option value="all">All articles ({this.state.selectedEvent.Articles.length})</option> 
-                      <option value="5">5 articles</option>
-                      <option value="10">10 articles</option>
-                      <option value="15">15 articles</option>                                         
-                    </select>
-                  </label>
-                </form>            
-             </div>
+                <select value={this.state.value} onChange={(e) => this.handleChange(e)}>
+                  {eventOptions}
+                </select>               
+              </form>
+              <WordMap width="450" height="300" className="word-map" data={this.state.weightedWords}/> 
+            </div>
+
+            <div className="game-article-col">
+              <div className="game-title">
+                <h1 className="game-number">2</h1>
+                <h3>SELECT NUMBER OF ARTICLES</h3>
+              </div>
+              <form>         
+                <select value={this.state.numArticles} onChange={this.handleChangeArticle}>
+                  <option value="all">All articles ({this.state.selectedEvent.Articles.length})</option> 
+                  <option value="5">5 articles</option>
+                  <option value="10">10 articles</option>
+                  <option value="15">15 articles</option>                                         
+                </select>                 
+              </form> 
+              {finished}                   
+            </div>
+                        
+            <div className="game-bias">
+              <div className="game-title">
+                <h1 className="game-number">3</h1>
+                <h3>GUESS SPECTRUM</h3>
+              </div>
+              <div onClick={() => this.calculateBias('right')} className="right">
+                RIGHT
+                <div className="source-image">
+                  {rightSources}
+                </div>
+              </div>
+              <div onClick={() => this.calculateBias('center')} className="center">
+                CENTER
+                <div className="source-image">
+                  {centerSources}
+                </div>
+              </div>
+              <div onClick={() => this.calculateBias('left')} className="left">
+                LEFT
+                <div className="source-image">
+                  {leftSources}
+                </div>
+              </div>               
+            </div>
           </div>
-          <div className="game-top">
-            <WordMap width="450" height="300" className="word-map" data={this.state.weightedWords}/>             
-            {finished}
-          </div> 
-          <div className="game-bottom">
-            <div onClick={() => this.calculateBias('left')} className="game-bias left">LEFT</div>
-            <div onClick={() => this.calculateBias('center')} className="game-bias center">CENTER</div>
-            <div onClick={() => this.calculateBias('right')} className="game-bias right">RIGHT</div>
-          </div>
-        </div>
+        </div>          
       )  
   }
-
 }
 
 export default Gameboard;
