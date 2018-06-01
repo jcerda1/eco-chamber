@@ -13,7 +13,7 @@ class Gameboard extends Component {
       articles: [],
       weightedWords: [],
       selectedEvent: {},
-      selected: [],
+      selectedArticle: [],
       eventId: 0,
       articleIndex: 0,
       correct: false,
@@ -41,6 +41,7 @@ class Gameboard extends Component {
     this.randomizeArticles = this.randomizeArticles.bind(this);
     this.finishedGame = this.finishedGame.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeArticle = this.handleChangeArticle.bind(this);
   }
 
  componentDidMount() {
@@ -58,7 +59,7 @@ class Gameboard extends Component {
     if (newIndex === 0) {
       this.finishedGame();
     } else {
-       this.setState({articleIndex: newIndex, selected: this.state.articles[newIndex], correct: false});
+       this.setState({articleIndex: newIndex, selectedArticle: this.state.articles[newIndex], correct: false});
     }  
   }
 
@@ -72,7 +73,7 @@ class Gameboard extends Component {
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
     this.setState({ selectedEvent: event, score, eventId: event.id }, () =>  {
       this.getWordMapData(event.Articles);
-      this.setArticles(0);
+      this.setArticles("all");
     });
   }
 
@@ -82,10 +83,14 @@ class Gameboard extends Component {
     this.setState({ sources: sources });
   }
 
-  setArticles(articleIndex) {
+  setArticles(numArticles) {
     let event = this.state.selectedEvent;
     let articles = this.randomizeArticles(event.Articles);
-    this.setState({ articles, selected: articles[articleIndex] }); 
+    if (numArticles !== "all") {
+      articles = articles.slice(0, parseInt(numArticles));
+    }
+    console.log(articles.length);
+    this.setState({ articles, selectedArticle: articles[0] }); 
   }
 
   getWordMapData(articles) {
@@ -133,6 +138,10 @@ class Gameboard extends Component {
     this.setState({value: event.target.value}, () => this.setEvent(newEvent.id));
   }
 
+  handleChangeArticle(event) {
+    this.setArticles(event.target.value);  
+  }
+
   render() {
     const eventOptions = this.state.events.map((event) => <option key={event.id} value={event.title}>{event.title}</option>);
 
@@ -140,8 +149,8 @@ class Gameboard extends Component {
       ? (
         <div className="correct">
           <h3>Correct!</h3>
-          <img src={this.state.selected.Source.image}></img>
-          <p>{this.state.selected.Source.title}</p>
+          <img src={this.state.selectedArticle.Source.image}></img>
+          <p>{this.state.selectedArticle.Source.title}</p>
         </div>
         )
       : (<div id="try-again"></div>)
@@ -153,7 +162,6 @@ class Gameboard extends Component {
           <div className ="game-titles">
              <div className="game-title">
                <h1>EVENT</h1>
-               <br/>
                <form>
                   <label>
                     Select Event:
@@ -165,24 +173,23 @@ class Gameboard extends Component {
              </div>
              <div className="game-title">
               <h1>ARTICLE</h1>
-              <br/> 
               <form>
                   <label>
                     Select Game Length:
-                    <select value={this.state.numArticles} onChange={this.changeArticleNum}>
-                      <option value="5 articles">5 articles</option>
-                      <option value="10 articles">10 articles</option>
-                      <option value="15 articles">15 articles</option>
-                      <option value="All articles">All articles ({this.state.selectedEvent.Articles.length})</option>                     
+                    <select value={this.state.numArticles} onChange={this.handleChangeArticle}>
+                      <option value="all">All articles ({this.state.selectedEvent.Articles.length})</option> 
+                      <option value="5">5 articles</option>
+                      <option value="10">10 articles</option>
+                      <option value="15">15 articles</option>                                         
                     </select>
                   </label>
                 </form>            
              </div>
           </div>
           <div className="game-top">
-            <WordMap className="word-map" data={this.state.weightedWords}/>             
+            <WordMap width="400" height="250" className="word-map" data={this.state.weightedWords}/>             
             <div className="game-article">
-              {this.state.selected.title}
+              {this.state.selectedArticle.title}
               <button onClick={this.newArticle}>Next Article</button>  
               {correct}
             </div>    

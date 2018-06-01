@@ -287,22 +287,26 @@ body {
 
 /* gameboard */
 
+.game-board {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 .game-titles {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
-  align-items: end;
+  align-items: start;
 }
 
 .game-title {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
   justify-items: center;
   align-items: center;
 }
 
 .game-top {
+  margin-top: 50px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
