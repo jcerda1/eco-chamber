@@ -131,7 +131,7 @@ app.get('/api/topEvents', wrap(async (req, res) => {
   res.json(results);
 }));
 
-// events
+// event sentiment
 app.get('/api/eventSentiment', wrap(async (req, res) => {
   const { eventId } = req.query;
   

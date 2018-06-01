@@ -14,23 +14,30 @@ class TopEvents extends Component {
     this.state = {
       events: [],
       showModal: false,
-      selected: null
+      selected: null,
+      savedEvents: []
     };
 
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.getSavedEvents = this.getSavedEvents.bind(this);
   }
 
   componentDidMount() {
     this.updateEvents();
-  }
- 
-  componentWillReceiveProps(props) {
-    this.updateEvents(props);
+    this.getSavedEvents();
   }
 
   updateEvents = (props = this.props) => {
-    Api.get('/topEvents').then(events => this.setState({ events }));
+    Api.get('/topEvents').then(events => this.setState({ events }, () => console.log(this.state)));
+  }
+
+  getSavedEvents() {
+    Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+  }
+
+  removeSaved = (e, eventId) => {  
+    Api.delete('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
   onClick = (e, eventId) => {
@@ -71,7 +78,18 @@ class TopEvents extends Component {
 
               <div className = "event-icons">
                 <FaLineChart onClick={() => this.showModal(id)} className="event-chart-icon"/>
-                <FaStarO className="event-star-icon" onClick={(e) => { this.onClick(e, id) }}/>
+                <FaStarO 
+                  style={{display: this.state.savedEvents.filter(event => event.id === id).length === 0
+                    ? 'block'
+                    : 'none' }}
+                  className="event-star-icon" 
+                  onClick={(e) => {this.onClick(e, id)}}/>
+                <FaStarC 
+                  style={{display: this.state.savedEvents.filter(event => event.id === id).length > 0
+                    ? 'block'
+                    : 'none' }}
+                  className="event-star-icon" 
+                  onClick={(e) => {this.removeSaved(e, id)}}/>
               </div>
 
               <div className="modal" style={{ display: this.state.selected === id ? 'block' : 'none' }}>
