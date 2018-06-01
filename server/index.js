@@ -236,6 +236,69 @@ app.get('/api/eventSentiment', wrap(async (req, res) => {
   res.json(result);
 }));
 
+//single-sided events - reported on by left only and right only
+app.get('/api/events/single-sided', wrap(async (req, res) => {
+  const { bias } = req.query;
+  const sourceUris = {
+    left: ['motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'theguardian.com', 'latimes.com'],
+    right: ['ijr.com', 'theblaze.com', 'wnd.com', 'foxnews.com', 'breitbart.com', 'washingtontimesreporter.com']
+  }
+  const include = sourceUris[bias];
+  const exclude = bias === 'left' ? sourceUris.right : sourceUris.left;
+
+  // limit initial events to ones created by our system in the last 5 days
+  const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);
+
+  const events = await db.Event.findAll({
+    include: [
+    {
+      model: db.Article,
+      include: [{
+        model: db.Source,
+      }]
+    }],
+    where: {
+      createdAt: {
+        [Op.gt]: daysAgo
+      }
+    }
+  });
+
+  //only return events that have at least 4 associated articles and have been reported on by requested bias
+  let filteredByArticles = events.filter(event => event.Articles.length > 3);
+
+  let filteredBySources = filteredByArticles.filter(event => {
+    let right = event.Articles.filter(article => sourceUris.right.includes(article.Source.uri));
+    let left = event.Articles.filter(article => sourceUris.left.includes(article.Source.uri));
+
+    if (bias === 'left') {
+      return right.length === 0 && left.length > 0;
+    } else {
+      return right.length > 0 && left.length === 0;
+    }
+  });
+
+  //sort results to come back newest first
+  const sorted = filteredBySources.sort((a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a>b ? -1 : a<b ? 1 : 0;
+  });
+
+  //only send back the info client cares about
+  let results = sorted.map(x => {
+    return {
+      id: x.id,
+      uri: x.uri,
+      title: x.title,
+      summary: x.summary,
+      date: x.date
+    }
+  });
+
+  res.json(results);
+}))
+
 // sources, for a given event, returned in order of bias from far left to far right
 // includes Articles and Sentiments
 app.get('/api/sources', wrap(async (req, res) => {
