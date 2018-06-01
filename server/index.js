@@ -117,8 +117,16 @@ app.get('/api/topEvents', wrap(async (req, res) => {
   //only consider events that have associated articles and have been reported by at least 8 sources
   let filteredBySources = events.filter(event => countValidSources(event.Articles).length > 7);
   
+
+  //sort results to come back newest first
+  const sorted = filteredBySources.sort((a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a>b ? -1 : a<b ? 1 : 0;
+  });
+
   //only send back the info client cares about
-  let results = filteredBySources.map(x => {
+  let results = sorted.map(x => {
     return {
       id: x.id,
       uri: x.uri,
