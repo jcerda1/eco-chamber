@@ -21,19 +21,22 @@ class Events extends Component {
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.getSavedEvents = this.getSavedEvents.bind(this);
+    this.saveEvent = this.saveEvent.bind(this);
+    this.removeSaved = this.removeSaved.bind(this);
   }
 
   componentDidMount() {
+    this.updateEvents(this.props);
     this.getSavedEvents();
   }
 
   componentWillReceiveProps(props) {
-    this.updateEvents(props);
+    this.updateEvents(this.props);
   }
 
   updateEvents = (props = this.props) => {
     const { categoryId } = props.match.params;
-    Api.get('/events', { categoryId }).then(events => this.setState({ events }), () => console.log(this.state.events));
+    Api.get('/events', { categoryId }).then(events => this.setState({ events }));
   }
 
   getSavedEvents() {

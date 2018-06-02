@@ -11,7 +11,7 @@ class EventList extends Component {
     let events;
 
     if (this.props.events.length === 0) {
-      events = (<div></div>);
+      events = (<div className="loading"><div className="loading-spinner"></div></div>);
     } else {
       events = sorted.map(event => 
         <EventCard  

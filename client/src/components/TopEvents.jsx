@@ -15,6 +15,8 @@ class TopEvents extends Component {
     this.getSavedEvents = this.getSavedEvents.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.saveEvent = this.saveEvent.bind(this);
+    this.removeSaved = this.removeSaved.bind(this);
   }
 
   componentDidMount() {
