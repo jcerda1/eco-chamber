@@ -45,6 +45,7 @@ class Signup extends Component {
           <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.onChange} required></input>
 
           <label><b>Political Identity</b></label>
+          <h4>Not sure?  Take this <a href="https://www.pbs.org/newshour/politics/fit-2016-political-party-quiz" target="_blank">pew research quiz!</a></h4>
           <br/>
           <select name="bias" value={this.state.bias} onChange={this.onChange}>
             <option value="-2">Far Left</option>
