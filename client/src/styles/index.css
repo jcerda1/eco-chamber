@@ -121,7 +121,15 @@ body {
   margin-right: 40px;
 }
 
+.toggle-bias {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
+.selected-bias {
+  background-color: lightgrey;
+}
 
 /* articles */
 
