@@ -82,7 +82,7 @@ app.get('/api/events', wrap(async (req, res) => {
       date: x.date
     }
   });
-
+ 
   res.json(results);
 }));
 
@@ -134,8 +134,7 @@ app.get('/api/topEvents', wrap(async (req, res) => {
       summary: x.summary,
       date: x.date
     }
-  });
-  
+  }); 
   res.json(results);
 }));
 
@@ -170,8 +169,6 @@ app.get('/api/gameEvents', wrap(async  (req, res) => {
   let filteredBySources = events.filter(event => countValidSources(event.Articles).length > 7);
 
   res.send(filteredBySources);
-
-
 }));
 
 // event sentiment
@@ -232,7 +229,6 @@ app.get('/api/eventSentiment', wrap(async (req, res) => {
   };
 
   const result = calculateSentiment(event);
-
   res.json(result);
 }));
 
@@ -295,7 +291,6 @@ app.get('/api/events/single-sided', wrap(async (req, res) => {
       date: x.date
     }
   });
-
   res.json(results);
 }))
 
