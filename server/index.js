@@ -387,7 +387,6 @@ app.delete('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (re
 }));
 
 app.get('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
-  console.log("IN GET")
   const userId = req.user.id;
   const user = await db.User.findById(userId);
   const ratings = await user.getRatings();
@@ -395,7 +394,6 @@ app.get('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req,
 }));
 
 app.post('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
-  console.log("IN POST");
   const userId = req.user.id;
   const { informed, titleBias, articleBias, sourceTrust, articleId } = req.body;
 
