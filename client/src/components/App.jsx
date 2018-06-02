@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Api from '../helpers/Api';
@@ -11,6 +12,7 @@ import Signin from './Signin.jsx';
 import MyEvents from './MyEvents.jsx';
 import TopEvents from './TopEvents.jsx';
 import Gameboard from './Gameboard.jsx';
+import SingleSided from './SingleSided.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -33,6 +35,7 @@ class App extends Component {
           <Route path="/myEvents" component={MyEvents}/>
           <Route path="/topEvents" component={TopEvents}/>
           <Route path="/game" component={Gameboard}/>
+          <Route path="/events/single-sided" component={SingleSided}/>
         </Switch>
       </div>
     );

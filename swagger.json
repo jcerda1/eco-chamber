@@ -32,6 +32,19 @@
         "responses": {}
       }
     },
+    "/api/events/single-sided": {
+      "get": {
+        "tags": ["events/single-sided"],
+        "parameters": [
+          {
+            "name": "bias",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
      "/api/gameEvents": {
       "get": {
         "tags": ["gameEvents"],
