@@ -338,12 +338,12 @@ app.get('/api/sources', wrap(async (req, res) => {
 
 // users
 app.post('/api/users', wrap(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, bias } = req.body;
   const user = await db.User.findOne({ where: { email } });
   if (user) throw boom.badRequest('Email already exists');
 
   const hash = await bcrypt.hash(password, 10);
-  const newUser = await db.User.create({ email, password: hash });
+  const newUser = await db.User.create({ email, bias, password: hash });
   res.json(newUser);
 }));
 
