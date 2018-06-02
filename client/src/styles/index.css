@@ -203,6 +203,11 @@ body {
   justify-content: center;
 }
 
+.article-rating {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 /* The Close Button */
 .close {
     color: #aaa;
