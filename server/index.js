@@ -386,8 +386,30 @@ app.delete('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (re
   res.json(events);
 }));
 
+app.get('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  console.log("IN GET")
+  const userId = req.user.id;
+  const user = await db.User.findById(userId);
+  const ratings = await user.getRatings();
+  res.json(ratings);
+}));
+
+app.post('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+  console.log("IN POST");
+  const userId = req.user.id;
+  const { informed, titleBias, articleBias, sourceTrust, articleId } = req.body;
+
+  const user = await db.User.findById(userId);
+  const article = await db.Article.findById(articleId);
+  const rating = await db.Rating.create({ informed, titleBias, articleBias, sourceTrust });
+
+  await article.addRating(rating);
+  await user.addRating(rating);
+  res.json(user);
+}));
+
 // auth
-app.get('/api/auth/login', wrap(async (req, res) => {
+app.get('/api/auth/login', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
   const { email, password } = req.query;
   const user = await db.User.findOne({ where: { email } });
   if (!user) throw boom.badRequest('User does not exist');
@@ -405,7 +427,6 @@ app.get('/*', (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
   if (err.isBoom) {
     const { payload } = err.output;
     res.status(payload.statusCode).json(payload);

@@ -26,8 +26,20 @@ class ArticleDetail extends Component {
     if (!jwt) {
       alert("You must be logged in to review articles");
     } else {
-      
+      if (this.state.informed !== '' && this.state.titleBias !== '' && this.state.articleBias !== '' && this.state.sourceTrust !== '') {
+        this.saveRating(this.props.article.id);  
+      } else {
+        alert("Please answer all questions to save your review");
+      }       
     }
+  }
+
+  saveRating = (articleId) => {
+    const { informed, titleBias, articleBias, sourceTrust } = this.state;
+    console.log(informed, titleBias, articleBias, sourceTrust);
+    Api.post('/users/user-ratings', { informed, titleBias, articleBias, sourceTrust, articleId })
+       .then(res => this.setState({ informed: '', titleBias: '', articleBias: '', sourceTrust: ''}));
+     
   }
 
   render() {
@@ -82,7 +94,7 @@ class ArticleDetail extends Component {
                   <p>How biased is this article title?</p>
                   <label>
                     <input name="titleBias" type="radio" value={-1}
-                           checked={this.state.titleBias === 1} 
+                           checked={this.state.titleBias === -1} 
                            onChange={this.handleOptionChange}/>
                     Not biased
                   </label>
