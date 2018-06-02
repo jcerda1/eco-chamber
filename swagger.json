@@ -32,6 +32,12 @@
         "responses": {}
       }
     },
+     "/api/gameEvents": {
+      "get": {
+        "tags": ["gameEvents"],
+        "responses": {}
+      }
+    },
     "/api/eventSentiment": {
       "get": {
         "tags": ["eventSentiment"],
