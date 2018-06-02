@@ -21,7 +21,7 @@ class ArticleDetail extends Component {
         <div className="article-detail-top">
           <div className="article-source">
             <img src={this.props.article.sourceImage}></img>
-            <h2>{this.props.article.title}</h2>
+            <a href={this.props.article.url} target="_blank"><h2>{this.props.article.title}</h2></a>
             <div className="article-date">
               <p>{moment(this.props.article.date).fromNow()}</p>
             </div>             
