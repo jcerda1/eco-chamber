@@ -171,8 +171,7 @@ class Gameboard extends Component {
           <h1>YOU ARE FINISHED! Data on your score here</h1>
         </div>)
       : (<div className="game-article">
-          {this.state.selectedArticle.title}
-          <button onClick={this.newArticle}>Next Article</button>  
+          <div className="game-article-title">{this.state.selectedArticle.title}</div>  
           {correct}
         </div>) 
 
@@ -194,10 +193,7 @@ class Gameboard extends Component {
                   {eventOptions}
                 </select>               
               </form>
-              <WordMap width="450" height="300" className="word-map" data={this.state.weightedWords}/> 
-            </div>
-
-            <div className="game-article-col">
+              <WordMap width="350" height="200" className="word-map" data={this.state.weightedWords}/> 
               <div className="game-title">
                 <h1 className="game-number">2</h1>
                 <h3>SELECT NUMBER OF ARTICLES</h3>
@@ -210,34 +206,45 @@ class Gameboard extends Component {
                   <option value="15">15 articles</option>                                         
                 </select>                 
               </form> 
-              {finished}                   
             </div>
-                        
-            <div className="game-bias">
+
+            <div className="game-bias-col">
               <div className="game-title">
                 <h1 className="game-number">3</h1>
                 <h3>GUESS SPECTRUM</h3>
               </div>
-              <div onClick={() => this.calculateBias('right')} className="right">
-                RIGHT
-                <div className="source-image">
-                  {rightSources}
+              <div className="game-bias">
+                <div onClick={() => this.calculateBias('right')} className="right">
+                  RIGHT
+                  <div className="source-image">
+                    {rightSources}
+                  </div>
                 </div>
+                <div onClick={() => this.calculateBias('center')} className="center">
+                  CENTER
+                  <div className="source-image">
+                    {centerSources}
+                  </div>
+                </div>
+                <div onClick={() => this.calculateBias('left')} className="left">
+                  LEFT
+                  <div className="source-image">
+                    {leftSources}
+                  </div>
+                </div>               
               </div>
-              <div onClick={() => this.calculateBias('center')} className="center">
-                CENTER
-                <div className="source-image">
-                  {centerSources}
-                </div>
-              </div>
-              <div onClick={() => this.calculateBias('left')} className="left">
-                LEFT
-                <div className="source-image">
-                  {leftSources}
-                </div>
-              </div>               
+            </div> 
+
+             <div className="game-results-col">
+               <div className="game-title">
+                 <h1 className="game-number">4</h1>
+                 <h3>VIEW RESULTS</h3>
+               </div>
+              <button onClick={this.newArticle}>Next Article</button>
+              {finished}          
+            </div>                  
             </div>
-          </div>
+            
         </div>          
       )  
   }

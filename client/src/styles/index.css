@@ -379,7 +379,7 @@ body {
   display: grid;
   align-items: center;
   justify-content: start;
-  grid-template-columns: 1fr 10fr;
+  grid-template-columns: 75px 1fr;
   text-align: center;
 }
 
@@ -392,21 +392,27 @@ body {
   border-radius: 5px;
 }
 
+.game-article-title {
+  border: 1px solid lightgrey;
+  padding: 15px;
+}
+
 .game-bias {
   display: grid;
   grid-gap: 20px;
-  justify-content: center;
+  justify-items: center;
+  margin-top: 20px;
 }
 
 .game-bias img {
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
+  padding: 5px;
 }
 
 .game-article {
   display: grid;
   grid-template-rows: 1fr 1fr 2fr;
-  border: 1px solid lightgrey;
   padding: 20px;
   height: 300px;
   width: 450px;
@@ -452,7 +458,7 @@ select {
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  min-width: 300px;
+  width: 350px;
 }
 
 .left {
@@ -465,10 +471,6 @@ select {
 
 .right {
   color: red;
-}
-
-.source-image {
-  display: grid;
 }
 
 .loading {
@@ -530,7 +532,7 @@ button:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   /*margin-bottom: 10px;*/
 }
 
