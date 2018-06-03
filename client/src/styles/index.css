@@ -34,15 +34,55 @@ body {
   margin-top: -50px;
 }
 
+.Collapsible__trigger {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  border: 1px solid white;
+  padding: 20px;
+  background: #F8F8F8;
+}
+
+.Collapsible__contentInner {
+  background-color: #008080;
+  display: flex;
+  flex-direction: column;
+}
+
 .sidebar-menu {
-  align-items: center;
+  padding-bottom: 5px;
   position:absolute;
   z-index: 10;
-  background-color: pink;
+  background-color: lightgrey;
   width: 300px;
-  display: grid;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
 } 
+
+.sidebar-menu-item {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #F8F8F8;
+  color: black;
+  padding: 20px;
+  text-decoration: none;
+  border: 1px solid white;
+  font-size: 20;
+}
+
+.sidebar-event-item {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #F8F8F8;
+  color: black;
+  padding: 20px;
+  padding-left: 50px;
+  text-decoration: none;
+  border: 1px solid white;
+  font-size: 20;
+}
 
 .nav-right {
   display: flex;

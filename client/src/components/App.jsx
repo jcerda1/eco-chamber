@@ -37,7 +37,7 @@ class App extends Component {
         <div className="header">
           <Navbar toggle={this.toggleSidebar}/>
           <Categories/>
-          <Sidebar show={show}/>
+          <Sidebar toggle={this.toggleSidebar} show={show}/>
           
         </div>
         <Switch>

@@ -15,9 +15,6 @@ class Navbar extends Component {
   render() {
     const loggedInComponents = (
       <div className="nav-right">
-        <Link to="/events/single-sided">Biased Events</Link>
-        <Link to="/game">Play Game</Link>
-        <Link to="/topEvents">Top Events</Link>
         <Link to="/user/profile">My Profile</Link>
         <Link to="/" onClick={onClick}>Logout</Link>
       </div>
@@ -25,8 +22,6 @@ class Navbar extends Component {
 
     const loggedOutComponents = (
       <div className="nav-right">
-        <Link to="/game">Play Game</Link>
-        <Link to="/topEvents">Top Events</Link>
         <Link to="/signup">Sign Up</Link>  
         <Link to="/signin">Log in</Link>
       </div>
