@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Api from '../helpers/Api';
+import Auth from '../helpers/Auth';
 import EventList from './EventList.jsx';
 
 class SingleSided extends Component {
@@ -26,14 +27,16 @@ class SingleSided extends Component {
   }
 
   updateEvents = () => {
-    Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}, () => console.log(this.state)));
+    Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}));   
   }
 
   getSavedEvents = () => {
-    Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    if (Auth.getJWT()) {
+       Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    }
   }
-  
-  saveEvent = (e, eventId) => {  
+
+  saveEvent = (e, eventId) => {
     Api.post('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
