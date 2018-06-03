@@ -392,11 +392,6 @@ body {
   border-radius: 5px;
 }
 
-.game-article-title {
-  border: 1px solid lightgrey;
-  padding: 15px;
-}
-
 .game-bias {
   display: grid;
   grid-gap: 20px;
@@ -412,16 +407,27 @@ body {
 
 .game-article {
   display: grid;
-  grid-template-rows: 1fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
   padding: 20px;
   height: 300px;
-  width: 450px;
+  width: 100%;
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
   justify-content: start;
   align-items: start;
   margin-top: 50px;
+  border: 1px solid lightgrey;
+}
+
+.game-article-title {
+  background-color: #F8F8F8;
+  padding: 10px;
+}
+
+.game-results-col button {
+  align-self: center;
+  margin-top: 30px;
 }
 
 svg {
@@ -438,9 +444,10 @@ select {
 }
 
 .game-results {
+  margin-top: 50px;
   display: grid;
   height: 300px;
-  width: 450px;
+  width: 100%;
   border: 1px solid lightgrey;
   border-radius: 5px;
 }

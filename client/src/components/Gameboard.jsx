@@ -42,6 +42,7 @@ class Gameboard extends Component {
     this.finishedGame = this.finishedGame.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeArticle = this.handleChangeArticle.bind(this);
+    this.resetScore = this.resetScore.bind(this);
   }
 
  componentDidMount() {
@@ -88,6 +89,11 @@ class Gameboard extends Component {
     }
     this.setState({ sources: sources });
   }
+  
+  resetScore() {
+    let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
+    this.setState({ score, finished: false });
+  }
 
   setArticles(numArticles) {
     let event = this.state.selectedEvent;
@@ -96,6 +102,7 @@ class Gameboard extends Component {
       articles = articles.slice(0, parseInt(numArticles));
     }
     this.setState({ articles, selectedArticle: articles[0] }); 
+    this.resetScore();
   }
 
   getWordMapData(articles) {
@@ -166,14 +173,14 @@ class Gameboard extends Component {
       : this.state.correct === false ? (<div id="try-again">Try Again</div>)
       : (<div></div>)
 
-     const finished = this.state.finished 
+    const finished = this.state.finished 
       ? (<div className="game-results">
           <h1>YOU ARE FINISHED! Data on your score here</h1>
         </div>)
       : (<div className="game-article">
-          <div className="game-article-title">{this.state.selectedArticle.title}</div>  
+          <div className="game-article-title">{this.state.selectedArticle.title}</div>
           {correct}
-        </div>) 
+        </div>)
 
     return this.state.events.length === 0 
       ? (<div className="loading"><div className="loading-spinner"></div></div>) 
@@ -240,8 +247,8 @@ class Gameboard extends Component {
                  <h1 className="game-number">4</h1>
                  <h3>VIEW RESULTS</h3>
                </div>
-              <button onClick={this.newArticle}>Next Article</button>
-              {finished}          
+              {finished}  
+              <button onClick={this.newArticle}>Next Article</button>        
             </div>                  
             </div>
             
