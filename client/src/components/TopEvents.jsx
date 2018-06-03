@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Api from '../helpers/Api';
+import Auth from '../helpers/Auth';
 import EventList from './EventList.jsx';
 
 class TopEvents extends Component {
@@ -29,7 +30,9 @@ class TopEvents extends Component {
   }
 
   getSavedEvents() {
-    Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    if (Auth.getJWT()) {
+      Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    } 
   }
 
   removeSaved = (e, eventId) => {  

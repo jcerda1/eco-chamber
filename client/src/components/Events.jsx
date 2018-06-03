@@ -4,6 +4,7 @@ import Api from '../helpers/Api';
 import moment from 'moment';
 import EventDetail from './EventDetail.jsx';
 import EventList from './EventList.jsx';
+import Auth from '../helpers/Auth.js';
 var FaStarO = require('react-icons/lib/fa/star-o');
 var FaStarC = require('react-icons/lib/fa/star');
 var FaLineChart = require('react-icons/lib/fa/line-chart');
@@ -40,7 +41,9 @@ class Events extends Component {
   }
 
   getSavedEvents() {
-    Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    if (Auth.getJWT()) {
+      Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
+    }   
   }
   
   saveEvent = (e, eventId) => {  
@@ -60,7 +63,6 @@ class Events extends Component {
   }
 
   render() {
-    console.log(this.props.match.params)
     const title = `This week's balanced events - reported on across the political spectrum`;
     return (
       <ul className="events-container">
