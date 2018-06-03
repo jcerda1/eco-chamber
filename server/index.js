@@ -250,13 +250,10 @@ app.get('/api/eventSentiment', wrap(async (req, res) => {
 
 //single-sided events - reported on by left only and right only
 app.get('/api/events/single-sided', wrap(async (req, res) => {
-  const { bias } = req.query;
   const sourceUris = {
     left: ['motherjones.com', 'huffingtonpost.com', 'msnbc.com', 'nytimes.com', 'theguardian.com', 'latimes.com'],
     right: ['ijr.com', 'theblaze.com', 'wnd.com', 'foxnews.com', 'breitbart.com', 'washingtontimesreporter.com']
   }
-  const include = sourceUris[bias];
-  const exclude = bias === 'left' ? sourceUris.right : sourceUris.left;
 
   // limit initial events to ones created by our system in the last 5 days
   const daysAgo = new Date(new Date() - (24*5) * 60 * 60 * 1000);
@@ -278,35 +275,49 @@ app.get('/api/events/single-sided', wrap(async (req, res) => {
 
   //only return events that have at least 4 associated articles and have been reported on by requested bias
   let filteredByArticles = events.filter(event => event.Articles.length > 3);
+  let results = {left:[], right:[]};
 
-  let filteredBySources = filteredByArticles.filter(event => {
-    let right = event.Articles.filter(article => sourceUris.right.includes(article.Source.uri));
-    let left = event.Articles.filter(article => sourceUris.left.includes(article.Source.uri));
+  for (const event of events) {
+    if (event.Articles.length > 3) {
+      let right = event.Articles.filter(article => sourceUris.right.includes(article.Source.uri));
+      let left = event.Articles.filter(article => sourceUris.left.includes(article.Source.uri));
 
-    if (bias === 'left') {
-      return right.length === 0 && left.length > 0;
-    } else {
-      return right.length > 0 && left.length === 0;
+      if (right.length === 0 && left.length > 0) {
+        results.left.push(event);
+      } else if (left.length === 0 & right.length > 0) {
+        results.right.push(event);
+      }
     }
-  });
+  }
 
   //sort results to come back newest first
-  const sorted = filteredBySources.sort((a, b) => {
+  results.right = results.right.sort((a, b) => {
     a = new Date(a.date);
     b = new Date(b.date);
     return a>b ? -1 : a<b ? 1 : 0;
-  });
-
-  //only send back the info client cares about
-  let results = sorted.map(x => {
+  }).map(event => {
     return {
-      id: x.id,
-      uri: x.uri,
-      title: x.title,
-      summary: x.summary,
-      date: x.date
+      id: event.id,
+      uri: event.uri,
+      title: event.title,
+      summary: event.summary,
+      date: event.date
     }
   });
+
+  results.left = results.left.sort((a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a>b ? -1 : a<b ? 1 : 0;
+  }).map(event => {
+    return {
+      id: event.id,
+      uri: event.uri,
+      title: event.title,
+      summary: event.summary,
+      date: event.date
+    }
+  });;
   res.json(results);
 }))
 

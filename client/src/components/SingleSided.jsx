@@ -8,17 +8,19 @@ class SingleSided extends Component {
     super(props);
     this.state = {
       events: [],
+      rightEvents: [],
+      leftEvents: [],
       showModal: false,
       selected: null,
       savedEvents: [],
-      bias: 'left'
+      bias: ''
     };
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.getSavedEvents = this.getSavedEvents.bind(this);
     this.saveEvent = this.saveEvent.bind(this);
     this.removeSaved = this.removeSaved.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -31,8 +33,7 @@ class SingleSided extends Component {
   }
 
   updateEvents = () => {
-    const { bias } = this.state;
-    Api.get('/events/single-sided', { bias }).then(events => this.setState({ events }));
+    Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}, () => console.log(this.state)));
   }
 
   getSavedEvents() {
@@ -55,16 +56,13 @@ class SingleSided extends Component {
     this.setState({ selected: id});
   }
 
-  handleClick(e) {
-    this.setState({events: []}, () => {
-      let current = this.state.bias;
-      let bias = current === 'left' ? 'right' : 'left';
-      this.setState({ bias }, () => this.updateEvents());
-    });  
+  handleChange(e) {
+    this.setState({bias: e.target.value});
   }
 
   render() {
-    const show = this.state.events.length === 0 
+    const biasedEvents = this.state.bias === 'left' ? this.state.leftEvents : this.state.rightEvents;
+    const show = biasedEvents.length === 0 
       ? (<div className="loading"><div className="loading-spinner"></div></div>)
       : (          
           <EventList 
@@ -73,17 +71,19 @@ class SingleSided extends Component {
             close= {this.closeModal} 
             remove={this.removeSaved} 
             saved={this.state.savedEvents} 
-            events={this.state.events} 
+            events={biasedEvents} 
         />    
     );
 
     return (
-      <ul className="events-container">
-        <div className="toggle-bias">
-          <div onClick={this.handleClick} className={this.state.bias === 'left' ? "left selected-bias" : "left"}>LEFT ONLY</div>
-          <h1> Single Sided Events</h1>
-          <div onClick={this.handleClick} className={this.state.bias === 'right' ? "right selected-bias" : "right"}>RIGHT ONLY</div>
-        </div>
+      <ul className="events-container">                 
+        <h1> Single Sided Events</h1>
+        <form>         
+          <select value={this.state.bias} onChange={this.handleChange}>
+            <option value="left">Reported by left only</option> 
+            <option value="right">Reported by right only</option>                                        
+          </select>                 
+        </form>     
         {show}
       </ul>
 
