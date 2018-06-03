@@ -389,8 +389,32 @@ app.delete('/api/users/user-events', exjwt({ secret: 'secret' }), wrap(async (re
 app.get('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
   const userId = req.user.id;
   const user = await db.User.findById(userId);
-  const ratings = await user.getRatings();
-  res.json(ratings);
+  if (!user) throw boom.notFound(`Cannot find user with id: ${id}`);
+  const ratings = await db.Rating.findAll({
+    include: [{
+      model: db.User,
+      where: {
+        id: userId
+      }
+    }, 
+    {
+      model: db.Article,
+      include: db.Source
+    }]
+  });
+
+  const results = ratings.map(rating => {
+    return {
+      article: rating.Article,
+      source: rating.Article.Source,
+      informed: rating.informed,
+      articleBias: rating.articleBias,
+      titleBias: rating.titleBias,
+      sourceTrust: rating.sourceTrust
+    }
+  })
+
+  res.json(results);
 }));
 
 app.post('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req, res) => {

@@ -58,6 +58,20 @@ body {
   font-size: 20px;
 }
 
+/*Profile*/
+.profile {
+  margin-left: 150px;
+  margin-right: 150px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.ratings {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 /* Events container */
 
 .events-container {
