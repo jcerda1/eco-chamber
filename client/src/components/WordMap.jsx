@@ -10,6 +10,18 @@ class EventWordCloud extends React.Component {
     super(props);
   }
 
+  shouldComponentUpdate(newProps) {
+    const oldData = this.props.data;
+    const newData = newProps.data;
+
+    for (const item in oldData) {
+      if (oldData[item].text !== newData[item].text || oldData[item].value !== newData[item].value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   render() {
     return (
       <div> 

@@ -68,11 +68,12 @@ class Gameboard extends Component {
   }
 
   setEvent(eventId) {
+    let previous = this.state.selectedEvent.id;
     let event = this.state.events.filter(event => event.id === eventId)[0];
    
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
     this.setState({ correct: null, finished: false, selectedEvent: event, score, eventId: event.id }, () =>  {
-      this.getWordMapData(event.Articles);
+      this.getWordMapData(event.Articles);  
       this.setArticles("all");
       this.setSources();
     });
