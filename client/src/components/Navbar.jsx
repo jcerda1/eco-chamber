@@ -31,10 +31,10 @@ class Navbar extends Component {
 
     return (
       <div className="navbar"> 
-        <Link to="/" className="title"> 
+        <div className="title"> 
           <Bars onClick={this.props.toggle} style={{marginTop: 0, fontSize: 20}} className="side-menu-icon"/>
           <h1>Eco-Chamber</h1> 
-        </Link>
+        </div>
         {rightNavComponents}
       </div>
     );

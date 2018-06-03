@@ -37,8 +37,7 @@ class App extends Component {
         <div className="header">
           <Navbar toggle={this.toggleSidebar}/>
           <Categories/>
-          <Sidebar toggle={this.toggleSidebar} show={show}/>
-          
+          <Sidebar toggle={this.toggleSidebar} show={show}/>         
         </div>
         <Switch>
           <Route exact path='/' component={TopEvents}/>
@@ -46,7 +45,6 @@ class App extends Component {
           <Route path="/event/:eventId/articles" component={Event}/>
           <Route path="/signup" component={Signup}/>
           <Route path="/signin" component={Signin}/>
-          <Route path="/myEvents" component={MyEvents}/>
           <Route path="/topEvents" component={TopEvents}/>
           <Route path="/game" component={Gameboard}/>
           <Route path="/events/single-sided" component={SingleSided}/>
