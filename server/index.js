@@ -431,7 +431,7 @@ app.post('/api/users/user-ratings', exjwt({ secret: 'secret' }), wrap(async (req
 }));
 
 // auth
-app.get('/api/auth/login', exjwt({ secret: 'secret' }), wrap(async (req, res) => {
+app.get('/api/auth/login', wrap(async (req, res) => {
   const { email, password } = req.query;
   const user = await db.User.findOne({ where: { email } });
   if (!user) throw boom.badRequest('User does not exist');

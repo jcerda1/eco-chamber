@@ -9,9 +9,10 @@ const onClick = () => {
 const Navbar = () => {
   const loggedInComponents = (
     <div className="nav-right">
+      <Link to="/events/single-sided">Biased Events</Link>
       <Link to="/game">Play Game</Link>
       <Link to="/topEvents">Top Events</Link>
-      <Link to="/myEvents">My Events</Link>
+      <Link to="/user/profile">My Profile</Link>
       <Link to="/" onClick={onClick}>Logout</Link>
     </div>
   );
