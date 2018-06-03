@@ -14,18 +14,31 @@ import TopEvents from './TopEvents.jsx';
 import Gameboard from './Gameboard.jsx';
 import SingleSided from './SingleSided.jsx';
 import Profile from './Profile.jsx';
+import Sidebar from'./Sidebar.jsx';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showSidebar: false
+    }
+  }
+
+  toggleSidebar = () => {
+    const current = this.state.showSidebar;
+    const toggled = current ? false : true;
+    this.setState({showSidebar: toggled});
   }
 
   render() {
+    const show = this.state.showSidebar ? "block" : "none";
     return ( 
       <div>
         <div className="header">
-          <Navbar/>
+          <Navbar toggle={this.toggleSidebar}/>
           <Categories/>
+          <Sidebar show={show}/>
+          
         </div>
         <Switch>
           <Route exact path='/' component={TopEvents}/>

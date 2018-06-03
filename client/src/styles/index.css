@@ -26,9 +26,23 @@ body {
   color: white;
 }
 
-.side-menu {
+.side-menu-icon {
   align-self: center;
 }
+
+.sidebar {
+  margin-top: -50px;
+}
+
+.sidebar-menu {
+  align-items: center;
+  position:absolute;
+  z-index: 10;
+  background-color: pink;
+  width: 300px;
+  display: grid;
+  grid-gap: 20px;
+} 
 
 .nav-right {
   display: flex;
