@@ -6,7 +6,7 @@ body {
 /* Header */
 .header {
   display: grid;
-  grid-template-rows: 80px 50px;
+  grid-template-rows: 1fr 50px;
 }
 
 /* Nav */
@@ -17,11 +17,17 @@ body {
 } 
 
 .title {
-  justify-self: start;
-  align-self: center;
-  padding-left: 25px;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  grid-gap: 20px;
+  align-items: center;
+  padding-left: 40px;
   text-decoration: none;
   color: white;
+}
+
+.side-menu {
+  align-self: center;
 }
 
 .nav-right {
