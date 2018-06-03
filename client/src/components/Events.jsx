@@ -60,9 +60,12 @@ class Events extends Component {
   }
 
   render() {
+    console.log(this.props.match.params)
+    const title = `This week's balanced events - reported on across the political spectrum`;
     return (
       <ul className="events-container">
-        <EventList 
+        <EventList
+          title={title}
           selected={this.state.selected}
           open={this.showModal} 
           close= {this.closeModal} 

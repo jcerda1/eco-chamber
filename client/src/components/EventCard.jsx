@@ -19,19 +19,21 @@ class EventCard extends Component {
     return (
     <div>
       <li className="event-item" key={id}>
-        <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
-          pathname: `/event/${id}/articles`,
-          state: { title , date }}}>
+        <div className="event-item-top">
+          <Link style={{"textDecoration": "none", "color": "black", "padding": "10px"}} to={{
+            pathname: `/event/${id}/articles`,
+            state: { title , date }}}>
 
-          <h2  className="li-header">{title}</h2>
-          <p>{formatted}</p>
-        </Link>
+            <h2 className="li-header">{title}</h2>
+             
+            <div value={id} className="event-text">
+              <p>{summary}</p>
+            </div>
+          </Link>
+        </div>
     
-        <div className="event-list-item-right">      
-          <div value={id} className="event-text">
-            <p>{summary}</p>
-           </div>
-
+        <div className="event-item-bottom">    
+          <p className="event-card-date">{formatted}</p>  
           <div className = "event-icons">
             <FaLineChart onClick={() => this.props.open(id)} className="event-chart-icon"/>
             <FaStarO 
@@ -43,16 +45,14 @@ class EventCard extends Component {
               className="event-star-icon" 
               onClick={(e) => {this.props.remove(e, id)}}/>
           </div>
-
-          <div className="modal" style={{ display: this.props.selected === id ? 'block' : 'none' }}>
+        </div>    
+      </li>
+      <div className="modal" style={{ display: this.props.selected === id ? 'block' : 'none' }}>
             <div className="modal-content">
               <FaClose style={{"color":"darkgrey", "fontSize": 60}} onClick={this.props.close}/>
               <EventDetail eventId={id}/>
             </div>
           </div>
-
-        </div>    
-      </li>
       <hr/>
     </div>)
   }

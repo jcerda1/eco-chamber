@@ -9,6 +9,7 @@ class Signup extends Component {
     this.state = {
       email: '',
       password: '',
+      bias: ''
     };
   }
 
@@ -16,6 +17,7 @@ class Signup extends Component {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
+
 
   onClick = () => {
     Api.post('/users', this.state)
@@ -36,18 +38,30 @@ class Signup extends Component {
           <p>Please fill in this form to create an account.</p>
           <hr/>
 
-          <label for="email"><b>Email</b></label>
+          <label htmlFor="email"><b>Email</b></label>
           <input type="text" placeholder="Enter Email" name="email" value={this.state.email} onChange={this.onChange} required></input>
 
-          <label for="psw"><b>Password</b></label>
+          <label htmlFor="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.onChange} required></input>
+
+          <label><b>Political Identity</b></label>
+          <h4>Not sure?  Take this <a href="https://www.pbs.org/newshour/politics/fit-2016-political-party-quiz" target="_blank">pew research quiz!</a></h4>
+          <br/>
+          <select name="bias" value={this.state.bias} onChange={this.onChange}>
+            <option value="-2">Far Left</option>
+            <option value="-1">Left of Center</option>
+            <option value="0">Center</option>
+            <option value="1">Right of Center</option>
+            <option value="2">Far Right</option>
+            <option value="">None of the above</option>
+          </select>
 
           <hr/>
           <p>By creating an account you agree to our <Link to="/">Terms & Privacy</Link>.</p>
 
-          <button type="submit" class="registerbtn" onClick={this.onClick}>Register</button>
+          <button type="submit" className="registerbtn" onClick={this.onClick}>Register</button>
         </div>
-        <div class="container-signin">
+        <div className="container-signin">
           <p>Already have an account? <Link to="/signin">Sign in</Link>.</p>
         </div>
       </div>
