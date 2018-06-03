@@ -51,8 +51,8 @@ class TopEvents extends Component {
   render() { 
     return (
       <ul className="events-container">
-        <h1> This week's top events </h1>
           <EventList 
+            title="Top Events"
             selected={this.state.selected}
             open={this.showModal} 
             close= {this.closeModal} 

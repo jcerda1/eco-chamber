@@ -29,7 +29,9 @@ class EventList extends Component {
      
     return (
       <div className="events-list">
+        <h1>{this.props.title}</h1>
         {events}
+        }
       </div>
     );
   }
