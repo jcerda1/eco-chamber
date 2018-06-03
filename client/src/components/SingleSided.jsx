@@ -14,36 +14,29 @@ class SingleSided extends Component {
       showModal: false,
       selected: null,
       savedEvents: [],
-      bias: ''
+      bias: '',
     };
-    this.showModal = this.showModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.getSavedEvents = this.getSavedEvents.bind(this);
-    this.saveEvent = this.saveEvent.bind(this);
-    this.removeSaved = this.removeSaved.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.updateEvents(this.props);
-    this.getSavedEvents();
+    this.updateEvents().then(res => this.getSavedEvents());
   }
 
   componentWillReceiveProps(props) {
-    this.updateEvents(this.props);
+    this.updateEvents(props);
   }
 
   updateEvents = () => {
     Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}));   
   }
 
-  getSavedEvents() {
+  getSavedEvents = () => {
     if (Auth.getJWT()) {
        Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
-    }  
+    }
   }
-  
-  saveEvent = (e, eventId) => {  
+
+  saveEvent = (e, eventId) => {
     Api.post('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
@@ -51,15 +44,15 @@ class SingleSided extends Component {
     Api.delete('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ selected: null});
   }
 
-  showModal(id) {
+  showModal = (id) => {
     this.setState({ selected: id});
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({bias: e.target.value});
   }
 
@@ -75,8 +68,8 @@ class SingleSided extends Component {
             remove={this.removeSaved} 
             saved={this.state.savedEvents} 
             events={biasedEvents} 
-        />    
-    );
+          />    
+        );
 
     return (
       <ul className="events-container">                 
@@ -89,7 +82,6 @@ class SingleSided extends Component {
         </form>     
         {show}
       </ul>
-
     )
   }
 };

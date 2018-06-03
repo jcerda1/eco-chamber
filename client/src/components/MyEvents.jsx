@@ -11,8 +11,6 @@ class MyEvents extends Component {
       hoverIndex: -1,
       selected: null
     };
-    this.showModal = this.showModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -35,11 +33,11 @@ class MyEvents extends Component {
     });
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ selected: null});
   }
 
-  showModal(id) {
+  showModal = (id) => {
     this.setState({ selected: id});
   }
 
@@ -47,18 +45,18 @@ class MyEvents extends Component {
     const show = this.state.savedEvents.length === 0 
       ? (<ul className="events-container"><h1>No Saved Events</h1></ul>)
       : (
-      <ul className="events-container">
-        <h1> My Saved Events </h1>
-          <EventList 
-            selected={this.state.selected}
-            open={this.showModal} 
-            close= {this.closeModal} 
-            remove={this.removeSaved} 
-            saved={this.state.savedEvents} 
-            events={this.state.savedEvents} 
-          />
-      </ul>
-    );
+          <ul className="events-container">
+            <h1> My Saved Events </h1>
+              <EventList 
+                selected={this.state.selected}
+                open={this.showModal} 
+                close= {this.closeModal} 
+                remove={this.removeSaved} 
+                saved={this.state.savedEvents} 
+                events={this.state.savedEvents} 
+              />
+          </ul>
+        );
 
     return show;
   }

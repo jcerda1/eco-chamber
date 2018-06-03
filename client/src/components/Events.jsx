@@ -17,22 +17,17 @@ class Events extends Component {
       events: [],
       showModal: false,
       selected: null,
-      savedEvents: []
+      savedEvents: [],
     };
-    this.showModal = this.showModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.getSavedEvents = this.getSavedEvents.bind(this);
-    this.saveEvent = this.saveEvent.bind(this);
-    this.removeSaved = this.removeSaved.bind(this);
   }
 
   componentDidMount() {
-    this.updateEvents(this.props);
+    this.updateEvents();
     this.getSavedEvents();
   }
 
   componentWillReceiveProps(props) {
-    this.updateEvents(this.props);
+    this.updateEvents(props);
   }
 
   updateEvents = (props = this.props) => {
@@ -40,12 +35,12 @@ class Events extends Component {
     Api.get('/events', { categoryId }).then(events => this.setState({ events }));
   }
 
-  getSavedEvents() {
+  getSavedEvents = () => {
     if (Auth.getJWT()) {
       Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
-    }   
+    }
   }
-  
+
   saveEvent = (e, eventId) => {  
     Api.post('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
@@ -54,11 +49,11 @@ class Events extends Component {
     Api.delete('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ selected: null});
   }
 
-  showModal(id) {
+  showModal = (id) => {
     this.setState({ selected: id});
   }
 
