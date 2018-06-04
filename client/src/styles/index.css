@@ -424,6 +424,7 @@ body {
   padding: 20px;
   font-size: 30px;
   font-weight: bold;
+  border: solid 2px #008080;
 }
 
 .game-results-col button {
