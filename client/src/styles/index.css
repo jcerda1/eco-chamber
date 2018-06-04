@@ -622,6 +622,11 @@ a {
     text-align: center;
 }
 
+.register-page {
+  margin: 50px auto;
+  max-width: 400px;
+}
+
 
 
 /* sign in */

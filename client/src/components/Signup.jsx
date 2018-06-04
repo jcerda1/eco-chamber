@@ -33,7 +33,7 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="register-page">
           <h1>Register</h1>
           <p>Please fill in this form to create an account.</p>
           <hr/>
@@ -45,7 +45,6 @@ class Signup extends Component {
           <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.onChange} required></input>
 
           <label><b>Political Identity</b></label>
-          <h4>Not sure?  Take this <a href="https://www.pbs.org/newshour/politics/fit-2016-political-party-quiz" target="_blank">pew research quiz!</a></h4>
           <br/>
           <select name="bias" value={this.state.bias} onChange={this.onChange}>
             <option value="-2">Far Left</option>
@@ -55,15 +54,13 @@ class Signup extends Component {
             <option value="2">Far Right</option>
             <option value="">None of the above</option>
           </select>
+          <h4>Not sure?  Take this <a href="https://www.pbs.org/newshour/politics/fit-2016-political-party-quiz" target="_blank">pew research quiz!</a></h4>
+          <br/>
 
           <hr/>
-          <p>By creating an account you agree to our <Link to="/">Terms & Privacy</Link>.</p>
-
           <button type="submit" className="registerbtn" onClick={this.onClick}>Register</button>
-        </div>
-        <div className="container-signin">
           <p>Already have an account? <Link to="/signin">Sign in</Link>.</p>
-        </div>
+        </div>        
       </div>
     );
   }
