@@ -18,7 +18,8 @@ class Sidebar extends Component {
           <Link onClick={this.props.toggle} className="sidebar-event-item" to="/category/11/events">Balanced Events</Link>
         </Collapsible>
         <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/game">Play Game</Link>  
-        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/user/profile">My Profile</Link>     
+        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/user/profile">My Profile</Link>    
+        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/about">About</Link>  
       </div>
     );
 
@@ -29,7 +30,8 @@ class Sidebar extends Component {
           <Link onClick={this.props.toggle} className="sidebar-event-item" to="/events/single-sided">Biased Events</Link>
           <Link onClick={this.props.toggle} className="sidebar-event-item" to="/category/11/events">Balanced Events</Link>
         </Collapsible>
-        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/game">Play Game</Link>      
+        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/game">Play Game</Link> 
+        <Link onClick={this.props.toggle} className="sidebar-menu-item" to="/about">About</Link>       
       </div>
     );
 

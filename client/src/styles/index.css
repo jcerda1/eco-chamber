@@ -546,6 +546,51 @@ button:hover {
   display:none;
 }
 
+/*About page*/
+.about-page {
+  text-align: center;
+  padding-right: 200px;
+  padding-left: 200px;
+  /*background-color: pink;*/
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.about-page h1 {
+  margin: 50px;
+  color: #008080;
+}
+
+.about {
+  /*background-color: orange;*/
+  border-bottom: solid 1px lightgrey;
+}
+
+.mission {
+  /*background-color: lightblue;*/
+  border-bottom: solid 1px lightgrey;
+}
+
+.faq {
+  /*background-color: lightgreen;*/
+  border-bottom: solid 1px lightgrey;
+}
+
+.faq .questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.creators {
+  /*background-color: yellow;*/
+}
+
+.creators .bios {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 
 /* sigin and signup component*/
 
