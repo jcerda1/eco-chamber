@@ -92,7 +92,7 @@ class Gameboard extends Component {
   
   resetScore() {
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
-    this.setState({ score, finished: false, correct: null }, () => console.log(this.state));
+    this.setState({ score, finished: false, correct: null, articleIndex: 0 }, () => console.log(this.state));
   }
 
   setArticles(numArticles) {
@@ -199,7 +199,7 @@ class Gameboard extends Component {
                   {eventOptions}
                 </select>               
               </form>
-              <WordMap width="350" height="200" className="word-map" data={this.state.weightedWords}/> 
+              <WordMap size="20" width="350" height="200" className="word-map" data={this.state.weightedWords}/> 
               <div className="game-title">
                 <h1 className="game-number">2</h1>
                 <h3>SELECT NUMBER OF ARTICLES</h3>
