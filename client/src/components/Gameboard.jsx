@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Api from '../helpers/Api';
 import WordMap from './WordMap.jsx';
+import BarChart from './BarChart.jsx';
 import analyzeArticleTitles from '../helpers/WordMap.js';
+import formatDataForGameResults from '../helpers/BarChart.js';
 
 class Gameboard extends Component {
   constructor(props) {
@@ -175,7 +177,7 @@ class Gameboard extends Component {
 
     const finished = this.state.finished 
       ? (<div className="game-results">
-          <h1>YOU ARE FINISHED! Data on your score here</h1>
+          <BarChart data={formatDataForGameResults(this.state.score)} width="250" height="100"/>
         </div>)
       : (<div className="game-article">
           {correct}

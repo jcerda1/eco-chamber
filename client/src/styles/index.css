@@ -450,7 +450,7 @@ select {
   background-image: none;
   -webkit-appearance: none;
 }
-
+/*
 .game-results {
   margin-top: 20px;
   display: grid;
@@ -458,7 +458,7 @@ select {
   width: 100%;
   border: 1px solid lightgrey;
   border-radius: 5px;
-}
+}*/
 
 .correct {
   display: flex;
