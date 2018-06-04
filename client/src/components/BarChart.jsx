@@ -16,7 +16,8 @@ class BarChart extends React.Component {
           width={this.props.width}
           height={this.props.height}
           options={{
-            maintainAspectRatio: false
+            falseresponsive: false, 
+            maintainAspectRatio: true
           }}
         />
       </div>

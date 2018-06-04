@@ -177,10 +177,14 @@ class Gameboard extends Component {
 
     const finished = this.state.finished 
       ? (<div className="game-results">
-          <BarChart data={formatDataForGameResults(this.state.score)} width="250" height="100"/>
+          <BarChart data={formatDataForGameResults(this.state.score)} width="200" height="100"/>
         </div>)
-      : (<div className="game-article">
-          {correct}
+      : (<div>
+          <div className="game-article">
+            {correct}
+          </div>
+            <p className="remaining">{this.state.articles.length - this.state.articleIndex} articles remaining</p> 
+            <button onClick={this.newArticle}>Next Article</button> 
         </div>)
 
     return this.state.events.length === 0 
@@ -241,9 +245,7 @@ class Gameboard extends Component {
                  <h1 className="game-number">4</h1>
                  <h3>VIEW RESULTS</h3>
                </div>
-              {finished} 
-              <p className="remaining">{this.state.articles.length - this.state.articleIndex} articles remaining</p> 
-              <button onClick={this.newArticle}>Next Article</button>        
+              {finished}        
             </div>                  
             </div>
             
