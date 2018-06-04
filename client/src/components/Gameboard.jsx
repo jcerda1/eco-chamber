@@ -92,7 +92,7 @@ class Gameboard extends Component {
   
   resetScore() {
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
-    this.setState({ score, finished: false });
+    this.setState({ score, finished: false, correct: null }, () => console.log(this.state));
   }
 
   setArticles(numArticles) {
@@ -178,7 +178,6 @@ class Gameboard extends Component {
           <h1>YOU ARE FINISHED! Data on your score here</h1>
         </div>)
       : (<div className="game-article">
-          <div className="game-article-title">{this.state.selectedArticle.title}</div>
           {correct}
         </div>)
 
@@ -220,24 +219,17 @@ class Gameboard extends Component {
                 <h1 className="game-number">3</h1>
                 <h3>GUESS SPECTRUM</h3>
               </div>
+              <div className="game-article-title">{this.state.selectedArticle.title}</div>
+
               <div className="game-bias">
                 <div onClick={() => this.calculateBias('right')} className="right">
                   RIGHT
-                  <div className="source-image">
-                    {rightSources}
-                  </div>
                 </div>
                 <div onClick={() => this.calculateBias('center')} className="center">
                   CENTER
-                  <div className="source-image">
-                    {centerSources}
-                  </div>
                 </div>
                 <div onClick={() => this.calculateBias('left')} className="left">
                   LEFT
-                  <div className="source-image">
-                    {leftSources}
-                  </div>
                 </div>               
               </div>
             </div> 
