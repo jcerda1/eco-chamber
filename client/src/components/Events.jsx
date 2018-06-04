@@ -60,7 +60,7 @@ class Events extends Component {
   }
 
   render() {
-    console.log(this.props.match.params)
+
     const title = `This week's balanced events - reported on across the political spectrum`;
     return (
       <ul className="events-container">

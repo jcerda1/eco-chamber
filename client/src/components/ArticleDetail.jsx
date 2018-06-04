@@ -17,7 +17,6 @@ class ArticleDetail extends Component {
 
   handleOptionChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     this.setState({ [name]: parseInt(value) });
   }
 
@@ -36,7 +35,6 @@ class ArticleDetail extends Component {
 
   saveRating = (articleId) => {
     const { informed, titleBias, articleBias, sourceTrust } = this.state;
-    console.log(informed, titleBias, articleBias, sourceTrust);
     Api.post('/users/user-ratings', { informed, titleBias, articleBias, sourceTrust, articleId })
        .then(res => this.setState({ informed: '', titleBias: '', articleBias: '', sourceTrust: ''}));
      

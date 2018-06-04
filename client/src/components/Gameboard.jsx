@@ -94,7 +94,7 @@ class Gameboard extends Component {
   
   resetScore() {
     let score = { left: {correct:0, incorrect:0}, right: {correct:0, incorrect: 0}, center: {correct: 0, incorrect: 0}};
-    this.setState({ score, finished: false, correct: null, articleIndex: 0 }, () => console.log(this.state));
+    this.setState({ score, finished: false, correct: null, articleIndex: 0 });
   }
 
   setArticles(numArticles) {
