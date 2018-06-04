@@ -239,7 +239,8 @@ class Gameboard extends Component {
                  <h1 className="game-number">4</h1>
                  <h3>VIEW RESULTS</h3>
                </div>
-              {finished}  
+              {finished} 
+              <p className="remaining">{this.state.articles.length - this.state.articleIndex} articles remaining</p> 
               <button onClick={this.newArticle}>Next Article</button>        
             </div>                  
             </div>
