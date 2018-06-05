@@ -600,6 +600,8 @@ button:hover {
 
 .creators {
   /*background-color: yellow;*/
+  padding-bottom: 50px;
+  border-bottom: solid 1px lightgrey;
 }
 
 .creators .bios {
@@ -607,6 +609,9 @@ button:hover {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.bios img {
+  border: 2px solid lightgrey;
+}
 
 /* sigin and signup component*/
 

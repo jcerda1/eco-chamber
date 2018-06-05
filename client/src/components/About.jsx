@@ -76,19 +76,18 @@ class About extends Component {
           <h1>Creators</h1>
           <div className="bios">
             <div className="bio">
-              ALEX WELLS
+              <h3>Alex Wells</h3>
               <p className="bio-photo">photo here</p>
               <p className="bio-text">about alex here</p>
             </div>
             <div className="bio">
-              JEREMIAH CERDA
-              <p className="bio-photo">photo here</p>
-              <p className="bio-text">about jeremiah here</p>
+              <h3>Jeremiah Cerda</h3>
+              <a target="_blank" href="https://github.com/jcerda1"><img className="profile-photo" src="https://avatars2.githubusercontent.com/u/28033088?s=400&v=4"/></a>
+              
             </div>
             <div className="bio">
-              MICHELLE LOCKETT
-              <p className="bio-photo">photo here</p>
-              <p className="bio-text">about michelle here</p>
+              <h3>Michelle Lockett</h3>             
+              <a target="_blank" href="https://github.com/michellelockett"><img className="profile-photo" src="https://avatars2.githubusercontent.com/u/19374552?s=460&v=4"/></a>
             </div>
           </div>
         </div>
