@@ -27,7 +27,7 @@ class SingleSided extends Component {
   }
 
   updateEvents = () => {
-    Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}));   
+    Api.get('/events/single-sided').then(events => this.setState({rightEvents: events.right, leftEvents: events.left}));
   }
 
   getSavedEvents = () => {

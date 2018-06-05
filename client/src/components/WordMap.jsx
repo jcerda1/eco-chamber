@@ -2,12 +2,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import WordCloud from 'react-d3-cloud';
 
-const fontSizeMapper = word => word.value / 10;
-const rotate = word => (word.value % 90) - 45;
-
 class EventWordCloud extends React.Component {
   constructor(props) {
     super(props);
+  }
+  
+
+  fontSizeMapper = (word) => {
+    return word.value / this.props.size
   }
 
   shouldComponentUpdate(newProps) {
@@ -33,7 +35,7 @@ class EventWordCloud extends React.Component {
           width={this.props.width}
           height={this.props.height}
           data={this.props.data}
-          fontSizeMapper={fontSizeMapper}
+          fontSizeMapper={this.fontSizeMapper}
           padding={2}
         />
       </div>
