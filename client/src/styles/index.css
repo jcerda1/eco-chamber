@@ -585,12 +585,12 @@ button:hover {
   margin: 50px;
 }
 
-.about, .mission, .faq, .creators {
+.about, .mission, .faq, .creators, .partners {
   border-bottom: solid 1px lightgrey;
   padding-bottom: 50px;
 }
 
-.mission .statements, .faq .questions {
+.mission .statements, .faq .questions  {
   display: grid;
   grid-gap: 50px;
   grid-template-columns: 1fr 1fr;
