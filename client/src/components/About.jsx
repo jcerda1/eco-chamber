@@ -98,6 +98,11 @@ class About extends Component {
             </div>
           </div>
         </div>
+
+        <div className="partners">
+          <h1>Partners</h1>
+          <h3>Eco-chamber is powered by <a target="_blank" href="www.eventregistry.org">Event Registry</a></h3>
+        </div>
       </div>
     );
   }
