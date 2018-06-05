@@ -11,7 +11,7 @@ class About extends Component {
       <div className="about-page">
         <div className="about">
           <h1>Get out of the echo chamber</h1>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/mh1dLvGe06Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/mh1dLvGe06Y" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
         </div>
 
         <div className="mission">
