@@ -555,22 +555,11 @@ button:hover {
 }
 
 .about-page h1 {
-  padding: 50px;
   color: #008080;
+  margin: 50px;
 }
 
-.about-page iframe {
-  padding-top: 30px;
-}
-
-.about {
-  /*background-color: orange;*/
-  border-bottom: solid 1px lightgrey;
-  padding-bottom: 50px;
-}
-
-.mission {
- /* background-color: lightblue;*/
+.about, .mission, .faq, .creators {
   border-bottom: solid 1px lightgrey;
   padding-bottom: 50px;
 }
@@ -588,20 +577,8 @@ button:hover {
   margin-top: 0;
 }
 
-.faq {
-  /*background-color: lightgreen;*/
-  border-bottom: solid 1px lightgrey;
-  padding-bottom: 50px;
-}
-
 .question {
   display: grid;
-}
-
-.creators {
-  /*background-color: yellow;*/
-  padding-bottom: 50px;
-  border-bottom: solid 1px lightgrey;
 }
 
 .creators .bios {
@@ -611,6 +588,10 @@ button:hover {
 
 .bios img {
   border: 2px solid lightgrey;
+}
+
+.footer {
+  background-color: grey;
 }
 
 /* sigin and signup component*/

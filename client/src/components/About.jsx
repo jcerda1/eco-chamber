@@ -54,19 +54,19 @@ class About extends Component {
             <div className="question">
               <h3>How do you choose the event titles and descriptions?</h3>
               <div className="response">
-              <p>answer here</p>
+              <p>The intial event title and description is chosen at random from one of the reporting sources.</p>
               </div>
             </div>
             <div className="question">
               <h3>How are you deciding the event and article sentiment?</h3>
               <div className="response">
-              <p>answer here</p>
+              <p>It's elementary, my dear <a target="_blank" href="https://www.ibm.com/watson">Watson!</a></p>
               </div>
             </div>
             <div className="question">
-              <h3>One more question to balance things out visually</h3>
+              <h3>Can I choose additional sources to view?</h3>
               <div className="response">
-              <p>answer here</p>
+              <p>We do plan to add additional top US news sources in the future.</p>
               </div>
             </div>
           </div>
@@ -75,19 +75,26 @@ class About extends Component {
         <div className="creators">
           <h1>Creators</h1>
           <div className="bios">
+
             <div className="bio">
               <h3>Alex Wells</h3>
-              <p className="bio-photo">photo here</p>
-              <p className="bio-text">about alex here</p>
+              <a target="_blank" href="https://github.com/wellsinator">
+                <img className="profile-photo" src="https://avatars1.githubusercontent.com/u/22226447?s=460&v=4"/>
+              </a>
             </div>
+
             <div className="bio">
               <h3>Jeremiah Cerda</h3>
-              <a target="_blank" href="https://github.com/jcerda1"><img className="profile-photo" src="https://avatars2.githubusercontent.com/u/28033088?s=400&v=4"/></a>
-              
+              <a target="_blank" href="https://github.com/jcerda1">
+                <img className="profile-photo" src="https://avatars2.githubusercontent.com/u/28033088?s=400&v=4"/>
+              </a>             
             </div>
+
             <div className="bio">
               <h3>Michelle Lockett</h3>             
-              <a target="_blank" href="https://github.com/michellelockett"><img className="profile-photo" src="https://avatars2.githubusercontent.com/u/19374552?s=460&v=4"/></a>
+              <a target="_blank" href="https://github.com/michellelockett">
+                <img className="profile-photo" src="https://avatars2.githubusercontent.com/u/19374552?s=460&v=4"/>
+              </a>
             </div>
           </div>
         </div>
