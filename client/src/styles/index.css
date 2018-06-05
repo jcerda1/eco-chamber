@@ -379,7 +379,7 @@ body {
   display: grid;
   align-items: center;
   justify-content: start;
-  grid-template-columns: 1fr 10fr;
+  grid-template-columns: 75px 1fr;
   text-align: center;
 }
 
@@ -395,27 +395,47 @@ body {
 .game-bias {
   display: grid;
   grid-gap: 20px;
-  justify-content: center;
+  justify-items: center;
+  margin-top: 50px;
 }
 
 .game-bias img {
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
+  padding: 5px;
 }
 
 .game-article {
   display: grid;
-  grid-template-rows: 1fr 1fr 2fr;
-  border: 1px solid lightgrey;
-  padding: 20px;
   height: 300px;
-  width: 450px;
+  width: 100%;
   border-radius: 5px;
   font-size: 20px;
   text-align: center;
-  justify-content: start;
-  align-items: start;
-  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border: 1px solid lightgrey;
+}
+
+.game-article-title {
+  margin: 20px;
+  background-color: #F8F8F8;
+  padding: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  border: solid 2px #008080;
+}
+
+.game-results-col button {
+  align-self: center;
+  margin-top: 30px;
+}
+
+#try-again {
+  font-size: 30px;
+  align-self: center;
+  justify-self: center;
 }
 
 svg {
@@ -432,27 +452,32 @@ select {
 }
 
 .game-results {
-  display: grid;
+  
   height: 300px;
-  width: 450px;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
+  width: 100%;
 }
 
 .correct {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
 }
 
 .left, .right, .center {
+  display:flex;
+  flex-direction: column;
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  min-width: 300px;
+  width: 350px;
+}
+
+.left:hover, .center:hover, .right:hover {
+  background-color: #F8F8F8;
+  cursor: pointer;
 }
 
 .left {
@@ -467,8 +492,9 @@ select {
   color: red;
 }
 
-.source-image {
-  display: grid;
+.info-circle {
+  margin:0;
+  justify-self:end;
 }
 
 .loading {
@@ -530,7 +556,7 @@ button:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   /*margin-bottom: 10px;*/
 }
 
@@ -546,6 +572,53 @@ button:hover {
   display:none;
 }
 
+/*About page*/
+.about-page {
+  text-align: center;
+  padding-right: 200px;
+  padding-left: 200px;
+  /*background-color: pink;*/
+}
+
+.about-page h1 {
+  color: #008080;
+  margin: 50px;
+}
+
+.about, .mission, .faq, .creators, .partners {
+  border-bottom: solid 1px lightgrey;
+  padding-bottom: 50px;
+}
+
+.mission .statements, .faq .questions  {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.statement-icon {
+  font-size: 60px;
+  color: lightgrey;
+  margin-top: 0;
+}
+
+.question {
+  display: grid;
+}
+
+.creators .bios {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.bios img {
+  border: 2px solid lightgrey;
+}
+
+.footer {
+  background-color: grey;
+}
 
 /* sigin and signup component*/
 
@@ -613,16 +686,19 @@ hr {
 
 /* Add a blue text color to links */
 a {
-    color: dodgerblue;
+  color: dodgerblue;
 }
 
 /* Set a grey background color and center the text of the "sign in" section */
 .signin {
-    background-color: #f1f1f1;
-    text-align: center;
+  background-color: #f1f1f1;
+  text-align: center;
 }
 
-
+.register-page {
+  margin: 50px auto;
+  max-width: 600px;
+}
 
 /* sign in */
 

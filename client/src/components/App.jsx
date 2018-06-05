@@ -6,7 +6,6 @@ import Categories from './Categories.jsx';
 import Navbar from './Navbar.jsx';
 import Events from './Events.jsx';
 import Event from './Event.jsx';
-import Home from './Home.jsx';
 import Signup from './Signup.jsx';
 import Signin from './Signin.jsx';
 import MyEvents from './MyEvents.jsx';
@@ -15,6 +14,7 @@ import Gameboard from './Gameboard.jsx';
 import SingleSided from './SingleSided.jsx';
 import Profile from './Profile.jsx';
 import Sidebar from'./Sidebar.jsx';
+import About from './About.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class App extends Component {
           <Route path="/game" component={Gameboard}/>
           <Route path="/events/single-sided" component={SingleSided}/>
           <Route path="/user/profile" component={Profile}/>
+          <Route path="/about" component={About}/>
         </Switch>
       </div>
     );

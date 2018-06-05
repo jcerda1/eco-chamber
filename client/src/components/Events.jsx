@@ -58,7 +58,7 @@ class Events extends Component {
   }
 
   render() {
-    const title = `This week's balanced events - reported on across the political spectrum`;
+    const title = `This week's full spectrum events`;
     return (
       <ul className="events-container">
         <EventList
