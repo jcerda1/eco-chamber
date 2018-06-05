@@ -122,7 +122,7 @@ class Event extends Component {
     const sources = this.state.orderedSources.map(x => {
       return (
         <li key={x[0].bias}>
-          <Sources ratings={this.state.ratings} selected={this.state.selectedArticles} toggleArticle={this.toggleSelectedArticle} sources={x}/>
+          <Sources getRatings={this.getSavedRatings} ratings={this.state.ratings} selected={this.state.selectedArticles} toggleArticle={this.toggleSelectedArticle} sources={x}/>
         </li>
       )
     });

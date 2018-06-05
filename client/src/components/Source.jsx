@@ -24,7 +24,7 @@ class Source extends Component {
         <div className="source-title">       
           <h2>{title}</h2>
         </div>
-        <ArticleList ratings={this.props.ratings} selected={this.props.selected} toggleArticle={this.props.toggleArticle} articles={this.props.articles}/> 
+        <ArticleList getRatings={this.props.getRatings} ratings={this.props.ratings} selected={this.props.selected} toggleArticle={this.props.toggleArticle} articles={this.props.articles}/> 
       </div>
     );
   }

@@ -36,7 +36,10 @@ class ArticleDetail extends Component {
   saveRating = (articleId) => {
     const { informed, titleBias, articleBias, sourceTrust } = this.state;
     Api.post('/users/user-ratings', { informed, titleBias, articleBias, sourceTrust, articleId })
-       .then(res => this.setState({ informed: '', titleBias: '', articleBias: '', sourceTrust: ''}));    
+       .then(res => {
+          this.setState({ informed: '', titleBias: '', articleBias: '', sourceTrust: ''});
+          this.props.getRatings();
+      });    
   }
 
   render() {

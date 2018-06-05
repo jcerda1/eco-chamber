@@ -38,7 +38,7 @@ class Article extends Component {
         <div className="modal" style={{ display: this.state.showModal ? 'block' : 'none' }}>
           <div className="modal-content">
             <FaClose style={{"color":"darkgrey", "fontSize": 60}}onClick={this.closeModal}/>
-            <ArticleDetail rated={isRated} article={this.props.article}/>
+            <ArticleDetail getRatings={this.props.getRatings} rated={isRated} article={this.props.article}/>
           </div>
         </div>
 
