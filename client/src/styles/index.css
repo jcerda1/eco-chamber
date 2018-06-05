@@ -555,8 +555,12 @@ button:hover {
 }
 
 .about-page h1 {
-  padding-top: 50px;
+  padding: 50px;
   color: #008080;
+}
+
+.about-page iframe {
+  padding-top: 30px;
 }
 
 .about {
@@ -571,10 +575,17 @@ button:hover {
   padding-bottom: 50px;
 }
 
-.mission .statements {
+.mission .statements, .faq .questions {
   display: grid;
+  grid-gap: 50px;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+}
+
+.statement-icon {
+  font-size: 60px;
+  color: lightgrey;
+  margin-top: 0;
 }
 
 .faq {
@@ -583,10 +594,8 @@ button:hover {
   padding-bottom: 50px;
 }
 
-.faq .questions {
+.question {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
 }
 
 .creators {

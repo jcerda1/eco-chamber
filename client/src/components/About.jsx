@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+var ArrowsH= require('react-icons/lib/fa/arrows-h');
+var BarChart = require('react-icons/lib/fa/bar-chart');
+var BalanceScale = require('react-icons/lib/fa/balance-scale');
+var BubbleChart = require('react-icons/lib/md/bubble-chart');
+var Swap = require('react-icons/lib/md/swap-horiz')
 
 class About extends Component {
   constructor(props) {
@@ -18,16 +23,20 @@ class About extends Component {
           <h1>Step into the eco-chamber</h1>
           <div className="statements">
             <div className="statement">
-              <p>News events reported on across the entire polical spectrum</p>
+            <BalanceScale className="statement-icon"/>
+              <h3>News events reported on across the entire polical spectrum</h3>
             </div>
             <div className="statement">
-              <p>View which events are being reported on by only one political side</p>
+              <Swap className="statement-icon"/>
+              <h3>News events reported by only one side of the spectrum</h3>
             </div>
             <div className="statement">
-              <p>Give feedback about article bias</p>
+              <BarChart className="statement-icon"/>
+              <h3>Give feedback about article bias</h3>
             </div>
             <div className="statement">
-              <p>Test your filter bubble by playing our game</p>
+              <BubbleChart className="statement-icon"/>
+              <h3>Test your filter bubble by playing our game</h3>
             </div>
           </div>
         </div>
@@ -38,7 +47,7 @@ class About extends Component {
             <div className="question">
               <h3>How do you choose which outlets are right, left, or center?</h3>
               <div className="response">
-                <p>answer here</p>
+                <p>We use the ratings by <a target="_blank" href="https://www.allsides.com/media-bias/media-bias-ratings">AllSides</a></p>
               </div>
 
             </div>
