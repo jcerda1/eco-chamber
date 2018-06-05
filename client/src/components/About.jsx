@@ -11,13 +11,25 @@ class About extends Component {
       <div className="about-page">
         <div className="about">
           <h1>Get out of the echo chamber</h1>
-          <p>Description of what the echo chamber is here</p>
-          <p>Description of what the eco-chamber is here</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/mh1dLvGe06Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <div className="mission">
-          <h1>Our mission</h1>
-          <p>Description of our mission here</p>
+          <h1>Step into the eco-chamber</h1>
+          <div className="statements">
+            <div className="statement">
+              <p>News events reported on across the entire polical spectrum</p>
+            </div>
+            <div className="statement">
+              <p>View which events are being reported on by only one political side</p>
+            </div>
+            <div className="statement">
+              <p>Give feedback about article bias</p>
+            </div>
+            <div className="statement">
+              <p>Test your filter bubble by playing our game</p>
+            </div>
+          </div>
         </div>
 
         <div className="faq">

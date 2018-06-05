@@ -552,28 +552,35 @@ button:hover {
   padding-right: 200px;
   padding-left: 200px;
   /*background-color: pink;*/
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
 .about-page h1 {
-  margin: 50px;
+  padding-top: 50px;
   color: #008080;
 }
 
 .about {
   /*background-color: orange;*/
   border-bottom: solid 1px lightgrey;
+  padding-bottom: 50px;
 }
 
 .mission {
-  /*background-color: lightblue;*/
+ /* background-color: lightblue;*/
   border-bottom: solid 1px lightgrey;
+  padding-bottom: 50px;
+}
+
+.mission .statements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 
 .faq {
   /*background-color: lightgreen;*/
   border-bottom: solid 1px lightgrey;
+  padding-bottom: 50px;
 }
 
 .faq .questions {
