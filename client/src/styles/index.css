@@ -639,16 +639,19 @@ hr {
 
 /* Add a blue text color to links */
 a {
-    color: dodgerblue;
+  color: dodgerblue;
 }
 
 /* Set a grey background color and center the text of the "sign in" section */
 .signin {
-    background-color: #f1f1f1;
-    text-align: center;
+  background-color: #f1f1f1;
+  text-align: center;
 }
 
-
+.register-page {
+  margin: 50px auto;
+  max-width: 600px;
+}
 
 /* sign in */
 
