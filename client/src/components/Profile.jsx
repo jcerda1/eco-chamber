@@ -31,7 +31,6 @@ class Profile extends Component {
   }
 
   calculateBias = (ratings, titleOrArticleBias) => {
-    console.log(ratings);
     if (ratings.length > 1) {
        const average = ratings.reduce((a, b) => a[titleOrArticleBias] + b[titleOrArticleBias]) / ratings.length;
        const rounded = Math.round(average);
