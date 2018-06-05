@@ -572,6 +572,53 @@ button:hover {
   display:none;
 }
 
+/*About page*/
+.about-page {
+  text-align: center;
+  padding-right: 200px;
+  padding-left: 200px;
+  /*background-color: pink;*/
+}
+
+.about-page h1 {
+  color: #008080;
+  margin: 50px;
+}
+
+.about, .mission, .faq, .creators {
+  border-bottom: solid 1px lightgrey;
+  padding-bottom: 50px;
+}
+
+.mission .statements, .faq .questions {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.statement-icon {
+  font-size: 60px;
+  color: lightgrey;
+  margin-top: 0;
+}
+
+.question {
+  display: grid;
+}
+
+.creators .bios {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.bios img {
+  border: 2px solid lightgrey;
+}
+
+.footer {
+  background-color: grey;
+}
 
 /* sigin and signup component*/
 
