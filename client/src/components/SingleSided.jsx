@@ -14,7 +14,7 @@ class SingleSided extends Component {
       showModal: false,
       selected: null,
       savedEvents: [],
-      bias: '',
+      bias: 'left',
     };
   }
 
@@ -53,7 +53,7 @@ class SingleSided extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({bias: e.target.value});
+    this.setState({bias: e.target.value}, () => console.log(this.state));
   }
 
   render() {
