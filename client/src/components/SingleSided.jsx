@@ -53,7 +53,7 @@ class SingleSided extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({bias: e.target.value}, () => console.log(this.state));
+    this.setState({bias: e.target.value});
   }
 
   render() {
