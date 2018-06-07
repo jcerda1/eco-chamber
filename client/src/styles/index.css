@@ -240,7 +240,6 @@ body {
 }
 
 .compare-top {
-  background-color: pink;
   grid-area: compareTop;
   display: grid;
   grid-gap: 10px;
@@ -252,7 +251,6 @@ body {
 }
 
 .compare-bottom {
-  background-color: lightgreen;
   grid-area: compareAll;
   text-align: center;
 }
@@ -654,7 +652,6 @@ button:hover {
   text-align: center;
   padding-right: 200px;
   padding-left: 200px;
-  /*background-color: pink;*/
 }
 
 .about-page h1 {
@@ -691,10 +688,6 @@ button:hover {
 
 .bios img {
   border: 2px solid lightgrey;
-}
-
-.footer {
-  background-color: grey;
 }
 
 /* sigin and signup component*/
