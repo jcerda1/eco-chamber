@@ -220,6 +220,7 @@ body {
 /* articles */
 
 .word-map {
+  grid-area: wordMap;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -228,8 +229,52 @@ body {
 
 .event-top {
   display: grid;
+  grid-template-areas: 
+    "wordMap compareTop compareTop"
+    "wordMap compareTop compareTop"
+    "spectrum spectrum spectrum";
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 50px;
+  padding: 20px;
+  padding-bottom: 0px;
+}
+
+.compare-top {
+  background-color: pink;
+  grid-area: compareTop;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "compareOne compareTwo"
+    "compareOne compareTwo"
+    "compareAll compareAll";
+}
+
+.compare-bottom {
+  background-color: lightgreen;
+  grid-area: compareAll;
+  text-align: center;
+}
+
+.compare-bottom h3 {
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #008080;
+  border-radius: 5px
+}
+
+.compare-bottom h3:hover {
+  background-color: #008080;
+  color: white;
+}
+
+.spectrum {
+  grid-area: spectrum;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .event-bottom {
@@ -237,7 +282,6 @@ body {
   display: grid;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
 }
 
 .compare-articles {
@@ -293,7 +337,7 @@ body {
   grid-template-columns: 1fr 1fr;
 }
 
-.article-body {
+.article-detail-body {
   display: grid;
   grid-template-rows: 1fr 1fr;
 }
@@ -342,12 +386,43 @@ body {
   color: black;
   padding:5px;
   margin: 5px;
-  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
   border: solid lightgrey 1px;
+}
+
+.article-one, .article-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.article-one {
+  grid-area: compareOne;
+}
+
+.article-two {
+  grid-area: compareTwo;
+}
+
+#article-compare-detail-one, #article-compare-detail-two {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.article-compare-title {
+  display: flex;
+  text-align: justify;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  background-color: #f3f3f3;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 .article-selected {

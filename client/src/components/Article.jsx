@@ -35,13 +35,6 @@ class Article extends Component {
 
     return ( 
       <div>
-        <div className="modal" style={{ display: this.state.showModal ? 'block' : 'none' }}>
-          <div className="modal-content">
-            <FaClose style={{"color":"darkgrey", "fontSize": 60}}onClick={this.closeModal}/>
-            <ArticleDetail getRatings={this.props.getRatings} rated={isRated} article={this.props.article}/>
-          </div>
-        </div>
-
         <div onClick={this.toggleSelected} className={isSelected ? 'article article-selected' : 'article'}>
           <div className="article-title">
             <p>{this.props.article.title}</p>
@@ -49,8 +42,7 @@ class Article extends Component {
           <div className="article-card-bottom">
             <div className="article-date">
               <p>{moment(this.props.article.date).fromNow()}</p>
-            </div>
-            <button onClick={this.showModal} >View</button>     
+            </div>   
           </div>
         </div>
       </div>
