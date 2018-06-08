@@ -3,7 +3,7 @@ import Api from '../helpers/Api';
 import Auth from '../helpers/Auth';
 import EventList from './EventList.jsx';
 
-class TopEvents extends Component {
+class SearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,4 +68,4 @@ class TopEvents extends Component {
   }
 }
 
-export default TopEvents;
+export default SearchResults;
