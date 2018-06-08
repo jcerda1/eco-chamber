@@ -12,7 +12,8 @@ body {
 /* Nav */
 .navbar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
   background-color: #008080;
 } 
 
@@ -82,6 +83,21 @@ body {
   text-decoration: none;
   border: 1px solid white;
   font-size: 20;
+}
+
+.search-bar-container {
+  display: flex;
+  padding-top: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  margin-right: 10px;
+}
+
+.search-bar-container > a {
+  text-decoration: none;
 }
 
 .nav-right {
