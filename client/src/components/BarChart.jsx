@@ -12,7 +12,6 @@ class BarChart extends React.Component {
       <div>
         <h2>Your Results</h2>
         <Bar
-          style={{backgroundColor: 'lightgrey'}}
           data={this.props.data}
           width={this.props.width}
           height={this.props.height}
