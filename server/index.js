@@ -46,6 +46,22 @@ app.get('/api/events', wrap(async (req, res) => {
   res.json(results);
 }));
 
+app.get('/api/events/articles', wrap(async (req, res) => {
+  const { eventId } = req.query;
+  const event = await db.Event.find({
+    where: {
+      id: eventId
+    },
+    include: {
+      model: db.Article,
+      include: {
+        model: db.Source
+      }
+    }
+  });
+  res.json(event);
+}));
+
 app.get('/api/events/search', wrap(async (req, res) => {
   const { query } = req.query;
   const queries = query

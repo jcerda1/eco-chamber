@@ -26,6 +26,19 @@
         "responses": {}
       }
     },
+    "/api/events/articles": {
+      "get": {
+        "tags": ["events"],
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/api/events/search": {
       "get": {
         "tags": ["events"],
