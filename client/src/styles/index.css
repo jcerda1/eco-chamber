@@ -220,8 +220,15 @@ body {
 
 .event-sources {
   margin: 2em;
+  margin-right: 200px;
+  margin-left: 200px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.event-sources img {
+  height: 60px;
+  width: 60px;
 }
 
 .toggle-bias {

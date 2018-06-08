@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Api from '../helpers/Api';
 import moment from 'moment';
 import EventSentimentRadarChart from './EventSentimentRadarChart.jsx';
+import BarChart from './BarChart.jsx';
+import BarChartHelper from '../helpers/BarChart.js';
 
 class EventDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { left: {}, right: {}, center: {}, articles: [], sources:[] };
+    this.state = { left: {labels:[]}, right: {labels:[]}, center: {labels:[]}, articles: [], sources:[] };
   }
 
   componentDidMount() {
@@ -16,7 +18,7 @@ class EventDetail extends Component {
     }); 
     Api.get('/events/articles', { eventId }).then(event => {
       let sources = this.extractSources(event.Articles);
-      this.setState({articles: event.Articles, sources: sources}, ()=> console.log(this.state));
+      this.setState({articles: event.Articles, sources: sources});
     });
   }
 
@@ -34,6 +36,16 @@ class EventDetail extends Component {
     return sources;
   }
 
+  countLabels = (labels) => {
+    let results = {positive: 0, negative: 0, neutral: 0};
+    if (labels && labels.length > 0) {
+      for (const label of labels) {
+        results[label] = results[label] +=1;
+      }
+    }
+    return results;
+  }
+
   render() {
     const sources = this.state.sources.map(source => {
       return (
@@ -42,7 +54,18 @@ class EventDetail extends Component {
           <h3>{source.title}</h3>
         </div>
       )
-    })
+    });
+
+    const labelData = {
+      left: this.countLabels(this.state.left.labels),
+      right: this.countLabels(this.state.right.labels),
+      center:this.countLabels(this.state.center.labels)
+    };
+
+    const helper = new BarChartHelper(null, labelData);
+    const data = helper.formatDataForEventResults();
+    console.log(data);
+   
 
     return (
       <div className="event-detail">     
@@ -63,8 +86,12 @@ class EventDetail extends Component {
               eventId={this.props.eventId} />
           </div> 
 
-          <h2>LABEL DATA HERE</h2> 
-        </div>  
+          <div className="event-bar">
+            <h2>ARTICLE SENTIMENT</h2>
+            <BarChart width={400} height={200} data={data}/>
+          </div>
+        </div>
+          
       </div>     
     );
   }
