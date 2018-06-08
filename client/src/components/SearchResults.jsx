@@ -11,6 +11,7 @@ class SearchResults extends Component {
       showModal: false,
       selected: null,
       savedEvents: [],
+      loading: true,
     };
   }
 
@@ -25,10 +26,15 @@ class SearchResults extends Component {
 
   updateEvents = (props = this.props) => {
     let { query } = props.match.params;
-    Api.get('/events/search', { query }).then(events => this.setState({ events }));
+    Api.get('/events/search', { query }).then(events => {
+      this.setState({
+        events,
+        loading: false,
+      });
+    });
   }
 
-  getSavedEvents() {
+  getSavedEvents = () => {
     if (Auth.getJWT()) {
       Api.get('/users/user-events').then(savedEvents => this.setState({ savedEvents }));
     } 
@@ -42,29 +48,39 @@ class SearchResults extends Component {
     Api.post('/users/user-events', { eventId }).then(res => this.getSavedEvents());
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ selected: null});
   }
 
-  showModal(id) {
+  showModal = (id) => {
     this.setState({ selected: id});
   }
 
-  render() { 
-    return (
-      <ul className="events-container">
-        <EventList 
-          title="Search Results"
-          selected={this.state.selected}
-          open={this.showModal} 
-          close= {this.closeModal} 
-          add={this.saveEvent} 
-          remove={this.removeSaved} 
-          saved={this.state.savedEvents} 
-          events={this.state.events} 
-        />
-      </ul>
-    );
+  render() {
+    let searchResults;
+
+    if (this.state.loading) {
+      searchResults = <div className="loading"><div className="loading-spinner"></div></div>;
+    } else if (this.state.events.length === 0) {
+      searchResults = <ul className="events-container"><h1>No Results</h1></ul>;
+    } else {
+      searchResults = (
+        <ul className="events-container">
+          <h1> Search Results </h1>
+          <EventList 
+            selected={this.state.selected}
+            open={this.showModal} 
+            close= {this.closeModal} 
+            add={this.saveEvent} 
+            remove={this.removeSaved} 
+            saved={this.state.savedEvents} 
+            events={this.state.events} 
+          />
+        </ul>
+      );
+    }
+
+    return searchResults;
   }
 }
 
