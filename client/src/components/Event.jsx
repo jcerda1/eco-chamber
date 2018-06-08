@@ -173,11 +173,18 @@ class Event extends Component {
       ? <CompareArticles clear= {this.clearSelectedArticles} close={this.closeModal} show={this.state.showCompareModal} articles={this.state.selectedArticles}/>
       : <CompareArticles clear={this.clearSelectedArticles} show={this.state.showCompareModal} articles={[{id: 1, title: '', body: '', sourceImage: '', Sentiments: [] }, {id: 1, title: '', body: '', sourceImage: '', Sentiments: [] }]}/>
 
+    const compareButton = 
+    this.state.selectedArticles.length === 2 
+      ?  <div className="compare-bottom">
+            <h3 onClick={this.compareArticles}>Compare Articles</h3>
+          </div>
+      : <div></div>
+      
     return (
       <div>
         {articleModal}
         <div className="event-top">        
-          <WordMap size="10" width="500" height="300"className="word-map" data={this.state.weightedWords}/>   
+          <WordMap size="11" width="400" height="250"className="word-map" data={this.state.weightedWords}/>   
           <div className="compare-top">
             <div className="article-one">
               <h3>Select article to compare</h3>
@@ -187,9 +194,7 @@ class Event extends Component {
               <h3>Select article to compare</h3>
               {compareTwo}
             </div>
-            <div style={{display: this.state.selectedArticles.length === 2 ? "block" : "none" }} className="compare-bottom">
-              <h3 onClick={this.compareArticles}>Compare Articles</h3>
-            </div>
+            {compareButton}
           </div>
           <div className="spectrum">
             <h2>left</h2>

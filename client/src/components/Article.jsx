@@ -29,7 +29,7 @@ class Article extends Component {
   }
 
   render() {
-
+    let preview = this.props.article.body.split(' ').slice(0, 10).join(' ') + '...';
     let isSelected = this.props.selected.filter(x=> x.id === this.props.article.id).length > 0;
     let isRated = this.props.ratings.filter(rating => rating.article.id === this.props.article.id).length > 0;
 
@@ -37,9 +37,10 @@ class Article extends Component {
       <div>
         <div onClick={this.toggleSelected} className={isSelected ? 'article article-selected' : 'article'}>
           <div className="article-title">
-            <p>{this.props.article.title}</p>
+            <p>{this.props.article.title}</p>            
           </div>
           <div className="article-card-bottom">
+            <p className="preview">{preview}</p>
             <div className="article-date">
               <p>{moment(this.props.article.date).fromNow()}</p>
             </div>   

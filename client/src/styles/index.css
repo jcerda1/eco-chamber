@@ -16,6 +16,10 @@ body {
   background-color: #008080;
 } 
 
+.navbar h1 {
+  letter-spacing: 2px;
+}
+
 .title {
   display: grid;
   grid-template-columns: 70px 1fr;
@@ -105,6 +109,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
   border-bottom: 2px solid #f1f1f1;
+  height: 50px;
 }
 
 .category {
@@ -221,10 +226,6 @@ body {
 
 .word-map {
   grid-area: wordMap;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
 }
 
 .event-top {
@@ -237,6 +238,10 @@ body {
   grid-column-gap: 50px;
   padding: 20px;
   padding-bottom: 0px;
+}
+
+.event-top svg {
+  border-right: 1px solid black;
 }
 
 .compare-top {
@@ -268,15 +273,29 @@ body {
 }
 
 .spectrum {
+
+ /* background: linear-gradient(to right, teal, white, teal);*/
+  background: linear-gradient(45deg, #008080,#f3f3f3, #f3f3f3,#008080);
+  border-radius: 35px;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 35px;
   grid-area: spectrum;
+  color: white;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-right: 20px;
   margin-left: 20px;
+  margin-top: 20px;
+}
+
+.spectrum h2 {
+  font-size: 1em;
+  letter-spacing: 2px;
 }
 
 .event-bottom {
-  border-top: 5px solid #008080;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -382,7 +401,8 @@ body {
 .article {
   text-decoration: none;
   color: black;
-  padding:5px;
+  padding-right:15px;
+  padding-left:15px;
   margin: 5px;
   display: flex;
   flex-direction: column;
@@ -391,10 +411,23 @@ body {
   border: solid lightgrey 1px;
 }
 
+.preview {
+  font-size: 14px;
+}
+
+.article-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.article-date {
+  color: grey;
+}
+
+
 .article-one, .article-two {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 60px 150px;
 }
 
 .article-one {
@@ -425,15 +458,6 @@ body {
 
 .article-selected {
   background-color: #e5e6e8;
-}
-
-.article-card-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.article-card-bottom button {
-  justify-self: end;
 }
 
 /* gameboard */
