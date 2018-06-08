@@ -170,7 +170,7 @@ class Event extends Component {
             <FaClose onClick={()=> this.toggleSelectedArticle(this.state.selectedArticles[1])}/>
             {this.state.selectedArticles[1].title}
           </div>
-          <button onClick={() => this.setArticleModal(this.state.selectedArticles[1].id)}>Rate Articles</button>
+          <button onClick={() => this.setArticleModal(this.state.selectedArticles[1].id)}>Rate Article</button>
         </div>
       : <div></div>
   
