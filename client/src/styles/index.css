@@ -468,6 +468,8 @@ body {
 
 .article-compare-title svg {
   margin: 0;
+  border: 0px;
+  cursor: pointer;
 }
 
 .article-selected {
