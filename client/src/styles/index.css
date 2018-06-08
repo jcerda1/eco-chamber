@@ -207,6 +207,16 @@ body {
   margin-right: 30px;
 }
 
+.event-detail {
+  display: grid;
+  grid-template-rows: 60px 1fr;
+}
+
+.event-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .toggle-bias {
   display: flex;
   flex-direction: row;

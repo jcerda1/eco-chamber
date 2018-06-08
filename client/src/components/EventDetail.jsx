@@ -19,12 +19,19 @@ class EventDetail extends Component {
   render() {
     return (
       <div className="event-detail">     
-        <h1> Information about this event </h1>  
-        <EventSentimentRadarChart 
-          left={this.state.left} 
-          right={this.state.right}
-          center={this.state.center}
-          eventId={this.props.eventId} />   
+        <h1>{this.props.title}</h1>
+        <h2>REPORTING SOURCES HERE</h2>
+        <div className="event-charts">
+          <div className="event-radar">
+            <h2>EVENT EMOTION ANALYSIS</h2>
+            <EventSentimentRadarChart 
+              left={this.state.left} 
+              right={this.state.right}
+              center={this.state.center}
+              eventId={this.props.eventId} />
+          </div>        
+          <h2>LABEL DATA HERE</h2> 
+        </div>  
       </div>     
     );
   }
