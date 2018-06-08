@@ -127,8 +127,6 @@ body {
 /*Profile*/
 .profile {
   margin-top: 2em;
-  margin-left: 150px;
-  margin-right: 150px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -137,6 +135,8 @@ body {
 .ratings {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-left: 200px;
+  margin-right: 200px;
 }
 
 /* Events container */
