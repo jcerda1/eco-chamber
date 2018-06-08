@@ -179,7 +179,7 @@ class Event extends Component {
             <h3 onClick={this.compareArticles}>Compare Articles</h3>
           </div>
       : <div></div>
-      
+
     return (
       <div>
         {articleModal}
@@ -187,11 +187,11 @@ class Event extends Component {
           <WordMap size="11" width="400" height="250"className="word-map" data={this.state.weightedWords}/>   
           <div className="compare-top">
             <div className="article-one">
-              <h3>Select article to compare</h3>
+              <h3>Select an article</h3>
               {compareOne}           
             </div>
             <div className="article-two">
-              <h3>Select article to compare</h3>
+              <h3>Select another article to compare</h3>
               {compareTwo}
             </div>
             {compareButton}
