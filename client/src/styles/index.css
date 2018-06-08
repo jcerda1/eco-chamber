@@ -239,7 +239,6 @@ body {
 .event-detail {
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: auto auto 1fr 1fr;
 }
 
 .event-detail-title {
