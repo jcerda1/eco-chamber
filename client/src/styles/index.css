@@ -209,12 +209,19 @@ body {
 
 .event-detail {
   display: grid;
-  grid-template-rows: 60px 1fr;
+  grid-gap: 20px;
+  grid-template-rows: 60px 60px 1fr 1fr;
 }
 
 .event-charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.event-sources {
+  margin: 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .toggle-bias {
