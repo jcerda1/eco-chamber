@@ -18,7 +18,7 @@ body {
 
 .navbar h1 {
   letter-spacing: 2px;
-  font-size: 1.5em;
+  font-size: 1.5cem;
 }
 
 .title {
@@ -453,9 +453,9 @@ body {
 }
 
 .article-compare-title {
-  display: flex;
+  display: grid;
+  grid-gap: 10px;
   text-align: justify;
-  align-items: center;
   width: 300px;
   height: 100px;
   background-color: #f3f3f3;
@@ -464,6 +464,10 @@ body {
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
+}
+
+.article-compare-title svg {
+  margin: 0;
 }
 
 .article-selected {

@@ -155,7 +155,10 @@ class Event extends Component {
     const compareOne = 
     this.state.selectedArticles.length > 0
       ? <div id="article-compare-detail-one">
-          <div className="article-compare-title">{this.state.selectedArticles[0].title}</div>
+          <div className="article-compare-title">
+            <FaClose onClick={()=> this.toggleSelectedArticle(this.state.selectedArticles[0])}/>
+            {this.state.selectedArticles[0].title}
+          </div>
           <button onClick={() => this.setArticleModal(this.state.selectedArticles[0].id)}>Rate Article</button>
         </div>
       : <div></div>
@@ -163,7 +166,10 @@ class Event extends Component {
     const compareTwo = 
     this.state.selectedArticles.length === 2
       ? <div id="article-compare-detail-two">
-          <div className="article-compare-title">{this.state.selectedArticles[1].title}</div>
+          <div className="article-compare-title">
+            <FaClose onClick={()=> this.toggleSelectedArticle(this.state.selectedArticles[1])}/>
+            {this.state.selectedArticles[1].title}
+          </div>
           <button onClick={() => this.setArticleModal(this.state.selectedArticles[1].id)}>Rate Articles</button>
         </div>
       : <div></div>
