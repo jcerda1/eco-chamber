@@ -126,6 +126,7 @@ body {
 
 /*Profile*/
 .profile {
+  margin-top: 2em;
   margin-left: 150px;
   margin-right: 150px;
   display: flex;
