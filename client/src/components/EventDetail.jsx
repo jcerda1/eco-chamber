@@ -67,7 +67,7 @@ class EventDetail extends Component {
    
     return (
       <div className="event-detail">     
-        <h1>{this.props.title}</h1>
+        <h1 className="event-detail-title">{this.props.title}</h1>
         <h2>REPORTING SOURCES</h2>
 
         <div className="event-sources">

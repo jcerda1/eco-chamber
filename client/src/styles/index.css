@@ -210,7 +210,17 @@ body {
 .event-detail {
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: 60px 60px 1fr 1fr;
+  grid-template-rows: auto auto 1fr 1fr;
+}
+
+.event-detail-title {
+  margin-left: 200px;
+  margin-right: 200px;
+  letter-spacing: 2px;
+  font-size: 2em;
+  padding: 10px;
+  background-color: #F8F8F8;
+  box-shadow: 3px 3px lightgrey;
 }
 
 .event-charts {
