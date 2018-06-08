@@ -17,6 +17,11 @@ class Article extends Component {
 
   toggleSelected(e) {
     this.props.toggleArticle(this.props.article);
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   showModal() {

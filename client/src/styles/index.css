@@ -241,10 +241,11 @@ body {
 }
 
 .event-top svg {
-  border-right: 1px solid black;
+   border-right: 1px solid black;
 }
 
 .compare-top {
+  padding-left: 30px;
   grid-area: compareTop;
   display: grid;
   grid-gap: 10px;
@@ -444,6 +445,12 @@ body {
   grid-template-rows: 1fr 1fr;
 }
 
+/* The animation code */
+@keyframes example {
+    from {background-color: #3F4045;}
+    to {background-color: #f3f3f3;}
+}
+
 .article-compare-title {
   display: flex;
   text-align: justify;
@@ -451,6 +458,8 @@ body {
   width: 300px;
   height: 100px;
   background-color: #f3f3f3;
+  animation-name: example;
+  animation-duration: 2s;
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
