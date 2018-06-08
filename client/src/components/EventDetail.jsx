@@ -64,9 +64,7 @@ class EventDetail extends Component {
 
     const helper = new BarChartHelper(null, labelData);
     const data = helper.formatDataForEventResults();
-    console.log(data);
    
-
     return (
       <div className="event-detail">     
         <h1>{this.props.title}</h1>
@@ -91,7 +89,7 @@ class EventDetail extends Component {
             <BarChart width={400} height={200} data={data}/>
           </div>
         </div>
-          
+
       </div>     
     );
   }
