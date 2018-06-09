@@ -391,6 +391,10 @@ body {
   border: 1px solid white;  
 }
 
+.modal-content > svg {
+  margin-top: 0px;
+}
+
 .article-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
