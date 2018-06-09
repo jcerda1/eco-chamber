@@ -452,6 +452,7 @@ body {
   display: flex;
   flex-direction: column; 
   min-height: 800px;
+  text-align: center;
 }
 
 .article-body {
@@ -744,6 +745,14 @@ button:hover {
 
 .hideSource {
   display:none;
+}
+
+.num-sources {
+  background-color: darkgrey;
+  color: white;
+  width: 30px;
+  margin-left: 15px;
+  border-radius: 50px;
 }
 
 /*About page*/
