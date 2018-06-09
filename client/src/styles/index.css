@@ -399,6 +399,7 @@ body {
 
 .article-detail {
   padding: 15px;
+  margin: 20px;
 }
 
 .article-detail-top {
@@ -415,6 +416,8 @@ body {
 .article-detail-body {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  line-height: 1.5;
+  font-size: 18px;
 }
 
 /* The Close Button */
