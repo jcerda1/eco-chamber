@@ -461,6 +461,7 @@ body {
 }
 
 .article {
+  text-align: justify;
   text-decoration: none;
   color: black;
   padding-right:15px;
