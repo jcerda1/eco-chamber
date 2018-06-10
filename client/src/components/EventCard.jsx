@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import moment from 'moment';
 import EventDetail from './EventDetail.jsx';
+import Auth from '../helpers/Auth';
+
 var FaStarO = require('react-icons/lib/fa/star-o');
 var FaStarC = require('react-icons/lib/fa/star');
 var FaLineChart = require('react-icons/lib/fa/line-chart');
@@ -11,7 +13,11 @@ class EventCard extends Component {
   constructor(props) {
     super(props);
   }
- 
+
+  onAdd = (e, id) => {
+    Auth.getJWT() ? this.props.add(e, id) : this.props.history.push('/signup');
+  }
+
   render() {
     const { title, date, id, summary } = this.props.event;
     const formatted = moment(date).fromNow();
@@ -27,7 +33,7 @@ class EventCard extends Component {
             <h2 className="li-header">{title}</h2>
              
             <div value={id} className="event-text">
-              <p>{summary}</p>
+              <p>{summary}...</p>
             </div>
           </Link>
         </div>
@@ -39,7 +45,7 @@ class EventCard extends Component {
             <FaStarO 
               style={{display: this.props.saved ? 'none' : 'block'}}
               className="event-star-icon" 
-              onClick={(e) => {this.props.add(e, id)}}/>
+              onClick={(e) => {this.onAdd(e, id)}}/>
             <FaStarC 
               style={{display: this.props.saved ? 'block' : 'none'}}
               className="event-star-icon" 
@@ -50,7 +56,7 @@ class EventCard extends Component {
       <div className="modal" style={{ display: this.props.selected === id ? 'block' : 'none' }}>
             <div className="modal-content">
               <FaClose style={{"color":"darkgrey", "fontSize": 60}} onClick={this.props.close}/>
-              <EventDetail eventId={id}/>
+              <EventDetail title={title} eventId={id}/>
             </div>
           </div>
       <hr/>
@@ -58,4 +64,4 @@ class EventCard extends Component {
   }
 }
 
-export default EventCard;
+export default withRouter(EventCard);

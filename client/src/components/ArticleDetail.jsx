@@ -156,7 +156,7 @@ class ArticleDetail extends Component {
             </label>
           </div>
         </form>
-        <button onClick={this.handleSubmit}>Sumbit Review</button>  
+        <button onClick={this.handleSubmit}>Submit Review</button>  
       </div>   
              
 
@@ -180,8 +180,9 @@ class ArticleDetail extends Component {
           {chart}         
         </div>    
         
-        <div className="article-body">
+        <div className="article-detail-body">
           <p>{this.props.article.body}</p>
+          <hr/>
           {form}
         </div>
       </div>     

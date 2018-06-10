@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../helpers/Auth';
+import SearchBar from './SearchBar.jsx';
 var Bars = require('react-icons/lib/fa/bars');
 
 const onClick = () => {
@@ -33,8 +34,11 @@ class Navbar extends Component {
       <div className="navbar"> 
         <div className="title"> 
           <Bars onClick={this.props.toggle} style={{marginTop: 0, fontSize: 20}} className="side-menu-icon"/>
-          <h1>Eco-Chamber</h1> 
+          <Link to="/" style={{ "textDecoration": "none", "color": "white" }}>
+            <h1>Eco-Chamber</h1>
+          </Link>
         </div>
+        <SearchBar/>
         {rightNavComponents}
       </div>
     );

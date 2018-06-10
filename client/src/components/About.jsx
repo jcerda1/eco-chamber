@@ -79,7 +79,7 @@ class About extends Component {
             <div className="bio">
               <h3>Alex Wells</h3>
               <a target="_blank" href="https://github.com/wellsinator">
-                <img className="profile-photo" src="https://avatars1.githubusercontent.com/u/22226447?s=460&v=4"/>
+                <img className="profile-photo" src="https://avatars2.githubusercontent.com/u/18335554?s=400&v=4"/>
               </a>
             </div>
 
@@ -101,7 +101,7 @@ class About extends Component {
 
         <div className="partners">
           <h1>Partners</h1>
-          <h3>Eco-chamber is powered by <a target="_blank" href="www.eventregistry.org">Event Registry</a></h3>
+          <h3>Eco-chamber is powered by <a target="_blank" href="http://www.eventregistry.org">Event Registry</a></h3>
         </div>
       </div>
     );
